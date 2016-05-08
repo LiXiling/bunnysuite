@@ -88,6 +88,11 @@ namespace App
                 AddBunnies(1000);
             }
 
+            if (debugText.getFps() >= 60)
+            {
+                AddBunnies(50);
+            }
+
             //bunnies movement
             for (int i = 0; i < textures.Count; i++)
             {

@@ -29,6 +29,11 @@ namespace App
             }            
         }
 
+        public int getFps()
+        {
+            return fps;
+        }
+
         public void Draw(SpriteBatch spriteBatch, int value)
         {
             totalFrames++;
