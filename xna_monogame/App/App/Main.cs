@@ -18,7 +18,7 @@ namespace App
         MouseState lastMouseState;
         MouseState currentMouseState; 
 
-        private List<Bunny> textures;        
+        private List<Bunny> bunnies;        
         private float gravity = 0.5f;
         private float maxX;
         private float minX;
@@ -41,7 +41,7 @@ namespace App
         {
             bgColor = new Color(21, 21, 21);
 
-            textures = new List<Bunny>();            
+            bunnies = new List<Bunny>();            
             random = new Random();
             maxX = graphics.PreferredBackBufferWidth - 26;
             maxY = graphics.PreferredBackBufferHeight - 37;
@@ -65,7 +65,7 @@ namespace App
                 bunny.SpeedX = (float)random.NextDouble() * 5;
                 bunny.SpeedY = (float)random.NextDouble() * 5;
 
-                textures.Add(bunny);                
+                bunnies.Add(bunny);                
             }
             bunniesCount += count;
         }
@@ -94,37 +94,39 @@ namespace App
             }
 
             //bunnies movement
-            for (int i = 0; i < textures.Count; i++)
+            for (int i = 0; i < bunnies.Count; i++)
             {
-                textures[i].X += textures[i].SpeedX;
-                textures[i].Y += textures[i].SpeedY;
-                textures[i].SpeedY += gravity;
+                Bunny bunny = bunnies[i];
+                bunny.X += bunny.SpeedX;
+                bunny.Y += bunny.SpeedY;
+                bunny.SpeedY += gravity;
 
-                if (textures[i].X > maxX)
+                if (bunny.X > maxX)
                 {
-                    textures[i].SpeedX *= -1;
-                    textures[i].X = maxX;
+                    bunny.SpeedX *= -1;
+                    bunny.X = maxX;
                 }
-                else if (textures[i].X < minX)
+                else if (bunny.X < minX)
                 {
-                    textures[i].SpeedX *= -1;
-                    textures[i].X = minX;                   
+                    bunny.SpeedX *= -1;
+                    bunny.X = minX;                   
                 }
 
-                if (textures[i].Y > maxY)
+                if (bunny.Y > maxY)
                 {
-                    textures[i].SpeedY *= -0.9f;
-                    textures[i].Y = maxY;
+                    bunny.SpeedY *= -0.9f;
+                    bunny.Y = maxY;
                     if ((float)random.NextDouble() > 0.5)
                     {
-                        textures[i].SpeedY -= (float)random.NextDouble();
+                        bunny.SpeedY -= (float)random.NextDouble();
                     }                    
                 }
-                else if (textures[i].Y < minY)
+                else if (bunny.Y < minY)
                 {
-                    textures[i].SpeedY = 0;
-                    textures[i].Y = minY;
+                    bunny.SpeedY = 0;
+                    bunny.Y = minY;
                 }
+                bunny.changeTexture(random.Next(),Content);
             }
 
             debugText.Update(gameTime);
@@ -137,9 +139,9 @@ namespace App
             GraphicsDevice.Clear(bgColor);
 
             spriteBatch.Begin();            
-            for (int i = 0; i < textures.Count; i++)
+            for (int i = 0; i < bunnies.Count; i++)
             {
-                spriteBatch.Draw(textures[i].texture, new Vector2(textures[i].X, textures[i].Y), Color.White);                                
+                spriteBatch.Draw(bunnies[i].texture, new Vector2(bunnies[i].X, bunnies[i].Y), Color.White);                                
             }
             debugText.Draw(spriteBatch, bunniesCount);
             spriteBatch.End();

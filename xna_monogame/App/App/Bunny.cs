@@ -11,10 +11,21 @@ namespace App
         public float SpeedX;
         public float SpeedY;
         public Texture2D texture;
+        private int i = 0;
 
         public Bunny(ContentManager content)
         {
-            texture = content.Load<Texture2D>(@"wabbit_alpha");
+            loadTexture(content);
+        }
+        private void loadTexture(ContentManager content)
+        {
+            texture = content.Load<Texture2D>(@"wabbit_alpha"+i);
+
+        }
+
+        public void changeTexture(int j, ContentManager content) {
+            i = j%3;
+            loadTexture(content);
         }
     }
 }
