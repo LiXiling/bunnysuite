@@ -6,6 +6,7 @@ namespace App
 {
     public class Bunny
     {
+        private const int numberOfTextures = 3;
         public float X;
         public float Y;
         public float SpeedX;
@@ -24,7 +25,7 @@ namespace App
         }
 
         public void changeTexture(int j, ContentManager content) {
-            i = j%3;
+            i = j % numberOfTextures;
             loadTexture(content);
         }
     }
