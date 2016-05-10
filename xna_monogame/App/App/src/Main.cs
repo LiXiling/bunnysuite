@@ -16,9 +16,9 @@ namespace App
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MouseState lastMouseState;
-        MouseState currentMouseState; 
+        MouseState currentMouseState;
 
-        private List<Bunny> bunnies;        
+        private List<Bunny> bunnies;
         private float gravity = 0.5f;
         private float maxX;
         private float minX;
@@ -28,7 +28,9 @@ namespace App
         private Color bgColor;
         private int bunniesCount = 0;
         private DebugText debugText;
-       
+        private Logger logger = new Logger();
+        private bool started = false;
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,7 +43,7 @@ namespace App
         {
             bgColor = new Color(21, 21, 21);
 
-            bunnies = new List<Bunny>();            
+            bunnies = new List<Bunny>();
             random = new Random();
             maxX = graphics.PreferredBackBufferWidth - 26;
             maxY = graphics.PreferredBackBufferHeight - 37;
@@ -65,7 +67,7 @@ namespace App
                 bunny.SpeedX = (float)random.NextDouble() * 5;
                 bunny.SpeedY = (float)random.NextDouble() * 5;
 
-                bunnies.Add(bunny);                
+                bunnies.Add(bunny);
             }
             bunniesCount += count;
         }
@@ -74,11 +76,11 @@ namespace App
         {
 
         }
-        
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();            
+                this.Exit();
 
             //mouse input
             lastMouseState = currentMouseState;
@@ -90,7 +92,15 @@ namespace App
 
             if (debugText.getFps() >= 60)
             {
+                started = true;
                 AddBunnies(50);
+            }
+            else if (started)
+            {
+                logger.addLine("Bunnies_Simple: " + debugText.getFps() + " fps");
+                logger.write();
+                Exit();
+                return;
             }
 
             //bunnies movement
@@ -109,7 +119,7 @@ namespace App
                 else if (bunny.X < minX)
                 {
                     bunny.SpeedX *= -1;
-                    bunny.X = minX;                   
+                    bunny.X = minX;
                 }
 
                 if (bunny.Y > maxY)
@@ -119,7 +129,7 @@ namespace App
                     if ((float)random.NextDouble() > 0.5)
                     {
                         bunny.SpeedY -= (float)random.NextDouble();
-                    }                    
+                    }
                 }
                 else if (bunny.Y < minY)
                 {
@@ -138,15 +148,21 @@ namespace App
         {
             GraphicsDevice.Clear(bgColor);
 
-            spriteBatch.Begin();            
+            spriteBatch.Begin();
             for (int i = 0; i < bunnies.Count; i++)
             {
-                spriteBatch.Draw(bunnies[i].texture, new Vector2(bunnies[i].X, bunnies[i].Y), Color.White);                                
+                spriteBatch.Draw(bunnies[i].texture, new Vector2(bunnies[i].X, bunnies[i].Y), Color.White);
             }
             debugText.Draw(spriteBatch, bunniesCount);
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
+        }
+
+        void Game1_Exiting(object sender, EventArgs e)
+        {
+            // Add any code that must execute before the game ends.
+
         }
     }
 }
