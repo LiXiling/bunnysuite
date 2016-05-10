@@ -97,7 +97,7 @@ namespace App
             }
             else if (started)
             {
-                logger.addLine("Bunnies_Simple: " + debugText.getFps() + " fps");
+                logger.addLine("Bunnies_Simple: " + debugText.getFps() + " fps and " + bunnies.Count + " Bunnies");
                 logger.write();
                 Exit();
                 return;
@@ -107,35 +107,7 @@ namespace App
             for (int i = 0; i < bunnies.Count; i++)
             {
                 Bunny bunny = bunnies[i];
-                bunny.X += bunny.SpeedX;
-                bunny.Y += bunny.SpeedY;
-                bunny.SpeedY += gravity;
-
-                if (bunny.X > maxX)
-                {
-                    bunny.SpeedX *= -1;
-                    bunny.X = maxX;
-                }
-                else if (bunny.X < minX)
-                {
-                    bunny.SpeedX *= -1;
-                    bunny.X = minX;
-                }
-
-                if (bunny.Y > maxY)
-                {
-                    bunny.SpeedY *= -0.9f;
-                    bunny.Y = maxY;
-                    if ((float)random.NextDouble() > 0.5)
-                    {
-                        bunny.SpeedY -= (float)random.NextDouble();
-                    }
-                }
-                else if (bunny.Y < minY)
-                {
-                    bunny.SpeedY = 0;
-                    bunny.Y = minY;
-                }
+                bunny.jump(random, gravity, minX, minY, maxX, maxY);
                 bunny.changeTexture(random.Next(),Content);
             }
 
