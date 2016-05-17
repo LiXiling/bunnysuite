@@ -1,0 +1,4 @@
+E:\Projects\monogame-test\App\App\AppContent\obj\x86\Release\AppContent.contentprojResolveAssemblyReference.cache
+E:\Projects\___Bunnymark\XNA_Monogame\App\AppContent\obj\x86\Release\AppContent.contentprojResolveAssemblyReference.cache
+C:\Users\Maximilian\Dropbox\Git\bunnysuite\xna_monogame\App\AppContent\obj\x86\Release\AppContent.contentprojResolveAssemblyReference.cache
+C:\Users\Maximilian\Dropbox\Git\bunnysuite\xna_monogame\BunnyRainbow\App\AppContent\obj\x86\Release\AppContent.contentprojResolveAssemblyReference.cache
