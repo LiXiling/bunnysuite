@@ -75,17 +75,17 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>wI+lCRceTuyd8qlHaSFUKl4bhhM=</dsig:DigestValue>
+        <dsig:DigestValue>h916/zB8V/ffScR3Tu1Pb272tFQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Data\default.xnb" size="6208">
+  <file name="Data\default.xnb" size="5586">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>xmmgEEp7m6SY5Ee63bDnysk3bpk=</dsig:DigestValue>
+      <dsig:DigestValue>GcoLyJzAKUh7Ns6Jn48i+tReuLs=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Data\fill.xnb" size="214">
