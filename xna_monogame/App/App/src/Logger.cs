@@ -5,13 +5,15 @@ using System.Text;
 
 namespace App
 {
-    class Logger
+    public class Logger
     {
         private List<String> lines;
+        private List<Tuple<int, int>> loggedTuples;
 
         public Logger()
         {
             lines = new List<string>();
+            loggedTuples = new List<Tuple<int, int>>();
         }
 
         public void addLine(String s)
@@ -19,14 +21,24 @@ namespace App
             lines.Add(s);
         }
 
+        public void addLog(int bunnyCount, int fps)
+        {
+            loggedTuples.Add(new Tuple<int, int>(bunnyCount, fps));
+        }
+
         public void write()
         {
             using (System.IO.StreamWriter file =
             new System.IO.StreamWriter(@".\Log.txt"))
             {
-                foreach (string line in lines)
+                foreach (String line in lines)
                 {
                     file.WriteLine(line);
+                }
+
+                foreach (Tuple<int, int> tuple in loggedTuples)
+                {
+                    file.WriteLine(tuple.Item1.ToString() + " " + tuple.Item2.ToString());
                 }
                 file.Close();
             }
