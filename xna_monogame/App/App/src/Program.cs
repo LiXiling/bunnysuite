@@ -14,6 +14,9 @@ namespace App
             {
                 game.Run();
             }
+            Console.WriteLine();
+            Console.WriteLine("Game is closed");
+            Console.WriteLine();
         }
     }
 #endif

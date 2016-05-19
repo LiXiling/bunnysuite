@@ -1,12 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace App
 {
@@ -15,8 +10,6 @@ namespace App
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        MouseState lastMouseState;
-        MouseState currentMouseState;
 
         private List<Bunny> bunnies;
         private float gravity = 0.5f;
@@ -28,7 +21,6 @@ namespace App
         private Color bgColor;
         private int bunniesCount = 0;
         private DebugText debugText;
-        private bool started = false;
 
         public Main()
         {
