@@ -13,21 +13,26 @@ namespace App
         public float SpeedX;
         public float SpeedY;
         public Texture2D texture;
-        private int i = 0;
+        private Texture2D[] textureArray;
 
         public Bunny(ContentManager content)
         {
-            loadTexture(content);
+            textureArray = new Texture2D[numberOfTextures];
+            loadArray(content);
         }
-        private void loadTexture(ContentManager content)
-        {
-            texture = content.Load<Texture2D>(@"wabbit_alpha"+i);
 
+        private void loadArray(ContentManager content)
+        {
+            for (int i = 0; i < textureArray.Length; i++)
+            {
+                textureArray[i] = content.Load<Texture2D>(@"wabbit_alpha" + i);
+            }
+            texture = textureArray[0];
         }
 
         public void changeTexture(int j, ContentManager content) {
-            i = j % numberOfTextures;
-            loadTexture(content);
+            int i = j % numberOfTextures;
+            texture = textureArray[i];
         }
 
         public void jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
