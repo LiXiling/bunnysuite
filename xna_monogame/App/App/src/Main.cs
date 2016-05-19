@@ -28,7 +28,6 @@ namespace App
         private Color bgColor;
         private int bunniesCount = 0;
         private DebugText debugText;
-        private Logger logger = new Logger();
         private bool started = false;
 
         public Main()
@@ -79,27 +78,12 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            AddBunnies(100);
+
+            if (bunniesCount > 30000)
+            {
+                debugText.getLogger().write();
                 this.Exit();
-
-            //mouse input
-            lastMouseState = currentMouseState;
-            currentMouseState = Mouse.GetState();
-            if (lastMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
-            {
-                AddBunnies(1000);
-            }
-
-            if (debugText.getFps() >= 60)
-            {
-                started = true;
-                AddBunnies(50);
-            }
-            else if (started)
-            {
-                logger.addLine("Bunnies_Simple: " + debugText.getFps() + " fps and " + bunnies.Count + " Bunnies");
-                logger.write();
-                Exit();
                 return;
             }
 
@@ -108,7 +92,7 @@ namespace App
             {
                 Bunny bunny = bunnies[i];
                 bunny.jump(random, gravity, minX, minY, maxX, maxY);
-                //bunny.changeTexture(random.Next(),Content);
+                bunny.changeTexture(random.Next(),Content);
             }
 
             debugText.Update(gameTime);
@@ -129,12 +113,6 @@ namespace App
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        void Game1_Exiting(object sender, EventArgs e)
-        {
-            // Add any code that must execute before the game ends.
-
         }
     }
 }
