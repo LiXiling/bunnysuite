@@ -71,20 +71,21 @@ namespace App
         protected override void Update(GameTime gameTime)
         {
             AddBunnies(100);
-
+            
             if (bunniesCount > 30000)
             {
                 debugText.getLogger().write();
                 this.Exit();
                 return;
             }
-
+            
             //bunnies movement
             for (int i = 0; i < bunnies.Count; i++)
             {
                 Bunny bunny = bunnies[i];
                 bunny.jump(random, gravity, minX, minY, maxX, maxY);
-                bunny.changeTexture(random.Next(),Content);
+                bunny.changeTexture(random.Next(), Content);
+                bunny.rotate(random);
             }
 
             debugText.Update(gameTime);
@@ -99,7 +100,8 @@ namespace App
             spriteBatch.Begin();
             for (int i = 0; i < bunnies.Count; i++)
             {
-                spriteBatch.Draw(bunnies[i].texture, new Vector2(bunnies[i].X, bunnies[i].Y), Color.White);
+                Bunny bunny = bunnies[i];
+                spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White, (float)bunny.Rotation, new Vector2(bunny.originX, bunny.originY), 1f, SpriteEffects.None, 0f);
             }
             debugText.Draw(spriteBatch, bunniesCount);
             spriteBatch.End();

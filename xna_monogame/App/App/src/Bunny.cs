@@ -7,10 +7,19 @@ namespace App
     public class Bunny
     {
         private const int numberOfTextures = 3;
+        private static double fullCircle = Math.PI * 2;
         public float X;
         public float Y;
+
+        public float originX;
+        public float originY;
+
         public float SpeedX;
         public float SpeedY;
+
+        public double Rotation = 0;
+
+        
         public Texture2D texture;
         private Texture2D[] textureArray;
 
@@ -32,6 +41,8 @@ namespace App
         public void changeTexture(int j, ContentManager content) {
             int i = j % numberOfTextures;
             texture = textureArray[i];
+            originX = texture.Width / 2;
+            originY = texture.Height / 2;
         }
 
         public void jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
@@ -66,6 +77,10 @@ namespace App
                 this.SpeedY = 0;
                 this.Y = minY;
             }
+        }
+        public void rotate(Random random)
+        {
+            Rotation = (Rotation + random.NextDouble()*0.1) % fullCircle;
         }
     }
 }
