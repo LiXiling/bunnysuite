@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
 		test_name = "standard";
-		jsonStr = "{\"num_bunnies_normal\" : 0,\"num_bunnies_rotated\" : 0,\"file_bunny\" : \"C:/Users/Melvil/Documents/SG Praktikum/bunnysuite/orx/data/wabbit_alpha.png\"}";
+		jsonStr = "{\"num_bunnies_normal\" : 0,\"num_bunnies_rotated\" : 0,\"file_bunny\" : \"./orx/data/wabbit_alpha.png\"}";
 		ind_var = "num_bunnies_normal";
 		min_val = 0;
 		max_val = 40000;
