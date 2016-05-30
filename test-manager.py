@@ -33,16 +33,18 @@ def get_data_from_log(framework, test_name):
 
 ###################################################################################################		
 		
-frameworks = ['sdl']
+frameworks = ['xna_monogame/App/App/bin/x86/Release']
 
+#do we really need params? difficult to process. 
+#PNG-File compiled into .exe in XNA, if I am not mistaken
 params = {
 	"num_bunnies_normal" : 1000,
 	"num_bunnies_rotated" : 0,
-	"file_bunny" : "C:/Users/Melvil/Documents/SG Praktikum/bunnysuite/orx/data/wabbit_alpha.png"
+	"file_bunny" : "./orx/data/wabbit_alpha.png"
 }
 
 # run some tests for all frameworks
-run_test(frameworks, "standard", params, "num_bunnies_normal", 0, 20000, 1000)
+run_test(frameworks, "standard", params, "num_bunnies_normal", 0, 60000, 50)
 #run_test(frameworks, "rotated", params, "num_bunnies_rotated", 0, 40000, 500)
 
 ###################################################################################################
