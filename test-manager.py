@@ -14,12 +14,13 @@ def make_diagram(frameworks, test_name):
 	for framework in frameworks:
 		(x, y) = get_data_from_log(framework, test_name)
 		plt.plot(x, y, label=framework)
-	plt.title("Results of the test " + test_name)
+	plt.title("Results of the test: " + test_name)
 	plt.xlabel("#")
 	plt.ylabel("fps")
 	plt.grid(True)
 	plt.legend()
 	plt.savefig("results/" + test_name + ".png")
+	plt.gcf().canvas.set_window_title("Results of the test: " + test_name)
 	plt.show()
 	
 def get_data_from_log(framework, test_name):
@@ -32,10 +33,12 @@ def get_data_from_log(framework, test_name):
 
 ###################################################################################################		
 		
-frameworks = ['sdl','xna_monogame']
+frameworks = ['sdl']
 
 # run some tests for all frameworks
-run_test(frameworks, "standard", 0, 40000, 500)
+run_test(frameworks, "standard", 1000, 40000, 1000)
+run_test(frameworks, "random", 1000, 40000, 1000)
+run_test(frameworks, "scaled", 1000, 40000, 1000)
 
 ###################################################################################################
 
