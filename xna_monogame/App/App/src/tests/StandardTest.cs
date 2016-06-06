@@ -20,7 +20,21 @@ namespace App.src.tests
         private ContentManager content;
         SpriteBatch spriteBatch;
 
-        public StandardTest(ContentManager content, SpriteBatch spriteBatch)
+        public StandardTest()
+        {
+        }
+
+        public void Initialize(int min_val, float maxX, float maxY, int step)
+        {
+            bunnies = new List<Bunny>();
+            random = new Random();
+
+            this.step = step;
+
+            AddBunnies(min_val);
+        }
+
+        public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
         {
             this.content = content;
             this.spriteBatch = spriteBatch;
@@ -34,15 +48,7 @@ namespace App.src.tests
             return bunnyCount;
         }
 
-        public void Initialize(int min_val, float maxX, float maxY, int step)
-        {
-            bunnies = new List<Bunny>();
-            random = new Random();
 
-            this.step = step;
-
-            AddBunnies(min_val);
-        }
 
         public void Draw(GameTime gameTime)
         {
@@ -52,6 +58,7 @@ namespace App.src.tests
                 Bunny bunny = bunnies[i];
                 spriteBatch.Draw(bunny.texture, new Vector2(0, 0), null, Color.White);
             }
+            spriteBatch.End();
 
         }
 

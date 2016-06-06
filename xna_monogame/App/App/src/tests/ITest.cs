@@ -8,8 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace App.src.tests
 {
-    interface ITest
+    public interface ITest
     {
+        void LoadContent(ContentManager content, SpriteBatch spriteBatch);
         int RunTest(GameTime gameTime);
         void Initialize(int min_val, float maxX, float maxY, int step);
         void Draw(GameTime gameTime);

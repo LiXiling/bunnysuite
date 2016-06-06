@@ -62,9 +62,14 @@ namespace App.src.tests
             AddBunnies(min_val);
         }
 
+        public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
+        {
+            this.content = content;
+            this.spriteBatch = spriteBatch;
+        }
+
         public void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
             for (int i = 0; i < bunnies.Count; i++)
             {
                 Bunny bunny = bunnies[i];

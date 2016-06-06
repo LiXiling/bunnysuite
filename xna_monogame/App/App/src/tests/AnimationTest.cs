@@ -27,10 +27,7 @@ namespace App.src.tests
         private float maxY;
         private float minY;
 
-        public AnimationTest(ContentManager content, SpriteBatch spriteBatch)
-        {
-            this.content = content;
-            this.spriteBatch = spriteBatch;
+        public AnimationTest(){
         }
 
 
@@ -61,6 +58,12 @@ namespace App.src.tests
             AddBunnies(min_val);
         }
 
+        public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
+        {
+            this.content = content;
+            this.spriteBatch = spriteBatch;
+        }
+
         public void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
@@ -69,6 +72,7 @@ namespace App.src.tests
                 Bunny bunny = bunnies[i];
                 spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White);
             }
+            spriteBatch.End();
 
         }
 

@@ -102,6 +102,7 @@
     <Compile Include="src\Main.cs" />
     <Compile Include="src\tests\AnimationTest.cs" />
     <Compile Include="src\tests\ITest.cs" />
+    <Compile Include="src\tests\RotationTest.cs" />
     <Compile Include="src\tests\StandardTest.cs" />
     <Compile Include="src\tests\TextureChangeTest.cs" />
   </ItemGroup>

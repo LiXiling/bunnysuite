@@ -1,4 +1,5 @@
 using System;
+using App.src.tests;
 
 namespace App
 {
@@ -11,6 +12,7 @@ namespace App
         private static int min_val;
         private static int max_val;
         private static int step;
+        private static ITest test;
 
         static void Main(string[] args)
         {
@@ -35,7 +37,18 @@ namespace App
                 max_val = Int32.Parse(args[4]);
                 step = Int32.Parse(args[5]);
             }
-            using (Main game = new Main(test_name,min_val,max_val,step))
+
+            switch (test_name)
+            {
+                case "standard":
+                    test = new AnimationTest();
+                    break;
+                default:
+                    test = new StandardTest();
+                    break;
+            }
+
+            using (Main game = new Main(test,test_name,min_val,max_val,step))
             {
                 game.Run();
             }
