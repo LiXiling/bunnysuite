@@ -1,5 +1,17 @@
 # This script runs the tests automatically and analyses the results
 
+
+# SUPPORTED TESTS
+# standard
+# random
+# scaled
+
+# animation
+# rotation
+# textureChange
+
+
+
 import subprocess
 import json
 import numpy as np
@@ -33,7 +45,7 @@ def get_data_from_log(framework, test_name):
 
 ###################################################################################################		
 		
-frameworks = ['sdl']
+frameworks = ['xna_monogame']
 
 # run some tests for all frameworks
 run_test(frameworks, "standard", 1000, 40000, 1000)
@@ -41,4 +53,3 @@ run_test(frameworks, "random", 1000, 40000, 1000)
 run_test(frameworks, "scaled", 1000, 40000, 1000)
 
 ###################################################################################################
-

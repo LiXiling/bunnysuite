@@ -63,7 +63,7 @@ namespace App.src.tests
             for (int i = 0; i < bunnyCount; i++)
             {
                 Bunny bunny = bunnies[i];
-                spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White, (float)bunny.Rotation, new Vector2(bunny.originX, bunny.originY), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White, (float)bunny.Rotation, new Vector2(bunny.originX, bunny.originY), (float) bunny.Scale, SpriteEffects.None, 0f);
             }
 
         }

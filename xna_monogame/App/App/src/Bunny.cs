@@ -18,6 +18,7 @@ namespace App
         public float SpeedY;
 
         public double Rotation = 0;
+        public double Scale = 1;
 
 
         public Texture2D texture;
@@ -85,6 +86,11 @@ namespace App
         {
             X = random.Next((int)maxX);
             Y = random.Next((int)maxY);
+        }
+
+        public void grow(Random random)
+        {
+            Scale = random.NextDouble() * 5;
         }
 
         public void rotate(Random random)

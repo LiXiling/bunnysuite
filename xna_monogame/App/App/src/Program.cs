@@ -15,11 +15,11 @@ namespace App
 
         static void Main(string[] args)
         {
-            if (args.Length < 6)
+            if (args.Length < 4)
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                ind_var = "num_bunnies_normal";
+                test_name = "scaled";
                 min_val = 0;
                 max_val = 40000;
                 step = 200;
@@ -28,10 +28,9 @@ namespace App
             {
                 // read the parameters
                 test_name = args[0];
-                ind_var = args[2];
-                min_val = Int32.Parse(args[3]);
-                max_val = Int32.Parse(args[4]);
-                step = Int32.Parse(args[5]);
+                min_val = Int32.Parse(args[1]);
+                max_val = Int32.Parse(args[2]);
+                step = Int32.Parse(args[3]);
             }
 
             switch (test_name)
@@ -47,6 +46,12 @@ namespace App
                     break;
                 case "rotation":
                     test = new RotationTest();
+                    break;
+                case "random":
+                    test = new RandomTest();
+                    break;
+                case "scaled":
+                    test = new ScaledTest();
                     break;
                 default:
                     test = new AnimationTest();

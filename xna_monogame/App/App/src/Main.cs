@@ -49,9 +49,6 @@ namespace App
         protected override void Initialize()
         {
             bgColor = new Color(21, 21, 21);
-
-            test.Initialize(min_val, graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37, step);
-
             base.Initialize();
         }
 
@@ -61,6 +58,7 @@ namespace App
             debugText = new DebugText(Content);
 
             test.LoadContent(Content, spriteBatch);
+            test.Initialize(min_val, graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37, step);
         }
 
         protected override void UnloadContent()
