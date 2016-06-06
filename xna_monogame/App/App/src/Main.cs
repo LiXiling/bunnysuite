@@ -10,7 +10,7 @@ namespace App
     public class Main : Microsoft.Xna.Framework.Game
     {
         //Test Parameter
-        private ITest test;
+        private ATest test;
         private String test_name;
         private int min_val;
         private int max_val;
@@ -22,17 +22,15 @@ namespace App
         private Color bgColor;
 
         //Bunnies
-        private List<Bunny> bunnies;
         private int bunnyCount = 0;
 
         //Misc. Helpers
         private Logger logger;
         private DebugText debugText;
-        private Random random;
 
 
 
-        public Main(ITest test, String test_name, int min_val, int max_val, int step)
+        public Main(ATest test, String test_name, int min_val, int max_val, int step)
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 800;
@@ -92,10 +90,9 @@ namespace App
         {
             GraphicsDevice.Clear(bgColor);
             
-            test.Draw(gameTime);
-
             spriteBatch.Begin();
-            debugText.Draw(spriteBatch, bunnyCount);            
+            test.Draw(gameTime);
+            debugText.Draw(spriteBatch, bunnyCount);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -19,7 +19,7 @@ namespace App
 
         public double Rotation = 0;
 
-        
+
         public Texture2D texture;
         private Texture2D[] textureArray;
 
@@ -38,7 +38,8 @@ namespace App
             texture = textureArray[0];
         }
 
-        public void changeTexture(int j, ContentManager content) {
+        public void changeTexture(int j, ContentManager content)
+        {
             int i = j % numberOfTextures;
             texture = textureArray[i];
             originX = texture.Width / 2;
@@ -47,10 +48,11 @@ namespace App
 
         public void jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
         {
-            
+
             this.X += this.SpeedX;
             this.Y += this.SpeedY;
             this.SpeedY += gravity;
+            //this.SpeedX += (float) random.NextDouble();
 
             if (this.X > maxX)
             {
@@ -78,9 +80,16 @@ namespace App
                 this.Y = minY;
             }
         }
+
+        public void teleport(Random random, float maxX, float maxY)
+        {
+            X = random.Next((int)maxX);
+            Y = random.Next((int)maxY);
+        }
+
         public void rotate(Random random)
         {
-            Rotation = (Rotation + random.NextDouble()*0.1) % fullCircle;
+            Rotation = (Rotation + random.NextDouble() * 0.1) % fullCircle;
         }
     }
 }

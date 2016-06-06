@@ -8,30 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace App.src.tests
 {
-    class AnimationTest : ITest
+    class AnimationTest : ATest
     {
-        //Bunnies
-        private List<Bunny> bunnies;
-        private int bunnyCount = 0;
-
-        private int step;
-
-        private Random random;
-        private ContentManager content;
-        SpriteBatch spriteBatch;
-
-        //Animation Constants
-        private float gravity = 0.5f;
-        private float maxX;
-        private float minX;
-        private float maxY;
-        private float minY;
-
-        public AnimationTest(){
+        public AnimationTest()
+        {
         }
 
-
-        public int RunTest(GameTime gameTime)
+        public override int RunTest(GameTime gameTime)
         {
             AddBunnies(step);
 
@@ -44,48 +27,15 @@ namespace App.src.tests
             return bunnyCount;
         }
 
-        public void Initialize(int min_val, float maxX, float maxY, int step)
-        {
-            bunnies = new List<Bunny>();
-            random = new Random();
 
-            this.minX = 0;
-            this.minY = 0;
-            this.maxX = maxX;
-            this.maxY = maxY;
-            this.step = step;
-
-            AddBunnies(min_val);
-        }
-
-        public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
-        {
-            this.content = content;
-            this.spriteBatch = spriteBatch;
-        }
-
-        public void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-            for (int i = 0; i < bunnies.Count; i++)
-            {
-                Bunny bunny = bunnies[i];
-                spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White);
-            }
-            spriteBatch.End();
-
-        }
-
-        /// <summary>
-        /// Add Bunnies to the Scenery
-        /// </summary>
-        /// <param name="count"> The Amount of Bunnies to be added</param>
-        public void AddBunnies(int count = 100)
+        public override void AddBunnies(int count = 100)
         {
             for (int i = 0; i < count; i++)
             {
                 Bunny bunny = new Bunny(content);
 
+                bunny.SpeedX = (float)random.NextDouble() * 5;
+                bunny.SpeedY = (float)random.NextDouble() * 5;
                 bunnies.Add(bunny);
             }
             bunnyCount += count;
