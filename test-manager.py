@@ -28,7 +28,7 @@ def make_diagram(frameworks, test_name):
 		plt.plot(x, y, label=framework)
 	plt.title("Results of the test: " + test_name)
 	plt.xlabel("#")
-	plt.ylabel("fps")
+	plt.ylabel("Average rendering time in seconds")
 	plt.grid(True)
 	plt.legend()
 	plt.savefig("results/" + test_name + ".png")
@@ -40,16 +40,16 @@ def get_data_from_log(framework, test_name):
 		lines = f.read().splitlines()
 		values = [l.split("\t") for l in lines]
 		x = np.array([int(v[0]) for v in values])
-		y = np.array([int(v[1]) for v in values])
+		y = np.array([float(v[1]) for v in values])
 		return (x, y)
 
 ###################################################################################################		
 		
-frameworks = ['xna_monogame','sdl']
+frameworks = ['sdl']
 
 # run some tests for all frameworks
-run_test(frameworks, "standard", 1000, 5000, 50)
-run_test(frameworks, "random", 1000, 5000, 50)
-run_test(frameworks, "scaled", 1000, 5000, 50)
+run_test(frameworks, "standard", 1000, 20000, 1000)
+#run_test(frameworks, "random", 1000, 5000, 50)
+#run_test(frameworks, "scaled", 1000, 5000, 50)
 
 ###################################################################################################
