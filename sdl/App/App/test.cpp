@@ -8,6 +8,9 @@
 
 using namespace std;
 
+#define NUM_MAX_BUNNIES 100
+#define REPETITIONS 10
+
 // the arguments
 string test_name;
 int min_val;
@@ -21,6 +24,25 @@ void (*renderFrame)(SDL_Renderer*);
 int n;
 SDL_Rect rect_bunny;
 SDL_Texture *bunny;
+
+double renderTimes[REPETITIONS];
+int frameNo;
+
+class Bunny {
+public:
+	SDL_Rect rect;
+	double rotation;
+
+	Bunny(){
+		rect.x = rand() % SCREEN_X;
+		rect.y = rand() % SCREEN_Y;
+		rect.w = rect_bunny.w;
+		rect.h = rect_bunny.h;
+		rotation = 0.0;
+	}
+};
+
+Bunny *bunnies;
 
 // ##### standard #####
 void renderFrameStandard(SDL_Renderer* ren){
@@ -55,14 +77,26 @@ void renderFrameScaled(SDL_Renderer* ren){
 	SDL_RenderClear(ren);
 	// draw n randomly scaled bunnies at random places
 	for (int i = 0; i < n; ++i){
-		SDL_Rect rect_bunny_scaled;
-		rect_bunny_scaled.x = rand() % SCREEN_X;
-		rect_bunny_scaled.y = rand() % SCREEN_Y;
 		double scale_x = ((double)rand() / RAND_MAX)*4.8 + 0.2;
 		double scale_y = ((double)rand() / RAND_MAX)*4.8 + 0.2;
-		rect_bunny_scaled.w = rect_bunny.w * scale_x;
-		rect_bunny_scaled.h = rect_bunny.h * scale_y;
-		SDL_RenderCopy(ren, bunny, NULL, &rect_bunny_scaled);
+		bunnies[i].rect.w = rect_bunny.w * scale_x;
+		bunnies[i].rect.h = rect_bunny.h * scale_y;
+		SDL_RenderCopy(ren, bunny, NULL, &bunnies[i].rect);
+	}
+	// show result
+	SDL_RenderPresent(ren);
+}
+
+// ##### rotation #####
+void renderFrameRotated(SDL_Renderer* ren){
+	// make the window black
+	SDL_RenderClear(ren);
+	for (int i = 0; i < n; ++i){
+		// perform the rotation
+		bunnies[i].rotation += 0.2;
+		// render rotated bunny
+		//SDL_RenderCopy(ren, bunny, NULL, &(bunnies[i].rect));
+		SDL_RenderCopyEx(ren, bunny, NULL, &bunnies[i].rect, bunnies[i].rotation, NULL, SDL_FLIP_NONE);
 	}
 	// show result
 	SDL_RenderPresent(ren);
@@ -79,6 +113,9 @@ void setFrameRenderFunction(){
 	else if (test_name == "scaled"){
 		renderFrame = renderFrameScaled;
 	}
+	else if (test_name == "rotation"){
+		renderFrame = renderFrameRotated;
+	}
 	else {
 		renderFrame = NULL;
 	}
@@ -88,10 +125,10 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "standard";
-		min_val = 0;
-		max_val = 40000;
-		step = 500;
+		test_name = "rotation";
+		min_val = 1000;
+		max_val = 20000;
+		step = 1000;
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
@@ -107,10 +144,13 @@ int main(int argc, char* argv[]){
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Window *win = SDL_CreateWindow("SDL", 100, 100, SCREEN_X, SCREEN_Y, SDL_WINDOW_SHOWN);
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	// prepare bunny
 	bunny = IMG_LoadTexture(ren, "bunny.png");
 	rect_bunny.x = 0;
 	rect_bunny.y = 0;
 	SDL_QueryTexture(bunny, NULL, NULL, &rect_bunny.w, &rect_bunny.h);
+	bunnies = new Bunny[max_val];
 
 	// prepare test
 	setFrameRenderFunction();
@@ -118,7 +158,7 @@ int main(int argc, char* argv[]){
 	// prepare timing
 	Uint32 time_last_log;
 	Uint32 time_current;
-	int framerate = 0;
+	frameNo = 0;
 
 	// seed random number generator
 	srand(time(NULL));
@@ -134,14 +174,21 @@ int main(int argc, char* argv[]){
 	time_last_log = SDL_GetTicks();
 	while (true){
 		renderFrame(ren);
-		framerate += 1;
-		// check if one second is over
+		// measure frame time
 		time_current = SDL_GetTicks();
-		if (time_current - time_last_log > 1000){
-			// if yes, then we log the framerate and measure the next value
-			logfile << n << "\t" << framerate << endl;
-			framerate = 0;
-			time_last_log = time_current;
+		renderTimes[frameNo] = (time_current - time_last_log) / 1000.0;
+		time_last_log = time_current;
+		// check if one second is over
+		frameNo += 1;
+		if (frameNo == REPETITIONS){
+			double renderTime = 0.0;
+			for (int i = 0; i < REPETITIONS; ++i){
+				renderTime += renderTimes[i];
+			}
+			renderTime /= REPETITIONS;
+			logfile << n << "\t" << renderTime << endl;
+			frameNo = 0;
+			// set to next value
 			n += step;
 			if (n > max_val)
 				break;
@@ -152,5 +199,6 @@ int main(int argc, char* argv[]){
 	logfile.close();
 	IMG_Quit();
 	SDL_Quit();
+	delete[] bunnies;
 	return 0;
 }
