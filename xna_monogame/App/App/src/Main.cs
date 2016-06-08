@@ -59,7 +59,6 @@ namespace App
 
             test.LoadContent(Content, spriteBatch);
             test.Initialize(min_val, graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37, step);
-            logger.addLog(test.bunnyCount, debugText.getFps());
         }
 
         protected override void UnloadContent()
@@ -69,9 +68,7 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
-            logger.addLog(gameTime, bunnyCount, debugText.getFps());
             bunnyCount = test.RunTest(gameTime);
-            logger.addLog(gameTime, bunnyCount, debugText.getFps());
             //Exit if enough Bunnies are drawn
             if (bunnyCount > max_val)
             {
@@ -94,6 +91,7 @@ namespace App
             debugText.Draw(spriteBatch, bunnyCount);
             spriteBatch.End();
 
+            logger.addLog(gameTime, bunnyCount);
             base.Draw(gameTime);
         }
     }

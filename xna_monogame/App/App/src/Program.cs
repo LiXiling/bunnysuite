@@ -20,7 +20,7 @@ namespace App
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
                 test_name = "scaled";
-                min_val = 0;
+                min_val = 10;
                 max_val = 40000;
                 step = 200;
             }

@@ -13,6 +13,7 @@ namespace App.src.tests
         //Bunnies
         public List<Bunny> bunnies;
         public int bunnyCount = 0;
+        public int count = 0;
 
         public int step;
 

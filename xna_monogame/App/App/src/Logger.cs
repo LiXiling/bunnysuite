@@ -2,20 +2,22 @@
 using System.IO;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace App
 {
     public class Logger
     {
         private List<String> lines;
-        private List<Tuple<int, int>> loggedTuples;
+        private List<Tuple<int, float>> loggedTuples;
         private String name;
         private float elapsedTime = 0.0f;
+        private int count = 0;
 
         public Logger(String name)
         {
             lines = new List<string>();
-            loggedTuples = new List<Tuple<int, int>>();
+            loggedTuples = new List<Tuple<int, float>>();
             this.name = name;
         }
         /// <summary>
@@ -24,14 +26,17 @@ namespace App
         /// <param name="gameTime">The current Gametime</param>
         /// <param name="bunnyCount">The current amount of drawn bunnies</param>
         /// <param name="fps">The currently achieved fps</param>
-        public void addLog(GameTime gameTime, int bunnyCount, int fps)
+        public void addLog(GameTime gameTime, int bunnyCount)
         {
-            elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Console.WriteLine(elapsedTime);
+            count++;
 
-            if (elapsedTime >= 500.0f)
+            if (count == 10)
             {
-                addLog(bunnyCount, fps);
+                addLog(bunnyCount, elapsedTime / 10.0f);
                 elapsedTime = 0;
+                count = 0;
             }
         }
 
@@ -39,10 +44,10 @@ namespace App
         /// Add a new Entry to the Log
         /// </summary>
         /// <param name="bunnyCount">The current count of drawn bunnies</param>
-        /// <param name="fps">The current reached fps</param>
-        public void addLog(int bunnyCount, int fps)
+        /// <param name="deltatime">The current deltatime in s</param>
+        public void addLog(int bunnyCount, float deltatime)
         {
-            loggedTuples.Add(new Tuple<int, int>(bunnyCount, fps));
+            loggedTuples.Add(new Tuple<int, float>(bunnyCount, deltatime));
         }
         /// <summary>
         /// Writes the Log into a logFile
@@ -63,9 +68,9 @@ namespace App
                     file.WriteLine(line);
                 }
 
-                foreach (Tuple<int, int> tuple in loggedTuples)
+                foreach (Tuple<int, float> tuple in loggedTuples)
                 {
-                    file.WriteLine(tuple.Item1.ToString() + "\t" + tuple.Item2.ToString());
+                    file.WriteLine(tuple.Item1.ToString() + "\t" + tuple.Item2.ToString(CultureInfo.InvariantCulture));
                 }
                 file.Close();
             }

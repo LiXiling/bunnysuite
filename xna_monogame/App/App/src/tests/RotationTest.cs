@@ -15,7 +15,12 @@ namespace App.src.tests
         }
         public override int RunTest(GameTime gameTime)
         {
-            AddBunnies(step);
+            if (count == 10)
+            {
+                AddBunnies(step);
+                count = 0;
+            }
+            count++;
 
             //bunnies movement
             for (int i = 0; i < bunnies.Count; i++)

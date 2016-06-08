@@ -16,8 +16,12 @@ namespace App.src.tests
 
         public override int RunTest(GameTime gameTime)
         {
-            int oldCount = bunnyCount;
-            AddBunnies(step);
+            if (count == 10)
+            {
+                AddBunnies(step);
+                count = 0;
+            }
+            count++;
 
             return bunnyCount;
         }
