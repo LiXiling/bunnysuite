@@ -8,6 +8,8 @@ namespace App
     {
         private const int numberOfTextures = 3;
         private static double fullCircle = Math.PI * 2;
+        private double growth = 0.1;
+
         public float X;
         public float Y;
 
@@ -88,9 +90,13 @@ namespace App
             Y = random.Next((int)maxY);
         }
 
-        public void grow(Random random)
+        public void grow()
         {
-            Scale = random.NextDouble() * 5;
+            Scale += growth;
+            if (Scale >= 5 || Scale <= 0.2)
+            {
+                growth *= -1;
+            }
         }
 
         public void rotate(Random random)
