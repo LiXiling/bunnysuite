@@ -31,6 +31,7 @@ namespace App
             if (elapsedTime >= 500.0f)
             {
                 addLog(bunnyCount, fps);
+                elapsedTime = 0;
             }
         }
 

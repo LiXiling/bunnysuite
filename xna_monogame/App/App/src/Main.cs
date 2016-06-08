@@ -68,8 +68,9 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
+            logger.addLog(gameTime, bunnyCount, debugText.getFps());
             bunnyCount = test.RunTest(gameTime);
-
+            logger.addLog(gameTime, bunnyCount, debugText.getFps());
             //Exit if enough Bunnies are drawn
             if (bunnyCount > max_val)
             {
@@ -79,7 +80,6 @@ namespace App
             }
 
             debugText.Update(gameTime);
-            logger.addLog(gameTime, bunnyCount, debugText.getFps());
             base.Update(gameTime);
         }
 
