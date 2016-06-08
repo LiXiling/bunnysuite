@@ -59,6 +59,7 @@ namespace App
 
             test.LoadContent(Content, spriteBatch);
             test.Initialize(min_val, graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37, step);
+            logger.addLog(test.bunnyCount, debugText.getFps());
         }
 
         protected override void UnloadContent()
