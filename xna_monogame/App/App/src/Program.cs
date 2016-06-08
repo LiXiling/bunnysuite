@@ -19,7 +19,7 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                test_name = "scaled";
+                test_name = "multitexture";
                 min_val = 10;
                 max_val = 40000;
                 step = 200;
@@ -41,7 +41,7 @@ namespace App
                 case "animation":
                     test = new AnimationTest();
                     break;
-                case "textureChange":
+                case "texturechange":
                     test = new TextureChangeTest();
                     break;
                 case "rotation":
@@ -52,6 +52,9 @@ namespace App
                     break;
                 case "scaled":
                     test = new ScaledTest();
+                    break;
+                case "multitexture":
+                    test = new MultiTextureTest();
                     break;
                 default:
                     test = new AnimationTest();

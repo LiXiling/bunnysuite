@@ -1,19 +1,14 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace App.src.tests
 {
-    class AnimationTest : ATest
+    class MultiTextureTest : ATest
     {
-        public AnimationTest()
-        {
-        }
-
+        public MultiTextureTest() { }
         public override int RunTest()
         {
             if (count == 10)
@@ -23,24 +18,16 @@ namespace App.src.tests
             }
             count++;
 
-            //bunnies movement
-            for (int i = 0; i < bunnies.Count; i++)
-            {
-                Bunny bunny = bunnies[i];
-                bunny.jump(random, gravity, minX, minY, maxX, maxY);
-            }
             return bunnyCount;
         }
-
-
         public override void AddBunnies(int count = 100)
         {
             for (int i = 0; i < count; i++)
             {
                 Bunny bunny = new Bunny(content);
 
-                bunny.SpeedX = (float)random.NextDouble() * 5;
-                bunny.SpeedY = (float)random.NextDouble() * 5;
+                bunny.teleport(random, maxX, maxY);
+                bunny.changeTexture(random.Next(), content);
                 bunnies.Add(bunny);
             }
             bunnyCount += count;

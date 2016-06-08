@@ -68,7 +68,7 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
-            bunnyCount = test.RunTest(gameTime);
+            bunnyCount = test.RunTest();
             //Exit if enough Bunnies are drawn
             if (bunnyCount > max_val)
             {

@@ -51,9 +51,9 @@ namespace App.src.tests
         /// <summary>
         /// The single step procedure of the step. To be used in the Game Loop Update() step.
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// 
         /// <returns>The current number of Drawn bunnies. Needed for exit criteria</returns>
-        public abstract int RunTest(GameTime gameTime);
+        public abstract int RunTest();
 
         /// <summary>
         /// Called inside a spriteBatch.Begin() Block! Draws all the Bunnies onto the screen

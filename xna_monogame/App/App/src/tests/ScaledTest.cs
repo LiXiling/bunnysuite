@@ -13,7 +13,7 @@ namespace App.src.tests
         public ScaledTest()
         {
         }
-        public override int RunTest(GameTime gameTime)
+        public override int RunTest()
         {
             if (count == 10)
             {

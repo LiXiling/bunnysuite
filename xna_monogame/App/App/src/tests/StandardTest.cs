@@ -14,7 +14,7 @@ namespace App.src.tests
         {
         }
 
-        public override int RunTest(GameTime gameTime)
+        public override int RunTest()
         {
             if (count == 10)
             {
