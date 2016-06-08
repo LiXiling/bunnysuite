@@ -44,11 +44,11 @@ def get_data_from_log(framework, test_name):
 
 ###################################################################################################		
 		
-frameworks = ['sdl']
+frameworks = ['xna_monogame','sdl']
 
 # run some tests for all frameworks
 run_test(frameworks, "standard", 1000, 20000, 1000)
-#run_test(frameworks, "random", 1000, 5000, 50)
-#run_test(frameworks, "scaled", 1000, 5000, 50)
+run_test(frameworks, "random", 1000, 20000, 1000)
+run_test(frameworks, "scaled", 1000, 20000, 1000)
 
 ###################################################################################################
