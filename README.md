@@ -31,7 +31,10 @@ Supported Tests at the moment:
 * scaled
 * multitexture
 * texturechange
-* animation
+* animation 
+
+The result of each test can be found at `<framework>\bin\log\<testname>.log`
+The char visualization can be found at `results\<testname>.png`
 
 Further information can be found in the wiki.
 
