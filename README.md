@@ -1,24 +1,39 @@
 # bunnysuite
 
-Developement Setup
+An automatic Test Framework for 2D Engines
 ------------------
-* Install Haxe:
-  * http://haxe.org/download/version/3.2.0-rc.2/
+To conduct tests:
+Compile an executable for the desired frameworks. The path should be `<framework>\bin\App.exe`
 
-* Haxor Engine:
-  * https://github.com/haxorplatform/haxor-engine
-  
-* Kha Engine:
-  * in CMD: `haxelib install kha`
-  * https://github.com/KTXSoftware/Kha
-  * https://htmlpreview.github.io/?https://raw.githubusercontent.com/triplefox/khaguide/master/build/book.html#project-setup
+In the Python-File `test-manager.py` add these frameworks to the list of frameworks:
 
-* Luxe Engine:
-  * http://luxeengine.com/docs/setup.html
+```python
+frameworks = ['sdl','xna_monogame','LibGDX']
+```
+To costumize tests, edit or add lines like:
 
-* FlashDevelop IDE:
-  * http://www.flashdevelop.org/community/viewtopic.php?f=11&t=12584  
+```python
+# run some tests for all frameworks
+# run_test(frameworks, <test_name>, <min_val>, <max_val>, <step_width>)
+run_test(frameworks, "standard", 1000, 20000, 1000)
+run_test(frameworks, "random", 1000, 20000, 1000)
+run_test(frameworks, "scaled", 1000, 20000, 1000)
+```
 
-* XNA GameStudio Refresh
-  * https://mxa.codeplex.com/wikipage?title=How%20install%20XNA%204.0%20on%20Visual%20Studio%202013&referringTitle=Documentation
-* Visual Studio 2013
+Supported Frameworks at the moment:
+* sdl
+* xna
+* libGDX
+
+Supported Tests at the moment:
+* standard
+* random
+* scaled
+* multitexture
+* texturechange
+* animation
+
+Further information can be found in the wiki.
+
+Based upon:
+https://github.com/dmitryhryppa/Frameworks_test
