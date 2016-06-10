@@ -8,7 +8,7 @@ Compile an executable for the desired frameworks. The path should be `<framework
 In the Python-File `test-manager.py` add these frameworks to the list of frameworks:
 
 ```python
-frameworks = ['sdl','xna_monogame','LibGDX']
+frameworks = ['sdl','xna_monogame']
 ```
 To costumize tests, edit or add lines like:
 
@@ -23,7 +23,7 @@ run_test(frameworks, "scaled", 1000, 20000, 1000)
 Supported Frameworks at the moment:
 * sdl
 * xna
-* libGDX
+* (libGDX, coming soon)
 
 Supported Tests at the moment:
 * standard
