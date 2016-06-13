@@ -1,5 +1,5 @@
 using System;
-using App.src.tests;
+using App.src.model;
 
 namespace App
 {
@@ -11,10 +11,10 @@ namespace App
         private static int min_val;
         private static int max_val;
         private static int step;
-        private static ATest test;
 
         static void Main(string[] args)
         {
+            BenchmarkFactory bf = new BenchmarkFactory();
             if (args.Length < 4)
             {
                 // missing arguments?
@@ -33,35 +33,9 @@ namespace App
                 step = Int32.Parse(args[3]);
             }
 
-            switch (test_name)
-            {
-                case "standard":
-                    test = new StandardTest();
-                    break;
-                case "animation":
-                    test = new AnimationTest();
-                    break;
-                case "texturechange":
-                    test = new TextureChangeTest();
-                    break;
-                case "rotation":
-                    test = new RotationTest();
-                    break;
-                case "random":
-                    test = new RandomTest();
-                    break;
-                case "scaled":
-                    test = new ScaledTest();
-                    break;
-                case "multitexture":
-                    test = new MultiTextureTest();
-                    break;
-                default:
-                    test = new AnimationTest();
-                    break;
-            }
+            BenchmarkTest bt = bf.ConstructBenchmark(test_name, min_val, max_val, step);
 
-            using (Main game = new Main(test,test_name,min_val,max_val,step))
+            using (BunnyMark game = new BunnyMark(bt, test_name, max_val))
             {
                 game.Run();
             }

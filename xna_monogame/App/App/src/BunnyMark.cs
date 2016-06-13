@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using App.src.tests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using App.src.model;
 
 namespace App
 {
 
-    public class Main : Microsoft.Xna.Framework.Game
+    public class BunnyMark : Microsoft.Xna.Framework.Game
     {
         //Test Parameter
-        private ATest test;
         private String test_name;
-        private int min_val;
         private int max_val;
-        private int step;
 
         //Graphics IO
         GraphicsDeviceManager graphics;
@@ -28,20 +26,21 @@ namespace App
         private Logger logger;
         private DebugText debugText;
 
+        private BenchmarkTest bt;
 
 
-        public Main(ATest test, String test_name, int min_val, int max_val, int step)
+
+        public BunnyMark(BenchmarkTest bt, String testName, int maxVal)
         {
+            test_name = testName;
+            max_val = maxVal;
+
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             Content.RootDirectory = "Data";
 
-            this.test = test;
-            this.test_name = test_name;
-            this.min_val = min_val;
-            this.max_val = max_val;
-            this.step = step;
+            this.bt = bt;
 
             logger = new Logger(test_name);
         }
@@ -49,6 +48,7 @@ namespace App
         protected override void Initialize()
         {
             bgColor = new Color(21, 21, 21);
+            bt.Initialize(graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37);
             base.Initialize();
         }
 
@@ -57,8 +57,7 @@ namespace App
             spriteBatch = new SpriteBatch(GraphicsDevice);
             debugText = new DebugText(Content);
 
-            test.LoadContent(Content, spriteBatch);
-            test.Initialize(min_val, graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37, step);
+            bt.LoadContent(Content, spriteBatch);
         }
 
         protected override void UnloadContent()
@@ -68,7 +67,7 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
-            bunnyCount = test.RunTest();
+            bunnyCount = bt.RunTest();
             //Exit if enough Bunnies are drawn
             if (bunnyCount > max_val)
             {
@@ -87,8 +86,10 @@ namespace App
             GraphicsDevice.Clear(bgColor);
             
             spriteBatch.Begin();
-            test.Draw(gameTime);
+            
+            bt.Draw();
             debugText.Draw(spriteBatch, bunnyCount);
+            
             spriteBatch.End();
 
             logger.addLog(gameTime, bunnyCount);

@@ -94,20 +94,31 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Bunny.cs" />
-    <Compile Include="src\Logger.cs" />
-    <Compile Include="src\DebugText.cs" />
+    <Compile Include="src\model\BenchmarkFactory.cs" />
+    <Compile Include="src\model\BenchmarkTest.cs" />
+    <Compile Include="src\model\Bunny.cs" />
+    <Compile Include="src\output\Logger.cs" />
+    <Compile Include="src\output\DebugText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Program.cs" />
-    <Compile Include="src\Main.cs" />
-    <Compile Include="src\tests\AnimationTest.cs" />
-    <Compile Include="src\tests\ATest.cs" />
-    <Compile Include="src\tests\MultiTextureTest.cs" />
-    <Compile Include="src\tests\RandomTest.cs" />
-    <Compile Include="src\tests\RotationTest.cs" />
-    <Compile Include="src\tests\ScaledTest.cs" />
-    <Compile Include="src\tests\StandardTest.cs" />
-    <Compile Include="src\tests\TextureChangeTest.cs" />
+    <Compile Include="src\BunnyMark.cs" />
+    <Compile Include="src\testImpl\AnimationTest.cs" />
+    <Compile Include="src\testImpl\FixedAdder.cs" />
+    <Compile Include="src\testImpl\IBunnyAdder.cs" />
+    <Compile Include="src\testImpl\ITestRunnable.cs" />
+    <Compile Include="src\testImpl\MultitextureAdd.cs" />
+    <Compile Include="src\testImpl\RandomTest.cs" />
+    <Compile Include="src\testImpl\RotationTest.cs" />
+    <Compile Include="src\testImpl\ScaledTest.cs" />
+    <Compile Include="src\testImpl\TexturechangeTest.cs" />
+    <Compile Include="src\tests_depr\AnimationTest.cs" />
+    <Compile Include="src\tests_depr\ATest.cs" />
+    <Compile Include="src\tests_depr\MultiTextureTest.cs" />
+    <Compile Include="src\tests_depr\RandomTest.cs" />
+    <Compile Include="src\tests_depr\RotationTest.cs" />
+    <Compile Include="src\tests_depr\ScaledTest.cs" />
+    <Compile Include="src\tests_depr\StandardTest.cs" />
+    <Compile Include="src\tests_depr\TextureChangeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
