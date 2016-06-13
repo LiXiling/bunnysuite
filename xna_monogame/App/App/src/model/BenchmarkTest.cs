@@ -41,19 +41,27 @@ namespace App.src.model
             this.minVal = minVal;
             this.maxVal = maxVal;
             this.step = step;
-        }
 
-        public void Initialize(float maxX, float maxY)
-        {
             bunnies = new List<Bunny>();
             random = new Random();
-
+        }
+        /// <summary>
+        /// Initializes the Benchmark with its GraphicDevice Constants
+        /// </summary>
+        /// <param name="maxX">max Value in X Dimension</param>
+        /// <param name="maxY">max Value in Y Dimension</param>
+        public void Initialize(float maxX, float maxY)
+        {
             this.minX = 0;
             this.minY = 100;
             this.maxX = maxX;
             this.maxY = maxY;     
         }
-
+        /// <summary>
+        /// Loads Content
+        /// </summary>
+        /// <param name="content">ContentManager</param>
+        /// <param name="spriteBatch">SpriteBatch</param>
         public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
         {
             this.content = content;
@@ -62,6 +70,10 @@ namespace App.src.model
             AddBunnies(minVal);
         }
 
+        /// <summary>
+        /// Runs the TestAnimation. Every 10 frames new Bunnies are added according to the step value
+        /// </summary>
+        /// <returns>The current Amount of drawn Bunnies</returns>
         public int RunTest()
         {
             if (frameCount == 10)
@@ -94,16 +106,27 @@ namespace App.src.model
 
         }
 
+        /// <summary>
+        /// Adds new Bunnies to the Scene
+        /// </summary>
+        /// <param name="count">Amount of Bunnies to be added</param>
         private void AddBunnies(int count)
         {
             adder.AddBunnies(count, this);
         }
-
+        /// <summary>
+        /// Setter for an IBunnyAdder Implementation
+        /// </summary>
+        /// <param name="adder"></param>
         public void setAdder(IBunnyAdder adder)
         {
             this.adder = adder;
         }
 
+        /// <summary>
+        /// Adds an ITestRunnable Implementation to the List of TestSteps
+        /// </summary>
+        /// <param name="runner"></param>
         public void addRunner(ITestRunnable runner)
         {
             testRunnerList.Add(runner);

@@ -29,7 +29,6 @@ namespace App
         public void addLog(GameTime gameTime, int bunnyCount)
         {
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Console.WriteLine(elapsedTime);
             count++;
 
             if (count == 10)

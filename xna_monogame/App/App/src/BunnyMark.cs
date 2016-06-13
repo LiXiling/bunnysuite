@@ -13,6 +13,8 @@ namespace App
         //Test Parameter
         private String test_name;
         private int max_val;
+        
+        private BenchmarkTest bt;
 
         //Graphics IO
         GraphicsDeviceManager graphics;
@@ -25,10 +27,6 @@ namespace App
         //Misc. Helpers
         private Logger logger;
         private DebugText debugText;
-
-        private BenchmarkTest bt;
-
-
 
         public BunnyMark(BenchmarkTest bt, String testName, int maxVal)
         {

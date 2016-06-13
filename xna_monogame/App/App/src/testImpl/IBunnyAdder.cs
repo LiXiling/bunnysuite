@@ -9,6 +9,11 @@ namespace App.src.testImpl
 {
     public interface IBunnyAdder
     {
+        /// <summary>
+        /// Adds Bunnies to the Scene
+        /// </summary>
+        /// <param name="count">The Amount of Bunnies to be added</param>
+        /// <param name="bt">The BenchmarkTest calling this method</param>
         void AddBunnies(int count, BenchmarkTest bt);
     }
 }

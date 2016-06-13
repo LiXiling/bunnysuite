@@ -8,6 +8,10 @@ namespace App.src.testImpl
 {
     public interface ITestRunnable
     {
+        /// <summary>
+        /// The Test Animation Behaviour
+        /// </summary>
+        /// <param name="bt">The BenchmarkTest calling the method</param>
         void RunTest(BenchmarkTest bt);
     }
 }

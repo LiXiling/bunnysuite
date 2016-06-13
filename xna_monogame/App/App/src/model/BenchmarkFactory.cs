@@ -9,6 +9,15 @@ namespace App.src.model
     public class BenchmarkFactory
     {
         public BenchmarkFactory(){}
+
+        /// <summary>
+        /// Constructs a BenchmarkTest with the given Parameters
+        /// </summary>
+        /// <param name="testname">The testname, defining the behaviour</param>
+        /// <param name="minVal">Starting Value for the Test</param>
+        /// <param name="maxVal">End Value for the Test</param>
+        /// <param name="step">Step increment for the Test</param>
+        /// <returns></returns>
         public BenchmarkTest ConstructBenchmark(String testname, int minVal, int maxVal, int step)
         {
             BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step);
