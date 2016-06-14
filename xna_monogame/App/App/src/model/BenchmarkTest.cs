@@ -15,7 +15,7 @@ namespace App.src.model
         public List<Bunny> bunnies;
 
         //testImpl Interfaces
-        private IBunnyAdder adder;
+        private List<IBunnyModifier> modifierList = new List<IBunnyModifier>();
         private List<ITestRunnable> testRunnerList = new List<ITestRunnable>();
 
         //Misc. Helper
@@ -55,7 +55,7 @@ namespace App.src.model
             this.minX = 0;
             this.minY = 100;
             this.maxX = maxX;
-            this.maxY = maxY;     
+            this.maxY = maxY;
         }
         /// <summary>
         /// Loads Content
@@ -86,7 +86,8 @@ namespace App.src.model
             {
                 return bunnies.Count;
             }
-            foreach (ITestRunnable testRunner in testRunnerList){
+            foreach (ITestRunnable testRunner in testRunnerList)
+            {
                 testRunner.RunTest(this);
             }
 
@@ -112,24 +113,33 @@ namespace App.src.model
         /// <param name="count">Amount of Bunnies to be added</param>
         private void AddBunnies(int count)
         {
-            adder.AddBunnies(count, this);
-        }
-        /// <summary>
-        /// Setter for an IBunnyAdder Implementation
-        /// </summary>
-        /// <param name="adder"></param>
-        public void setAdder(IBunnyAdder adder)
-        {
-            this.adder = adder;
+            for (int i = 0; i < count; i++)
+            {
+                Bunny bunny = new Bunny(content);
+                foreach (IBunnyModifier modifier in modifierList)
+                {
+                    modifier.ModifyBunny(bunny, this);
+                }
+                bunnies.Add(bunny);
+            }
         }
 
         /// <summary>
-        /// Adds an ITestRunnable Implementation to the List of TestSteps
+        /// Adds an IBunnyAdder Implementation
+        /// </summary>
+        /// <param name="adder"></param>
+        public void addModifier(IBunnyModifier modifier)
+        {
+            modifierList.Add(modifier);
+        }
+
+        /// <summary>
+        /// Adds an ITestRunnable Implementation
         /// </summary>
         /// <param name="runner"></param>
         public void addRunner(ITestRunnable runner)
         {
             testRunnerList.Add(runner);
-        } 
+        }
     }
 }

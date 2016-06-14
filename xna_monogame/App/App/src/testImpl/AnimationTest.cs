@@ -7,7 +7,7 @@ using App.src.model;
 
 namespace App.src.testImpl
 {
-    public class AnimationTest : IBunnyAdder, ITestRunnable
+    public class AnimationTest : IBunnyModifier, ITestRunnable
     {
         public void RunTest(BenchmarkTest bt)
         {
@@ -18,17 +18,10 @@ namespace App.src.testImpl
             }
         }
 
-        public void AddBunnies(int count, BenchmarkTest bt)
+        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
         {
-            for (int i = 0; i < count; i++)
-            {
-                Bunny bunny = new Bunny(bt.content);
-
-                bunny.SpeedX = (float)bt.random.NextDouble() * 5;
-                bunny.SpeedY = (float)bt.random.NextDouble() * 5;
-
-                bt.bunnies.Add(bunny);
-            }
+            bunny.SpeedX = (float)bt.random.NextDouble() * 5;
+            bunny.SpeedY = (float)bt.random.NextDouble() * 5;
         }
     }
 }

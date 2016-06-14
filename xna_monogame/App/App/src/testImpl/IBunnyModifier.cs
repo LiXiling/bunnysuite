@@ -7,13 +7,13 @@ using App.src.model;
 
 namespace App.src.testImpl
 {
-    public interface IBunnyAdder
+    public interface IBunnyModifier
     {
         /// <summary>
-        /// Adds Bunnies to the Scene
+        /// Modifies a Bunny's status
         /// </summary>
-        /// <param name="count">The Amount of Bunnies to be added</param>
+        /// <param name="bunny">The Bunny to be modified</param>
         /// <param name="bt">The BenchmarkTest calling this method</param>
-        void AddBunnies(int count, BenchmarkTest bt);
+        void ModifyBunny(Bunny bunny, BenchmarkTest bt);
     }
 }

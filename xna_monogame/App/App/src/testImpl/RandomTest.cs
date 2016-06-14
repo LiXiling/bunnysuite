@@ -6,7 +6,7 @@ using System.Text;
 
 namespace App.src.testImpl
 {
-    public class RandomTest: IBunnyAdder, ITestRunnable
+    public class RandomTest: IBunnyModifier, ITestRunnable
     {
         public void RunTest(BenchmarkTest bt)
         {
@@ -17,16 +17,9 @@ namespace App.src.testImpl
             }
         }
 
-        public void AddBunnies(int count, BenchmarkTest bt)
+        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
         {
-            for (int i = 0; i < count; i++)
-            {
-                Bunny bunny = new Bunny(bt.content);
-
                 bunny.teleport(bt.random, bt.maxX, bt.maxY);
-                
-                bt.bunnies.Add(bunny);
-            }
         }
     }
 }

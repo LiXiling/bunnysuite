@@ -104,7 +104,7 @@
     <Compile Include="src\BunnyMark.cs" />
     <Compile Include="src\testImpl\AnimationTest.cs" />
     <Compile Include="src\testImpl\FixedAdder.cs" />
-    <Compile Include="src\testImpl\IBunnyAdder.cs" />
+    <Compile Include="src\testImpl\IBunnyModifier.cs" />
     <Compile Include="src\testImpl\ITestRunnable.cs" />
     <Compile Include="src\testImpl\MultitextureAdd.cs" />
     <Compile Include="src\testImpl\RandomTest.cs" />

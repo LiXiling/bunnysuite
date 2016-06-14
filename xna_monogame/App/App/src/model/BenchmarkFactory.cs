@@ -25,36 +25,37 @@ namespace App.src.model
             switch (testname)
             {
                 case "standard":
-                    bt.setAdder(new FixedAdder());
+                    bt.addModifier(new FixedAdder());
                     break;
                 case "animation":
                     AnimationTest at = new AnimationTest();
-                    bt.setAdder(at);
+                    bt.addModifier(at);
                     bt.addRunner(at);
                     break;
                 case "texturechange":
-                    bt.setAdder(new RandomTest());
+                    bt.addModifier(new RandomTest());
                     bt.addRunner(new TexturechangeTest());
                     break;
                 case "rotation":
-                    bt.setAdder(new RandomTest());
+                    bt.addModifier(new RandomTest());
                     bt.addRunner(new RotationTest());
                     break;
                 case "random":
                     RandomTest rt = new RandomTest();
-                    bt.setAdder(rt);
+                    bt.addModifier(rt);
                     bt.addRunner(rt);
                     break;
                 case "scaled":
-                    bt.setAdder(new RandomTest());
+                    bt.addModifier(new RandomTest());
                     bt.addRunner(new ScaledTest());
                     break;
                 case "multitexture":
-                    bt.setAdder(new MultitextureAdd());
+                    bt.addModifier(new RandomTest());
+                    bt.addModifier(new MultitextureAdd());
                     break;
                 default:
                     at = new AnimationTest();
-                    bt.setAdder(at);
+                    bt.addModifier(at);
                     bt.addRunner(at);
                     break;
             }

@@ -7,7 +7,6 @@ namespace App
     static class Program
     {
         private static String test_name;
-        private static String ind_var;
         private static int min_val;
         private static int max_val;
         private static int step;
@@ -19,7 +18,7 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                test_name = "multitexture";
+                test_name = "animation";
                 min_val = 10;
                 max_val = 40000;
                 step = 200;

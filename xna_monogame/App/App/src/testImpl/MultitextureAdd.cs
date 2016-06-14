@@ -7,19 +7,10 @@ using App.src.model;
 
 namespace App.src.testImpl
 {
-    public class MultitextureAdd : IBunnyAdder
+    public class MultitextureAdd : IBunnyModifier
     {
-        public void AddBunnies(int count, BenchmarkTest bt)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Bunny bunny = new Bunny(bt.content);
-
-                bunny.teleport(bt.random, bt.maxX, bt.maxY);
-                bunny.changeTexture(bt.random.Next(), bt.content);
-                
-                bt.bunnies.Add(bunny);
-            }
+        public void ModifyBunny(Bunny bunny, BenchmarkTest bt){
+                bunny.changeTexture(bt.random.Next(), bt.content);           
         }
     }
 }

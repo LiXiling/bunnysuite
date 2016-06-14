@@ -6,19 +6,11 @@ using System.Text;
 
 namespace App.src.testImpl
 {
-    public class FixedAdder : IBunnyAdder
+    public class FixedAdder : IBunnyModifier
     {
-        public void AddBunnies(int count, BenchmarkTest bt){
-
-        
-        for (int i = 0; i < count; i++)
-            {
-                Bunny bunny = new Bunny(bt.content);
-
-                bunny.jump(bt.random, bt.gravity, bt.minX, bt.minY, bt.maxX, bt.maxY);
-                
-                bt.bunnies.Add(bunny);
-            }
+        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
+        {
+            bunny.jump(bt.random, bt.gravity, bt.minX, bt.minY, bt.maxX, bt.maxY);
         }
     }
 }
