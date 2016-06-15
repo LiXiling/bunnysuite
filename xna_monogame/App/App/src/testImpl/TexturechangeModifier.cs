@@ -7,7 +7,7 @@ using App.src.model;
 
 namespace App.src.testImpl
 {
-    public class MultitextureAdd : IBunnyModifier
+    public class TexturechangeModifier : IBunnyModifier
     {
         public void ModifyBunny(Bunny bunny, BenchmarkTest bt){
                 bunny.changeTexture(bt.random.Next(), bt.content);           

@@ -25,38 +25,36 @@ namespace App.src.model
             switch (testname)
             {
                 case "standard":
-                    bt.addModifier(new FixedAdder());
+                    bt.addSpawnModifier(new FixedPositionModifier());
                     break;
                 case "animation":
-                    AnimationTest at = new AnimationTest();
-                    bt.addModifier(at);
-                    bt.addRunner(at);
+                    bt.addSpawnModifier(new SpeedModifier());
+                    bt.addUpdateModifier(new AnimationModifier());
                     break;
                 case "texturechange":
-                    bt.addModifier(new RandomTest());
-                    bt.addRunner(new TexturechangeTest());
+                    bt.addSpawnModifier(new RandomPositionModifier());
+                    bt.addUpdateModifier(new TexturechangeModifier());
                     break;
                 case "rotation":
-                    bt.addModifier(new RandomTest());
-                    bt.addRunner(new RotationTest());
+                    bt.addSpawnModifier(new RandomPositionModifier());
+                    bt.addUpdateModifier(new RotationModifier());
                     break;
                 case "random":
-                    RandomTest rt = new RandomTest();
-                    bt.addModifier(rt);
-                    bt.addRunner(rt);
+                    RandomPositionModifier rt = new RandomPositionModifier();
+                    bt.addSpawnModifier(rt);
+                    bt.addUpdateModifier(rt);
                     break;
                 case "scaled":
-                    bt.addModifier(new RandomTest());
-                    bt.addRunner(new ScaledTest());
+                    bt.addSpawnModifier(new RandomPositionModifier());
+                    bt.addUpdateModifier(new ScaleModifier());
                     break;
                 case "multitexture":
-                    bt.addModifier(new RandomTest());
-                    bt.addModifier(new MultitextureAdd());
+                    bt.addSpawnModifier(new RandomPositionModifier());
+                    bt.addSpawnModifier(new TexturechangeModifier());
                     break;
                 default:
-                    at = new AnimationTest();
-                    bt.addModifier(at);
-                    bt.addRunner(at);
+                    bt.addSpawnModifier(new SpeedModifier());
+                    bt.addUpdateModifier(new AnimationModifier());
                     break;
             }
 

@@ -6,11 +6,11 @@ using System.Text;
 
 namespace App.src.testImpl
 {
-    public class FixedAdder : IBunnyModifier
+    public class ScaleModifier : IBunnyModifier
     {
         public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
         {
-            bunny.jump(bt.random, bt.gravity, bt.minX, bt.minY, bt.maxX, bt.maxY);
+            bunny.grow();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace App.src.model
 
         //testImpl Interfaces
         private List<IBunnyModifier> modifierList = new List<IBunnyModifier>();
-        private List<ITestRunnable> testRunnerList = new List<ITestRunnable>();
+        private List<IBunnyModifier> testProcedureList = new List<IBunnyModifier>();
 
         //Misc. Helper
         public Random random;
@@ -76,21 +76,27 @@ namespace App.src.model
         /// <returns>The current Amount of drawn Bunnies</returns>
         public int RunTest()
         {
+            //Every 10 frames make a new step
             if (frameCount == 10)
             {
                 AddBunnies(step);
                 frameCount = 0;
             }
             frameCount++;
-            if (testRunnerList.Count == 0)
+
+            //return if no additional TestProcedure is given
+            if (testProcedureList.Count == 0)
             {
                 return bunnies.Count;
             }
-            foreach (ITestRunnable testRunner in testRunnerList)
-            {
-                testRunner.RunTest(this);
-            }
 
+            foreach (Bunny bunny in bunnies)
+            {
+                foreach (IBunnyModifier testProcedure in testProcedureList)
+                {
+                    testProcedure.ModifyBunny(bunny, this);
+                }
+            }
             return bunnies.Count;
         }
 
@@ -125,21 +131,21 @@ namespace App.src.model
         }
 
         /// <summary>
-        /// Adds an IBunnyAdder Implementation
+        /// Adds an IBunnyAdder Implementation to the Object Spawn Modifiers
         /// </summary>
         /// <param name="adder"></param>
-        public void addModifier(IBunnyModifier modifier)
+        public void addSpawnModifier(IBunnyModifier modifier)
         {
             modifierList.Add(modifier);
         }
 
         /// <summary>
-        /// Adds an ITestRunnable Implementation
+        /// Adds an IBunnyModifier Implementation to the Procedure Steps
         /// </summary>
         /// <param name="runner"></param>
-        public void addRunner(ITestRunnable runner)
+        public void addUpdateModifier(IBunnyModifier runner)
         {
-            testRunnerList.Add(runner);
+            testProcedureList.Add(runner);
         }
     }
 }
