@@ -3,6 +3,8 @@ package com.github.lixiling.bunnysuite;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
+ * A bunny, aka the primary object to render.
+ * 
  * @author Victor Schuemmer
  */
 public class Bunny {
@@ -15,24 +17,36 @@ public class Bunny {
 		return texture;
 	}
 
+	/**
+	 * Sets a new texture for the bunny. May actually show a panda, this is not
+	 * checked.
+	 * 
+	 * @param texture
+	 */
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
 
 	private float x;
 
+	/**
+	 * @return the current x position
+	 */
 	public float getX() {
 		return x;
 	}
 
 	private float y;
 
+	/**
+	 * @return the current y position
+	 */
 	public float getY() {
 		return y;
 	}
 
 	/**
-	 * Instantly move the bunny to the given position
+	 * Instantly moves the bunny to the given position.
 	 * 
 	 * @param x
 	 * @param y
@@ -46,34 +60,61 @@ public class Bunny {
 
 	private float speedX;
 
+	/**
+	 * @param speedX
+	 *            the speed in x direction
+	 */
 	public void setSpeedX(float speedX) {
 		this.speedX = speedX;
 	}
 
 	private float speedY;
 
+	/**
+	 * @param speedY
+	 *            the speed in y direction
+	 */
 	public void setSpeedY(float speedY) {
 		this.speedY = speedY;
 	}
 
 	private float rotation;
 
+	/**
+	 * @return the current rotation of the bunny
+	 */
 	public float getRotation() {
 		return rotation;
 	}
 
+	/**
+	 * Rotates the bunny by given degrees, relative to its original rotation.
+	 */
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
 
+	/**
+	 * Rotates the bunny by given degrees, relative to its current rotation.
+	 */
+	public void rotate(float rotation) {
+		this.rotation += rotation;
+	}
+
 	private float scaleX;
 
+	/**
+	 * @return the scale factor in x direction
+	 */
 	public float getScaleX() {
 		return scaleX;
 	}
 
 	private float scaleY;
 
+	/**
+	 * @return the scale factor in y direction
+	 */
 	public float getScaleY() {
 		return scaleY;
 	}
@@ -131,7 +172,7 @@ public class Bunny {
 	}
 
 	/**
-	 * Creates a bunny with the given texture (that may actually show a panda,
+	 * Creates a bunny with the given texture (that may actually show a giraffe,
 	 * this is not checked).
 	 * 
 	 * @param texture

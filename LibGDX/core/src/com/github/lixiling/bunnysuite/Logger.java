@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.util.Vector;
 
 /**
- * Handles creation of and writing to logfiles.
+ * Handles creation of and writing to bunnymark logfiles.
  * 
  * @author Victor Schuemmer
  */
@@ -63,6 +63,12 @@ public class Logger {
 		}
 	}
 
+	/**
+	 * Determines the path of the jar this is executed from. When running from
+	 * eclipse this is the same directory where "com" is located.
+	 * 
+	 * @return
+	 */
 	private String getJarPath() {
 		String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 		path = path.substring(0, path.lastIndexOf("/"));

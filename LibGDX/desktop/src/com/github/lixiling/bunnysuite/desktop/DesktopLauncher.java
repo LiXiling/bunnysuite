@@ -3,56 +3,31 @@ package com.github.lixiling.bunnysuite.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.github.lixiling.bunnysuite.Bunnymark;
-import com.github.lixiling.bunnysuite.testStrategy.JumpTest;
-import com.github.lixiling.bunnysuite.testStrategy.MultiTextureTest;
-import com.github.lixiling.bunnysuite.testStrategy.RandomTest;
-import com.github.lixiling.bunnysuite.testStrategy.ScaledTest;
-import com.github.lixiling.bunnysuite.testStrategy.StandardTest;
-import com.github.lixiling.bunnysuite.testStrategy.Test;
-import com.github.lixiling.bunnysuite.testStrategy.TextureChangeTest;
+import com.github.lixiling.bunnysuite.TestFactory;
 
+/**
+ * The entry point to the application.
+ * @author Victor Schuemmer
+ */
 public class DesktopLauncher {
+	
+	private static final String USAGE = "Usage:\nApp.jar [testname]{,[testname]} [minValue] [maxValue] [stepSize]"; 
+	
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		Test.setScreenDimensions(config.width = 640, config.height = 480);
-
-		if (arg.length != 4) {
-			System.out.println("Wrong number of arguments. Using default values.");
-			new LwjglApplication(new Bunnymark(new JumpTest(), "animated", 0, 10000, 100), config);
-			return;
-		}
-
-		Test test;
-		switch (arg[0]) {
-		case "standard":
-			test = new StandardTest();
-			break;
-		case "scaled":
-			test = new ScaledTest();
-			break;
-		case "random":
-			test = new RandomTest();
-			break;
-		case "multitexture":
-			test = new MultiTextureTest();
-			break;
-		case "texturechange":
-			test = new TextureChangeTest();
-			break;
-		case "animated":
-			test = new JumpTest();
-			break;
-		default:
-			System.err.println("The requested test does not exist.");
-			System.exit(1);
-			return;
-		}
-		
+		Bunnymark.setScreenDimensions(config.width = 640, config.height = 480);
+	
 		try {
-			new LwjglApplication(new Bunnymark(test, arg[0], Integer.parseInt(arg[1]), Integer.parseInt(arg[2]),
+			if (Integer.parseInt(arg[3]) < 1) {
+				System.err.println("The Bunnymark will not terminate automatically with step size 0.");
+			}
+			new LwjglApplication(new Bunnymark(TestFactory.createTest(arg[0].split(",")), arg[0], Integer.parseInt(arg[1]), Integer.parseInt(arg[2]),
 				Integer.parseInt(arg[3])), config);
 		} catch (NumberFormatException e) {
-			System.err.println("Please provide minValue, maxValue and step as integer.");
+			System.err.println("Please provide minValue, maxValue and step as integer.\n" + USAGE);
+			System.exit(1);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.err.println("Wrong number of arguments.\n" + USAGE);
 			System.exit(1);
 		}
 	}
