@@ -167,14 +167,22 @@ public class Bunny {
 		this.y += this.speedY;
 		this.speedY -= gravity;
 
-		if (this.x > maxX || this.x < minX)
+		if (this.x < minX) {
 			this.speedX *= -1;
+			this.x = minX;
+		}
+		if (this.x > maxX) {
+			this.speedX *= -1;
+			this.x = maxX;
+		}
 		if (this.y < minY) {
 			this.speedY *= -0.8;
 			if (Math.random() > 0.5)
 				this.speedY += 3 + Math.random() * 4;
+			this.y = minY;
 		} else if (this.y > maxY) {
 			this.speedY = 0;
+			this.y = maxY;
 		}
 	}
 }
