@@ -1,0 +1,181 @@
+%======================================================
+% Technische Universitaet Darmstadt
+% Fachbereich Elektrotechnik und Informationstechnik
+% Fachbereich Informatik (Zweitmitglied)
+% Fachgebiet Multimedia Kommunikation (KOM)
+% Prof. Dr.-Ing. Ralf Steinmetz
+%======================================================
+% Template for Theses
+% VERSION 1.0 (October 2009)
+% Use pdfLaTeX (other possible, but not supported)
+% Contact at KOM: Andr\'e Miede (andre.miede@kom...)
+%======================================================
+% Official TUD-LaTeX-files have to be installed:
+% http://exp1.fkp.physik.tu-darmstadt.de/tuddesign/
+% Refer to the manuals and forum for details
+%======================================================
+\documentclass[longdoc,accentcolor=tud0a,11pt,paper=a4]{tudreport}
+%======================================================
+% colorback = Bereich unter Titel mit Hintergrundfarbe
+% colorbacktitle = Titel mit Hintergrundfarbe (Akzent)
+% KOM-Blau = accentcolor=tud1b		
+% Grau = accentcolor=tud0a 
+% blackrule fuer schwarze Leiste
+% nochapterpage = do not start chapters on new page
+% oneside = print only on one side of the page
+%======================================================
+
+%======================================================
+% General package loading and definitions
+%======================================================
+\usepackage{inputenc} 
+\usepackage{textcomp} 
+\usepackage{ngerman}
+\usepackage[american,ngerman]{babel}
+\usepackage{xspace}
+\usepackage[fleqn]{amsmath} % math environments and more by the AMS 
+\newcounter{dummy} % necessary for correct hyperlinks (to index, bib, etc.)
+\newcommand{\myfloatalign}{\centering} % how all the floats will be aligned
+
+%======================================================
+% KOM-modifications of the TUD-layout
+%======================================================
+% reduce font size of page footers and headers (fancyhdr)
+\renewcommand{\footerfont}{\fontfamily{\sfdefault}\fontseries{m}\fontshape{n}\footnotesize\selectfont}
+% remove space between items 
+\usepackage{enumitem}
+	\setenumerate{noitemsep}
+	\setitemize{noitemsep}
+	\setdescription{noitemsep}
+%\setlist{nolistsep}
+
+%======================================================
+% Package loading for example contents (content.tex)
+%======================================================
+\usepackage{tabularx} % better tables
+\setlength{\extrarowheight}{3pt} % increase table row height
+\usepackage{booktabs}
+\usepackage{caption}
+\captionsetup{format=hang,font=small}
+\usepackage[square,numbers]{natbib}
+\usepackage{subfig}
+\usepackage[stable,bottom]{footmisc}
+
+%======================================================
+% Important information: to be set here and only here
+%======================================================
+\newcommand{\komTitle}{BunnySuite - Ein Framework für 2D-Grafik-Performance-Tests\xspace}
+\newcommand{\komThesisType}{Ausarbeitung zum Serious Games Praktikum\xspace}
+\newcommand{\komID}{\xspace}
+\newcommand{\komName}{Maximilian Li, Victor Ferdinand Schümmer, Patrick Pauli\xspace}
+\newcommand{\komSubmissionDate}{13. September 2016\xspace}% use only this date format
+\newcommand{\komGutachter}{Gutachter: Dr.-Ing. Stefan Göbel\xspace}
+\newcommand{\komBetreuer}{Betreuer: Robert Konrad\xspace}
+\newcommand{\komExternerBetreuer}{\xspace}
+
+%======================================================
+% Setup for hyperref
+%======================================================
+\usepackage[pdftex,hyperfootnotes=true,pdfpagelabels]{hyperref}
+	\pdfcompresslevel=9
+	\pdfadjustspacing=1 
+\hypersetup{%
+    colorlinks=false, linktocpage=false, pdfstartpage=1, pdfstartview=FitV,%
+    breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
+    plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+    hypertexnames=true, pdfhighlight=/O, %nesting=true,%frenchlinks,%
+    %urlcolor=tud1b, linkcolor=tud1b, citecolor=tudtud1bccent,
+    pdftitle={\komTitle, \komThesisType, \komID},%
+    pdfauthor={\komName, KOM, TU Darmstadt},%
+    pdfsubject={},%
+    pdfkeywords={},%
+    pdfcreator={},%
+    pdfproducer={}%
+}
+
+%============================================
+% Setup of the title page (do not change)
+%============================================
+\title{\komTitle}
+\subtitle{\komThesisType}
+\subsubtitle{\komName \\ \komID}
+%\setinstitutionlogo[height]{kom_info}
+\institution{\raggedleft Fachbereich Elektrotechnik \\und Informationstechnik\\%
+	Fachbereich Informatik (Zweitmitglied)\\[\baselineskip]%
+	Fachgebiet Multimedia Kommunikation \\%(KOM)
+	Prof. Dr.-Ing. Ralf Steinmetz%
+}
+
+%============================================
+% Setup of the title backside (do not change)
+%============================================
+\lowertitleback{%
+	Technische Universität Darmstadt \\%
+	Fachbereich Elektrotechnik und Informationstechnik\\%
+	Fachbereich Informatik (Zweitmitglied)\\[\baselineskip]%
+	Fachgebiet Multimedia Kommunikation (KOM)\\%
+	Prof. Dr.-Ing. Ralf Steinmetz%
+	%Department of Electrical Engineering and Information Technology \\%
+	%Department of Computer Science (Adjunct Professor) \\[\baselineskip]%
+	%Multimedia Communications Lab (KOM) \\%
+	%Prof. Dr.-Ing. Ralf Steinmetz %
+}
+
+\uppertitleback{%
+	\komTitle \\%
+	\komThesisType \\%
+	\komID \\[\baselineskip]%
+	Eingereicht von \komName \\%
+	Tag der Einreichung: \komSubmissionDate \\[\baselineskip]%
+	\komGutachter \\%
+	\komBetreuer \\%
+	\komExternerBetreuer%
+}
+	
+%======================================================
+% MAIN DOCUMENT STARTS HERE
+%======================================================
+\begin{document}
+%======================================================
+	% The front matter
+	%======================================================
+	\pagenumbering{roman}
+	\frenchspacing
+	\raggedbottom
+	\selectlanguage{american} % american ngerman
+	\maketitle
+	
+	\chapter*{Ehrenw\"ortliche Erkl\"arung}
+	Hiermit versichere ich, die vorliegende \komThesisType ohne Hilfe Dritter und nur mit den angegebenen Quellen
+    und Hilfsmitteln angefertigt zu haben. Alle Stellen, die aus den Quellen entnommen wurden, sind als solche
+    kenntlich gemacht worden. Diese Arbeit hat in dieser oder \"ahnlicher Form noch keiner Pr\"ufungsbeh\"orde vorgelegen.
+    Die schriftliche Fassung stimmt mit der elektronischen Fassung \"uberein.
+    
+	
+	\vspace{1.5cm}
+	
+	\noindent Darmstadt, den \komSubmissionDate\hfill \komName
+	
+	\tableofcontents
+	%\listoffigures
+	%\listoftables
+	
+	%======================================================
+	% The main matter (insert your contents here)
+	%======================================================
+	\cleardoublepage
+	\pagenumbering{arabic}
+	\input{content}
+	
+	%======================================================
+	% The back matter
+	%======================================================
+	%\cleardoublepage
+	\refstepcounter{dummy}
+	\addcontentsline{toc}{chapter}{\bibname}
+	\bibliographystyle{plainnat} % <--- layout of the bib
+	\bibliography{bibliography} % file name of your bib
+
+\end{document}
+%======================================================
+%======================================================
