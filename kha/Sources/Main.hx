@@ -1,10 +1,11 @@
 package;
-
-import kha.Starter;
+import BunnyMark;
+import kha.System;
 
 class Main {
 	public static function main() {
-		var starter = new Starter();
-		starter.start(new Empty());
+		System.init("BunnyMark", 1024, 768, function () {
+			new BunnyMark();
+		});
 	}
 }
