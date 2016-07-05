@@ -128,9 +128,10 @@ BunnyMark.prototype = {
 		this.initialized = true;
 		this.backbuffer = kha_Image.createRenderTarget(1024,768);
 		this.bunnyTexture = kha_Assets.images.wabbit_alpha0;
-		this.bunny = new Bunny(512 - Std["int"](this.bunnyTexture.get_width() / 2),384 - Std["int"](this.bunnyTexture.get_height() / 2),this.bunnyTexture);
 	}
 	,update: function() {
+		if(!this.initialized) return;
+		this.bunny = new Bunny(512 - Std["int"](this.bunnyTexture.get_width() / 2),384 - Std["int"](this.bunnyTexture.get_height() / 2),this.bunnyTexture);
 	}
 	,render: function(framebuffer) {
 		if(!this.initialized) return;

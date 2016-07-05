@@ -39,13 +39,18 @@ class BunnyMark {
 		
 		bunnyTexture = Assets.images.wabbit_alpha0;
 		
+		
+	}
+
+	function update(): Void {
+		//Wait for AssetLoading
+		if (!initialized) {
+      		return;
+    	}
+					
 		bunny = new Bunny(Std.int(screenWidth / 2) - Std.int(bunnyTexture.width / 2), 
       						Std.int(screenHeight / 2) - Std.int(bunnyTexture.height / 2), 
       						bunnyTexture);
-	}
-
-	function update(): Void {			
-		
 	}
 
 	function render(framebuffer: Framebuffer): Void {
