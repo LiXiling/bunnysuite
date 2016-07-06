@@ -6,7 +6,7 @@ namespace App
 #if WINDOWS || XBOX
     static class Program
     {
-        private static String test_name;
+        private static String testnameList;
         private static int min_val;
         private static int max_val;
         private static int step;
@@ -18,7 +18,7 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                test_name = "animation";
+                testnameList = "animation";
                 min_val = 10;
                 max_val = 40000;
                 step = 200;
@@ -26,15 +26,15 @@ namespace App
             else
             {
                 // read the parameters
-                test_name = args[0];
+                testnameList = args[0];
                 min_val = Int32.Parse(args[1]);
                 max_val = Int32.Parse(args[2]);
                 step = Int32.Parse(args[3]);
             }
 
-            BenchmarkTest bt = bf.ConstructBenchmark(test_name, min_val, max_val, step);
+            BenchmarkTest bt = bf.ConstructBenchmark(testnameList, min_val, max_val, step);
 
-            using (BunnyMark game = new BunnyMark(bt, test_name, max_val))
+            using (BunnyMark game = new BunnyMark(bt, testnameList, max_val))
             {
                 game.Run();
             }
@@ -42,4 +42,3 @@ namespace App
     }
 #endif
 }
-
