@@ -14,7 +14,7 @@
 % http://exp1.fkp.physik.tu-darmstadt.de/tuddesign/
 % Refer to the manuals and forum for details
 %======================================================
-\documentclass[longdoc,accentcolor=tud0a,11pt,paper=a4]{tudreport}
+\documentclass[longdoc,accentcolor=tud0a,12pt,paper=a4,oneside]{tudreport}
 %======================================================
 % colorback = Bereich unter Titel mit Hintergrundfarbe
 % colorbacktitle = Titel mit Hintergrundfarbe (Akzent)
@@ -28,7 +28,7 @@
 %======================================================
 % General package loading and definitions
 %======================================================
-\usepackage{inputenc} 
+\usepackage[utf8]{inputenc} 
 \usepackage{textcomp} 
 \usepackage{ngerman}
 \usepackage[american,ngerman]{babel}
@@ -53,6 +53,7 @@
 % Package loading for example contents (content.tex)
 %======================================================
 \usepackage{tabularx} % better tables
+\usepackage{graphicx}
 \setlength{\extrarowheight}{3pt} % increase table row height
 \usepackage{booktabs}
 \usepackage{caption}
@@ -64,12 +65,12 @@
 %======================================================
 % Important information: to be set here and only here
 %======================================================
-\newcommand{\komTitle}{BunnySuite - Ein Framework für 2D-Grafik-Performance-Tests\xspace}
+\newcommand{\komTitle}{BunnySuite - Ein Framework fÃ¼r 2D-Grafik-Performance-Tests\xspace}
 \newcommand{\komThesisType}{Ausarbeitung zum Serious Games Praktikum\xspace}
 \newcommand{\komID}{\xspace}
-\newcommand{\komName}{Maximilian Li, Victor Ferdinand Schümmer, Patrick Pauli\xspace}
+\newcommand{\komName}{Maximilian Li, Victor Ferdinand SchÃ¼mmer, Patrick Pauli\xspace}
 \newcommand{\komSubmissionDate}{13. September 2016\xspace}% use only this date format
-\newcommand{\komGutachter}{Gutachter: Dr.-Ing. Stefan Göbel\xspace}
+\newcommand{\komGutachter}{Gutachter: Dr.-Ing. Stefan GÃ¶bel\xspace}
 \newcommand{\komBetreuer}{Betreuer: Robert Konrad\xspace}
 \newcommand{\komExternerBetreuer}{\xspace}
 
@@ -110,7 +111,7 @@
 % Setup of the title backside (do not change)
 %============================================
 \lowertitleback{%
-	Technische Universität Darmstadt \\%
+	Technische UniversitÃ¤t Darmstadt \\%
 	Fachbereich Elektrotechnik und Informationstechnik\\%
 	Fachbereich Informatik (Zweitmitglied)\\[\baselineskip]%
 	Fachgebiet Multimedia Kommunikation (KOM)\\%
