@@ -105,9 +105,8 @@ namespace App.src.model
         /// </summary>
         public void Draw()
         {
-            for (int i = 0; i < bunnies.Count; i++)
+            foreach (Bunny bunny in bunnies)
             {
-                Bunny bunny = bunnies[i];
                 spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White, (float)bunny.Rotation, new Vector2(bunny.originX, bunny.originY), (float)bunny.Scale, SpriteEffects.None, 0f);
             }
 

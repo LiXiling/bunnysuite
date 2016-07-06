@@ -21,9 +21,9 @@ namespace App.src.model
         public BenchmarkTest ConstructBenchmark(String testnameList, int minVal, int maxVal, int step)
         {
             BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step);
-            String[] testnames = testnameList.split(",");
+            String[] testnames = testnameList.Split(',');
 
-            foreach(String testname : testnames){
+            foreach(String testname in testnames){
 
                 switch (testname)
                 {
