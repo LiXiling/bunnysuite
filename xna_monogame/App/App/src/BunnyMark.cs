@@ -28,9 +28,9 @@ namespace App
         private Logger logger;
         private DebugText debugText;
 
-        public BunnyMark(BenchmarkTest bt, String testName, int maxVal)
+        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal)
         {
-            test_name = testName;
+            test_name = testnameList;
             max_val = maxVal;
 
             graphics = new GraphicsDeviceManager(this);
