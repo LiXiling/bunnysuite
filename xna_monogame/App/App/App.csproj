@@ -109,6 +109,7 @@
     <Compile Include="src\testImpl\FixedPositionModifier.cs" />
     <Compile Include="src\testImpl\IBunnyModifier.cs" />
     <Compile Include="src\testImpl\StandardTextureLoader.cs" />
+    <Compile Include="src\testImpl\StarTextureLoader.cs" />
     <Compile Include="src\testImpl\TexturechangeModifier.cs" />
     <Compile Include="src\testImpl\RandomPositionModifier.cs" />
     <Compile Include="src\testImpl\RotationModifier.cs" />

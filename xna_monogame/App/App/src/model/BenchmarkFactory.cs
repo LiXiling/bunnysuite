@@ -63,6 +63,11 @@ namespace App.src.model
                         bt.addTextureLoader(new MultiTextureLoader());
                         loaderAdded = true;
                         break;
+                    case "star":
+                        bt.addTextureLoader(new StarTextureLoader());
+                        loaderAdded = true;
+                        bt.addSpawnModifier(new FixedPositionModifier());
+                        break;
                     default:
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());

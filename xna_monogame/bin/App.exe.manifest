@@ -68,14 +68,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="App.exe" size="18432">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="App.exe" size="18944">
       <assemblyIdentity name="App" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Gk1uR5TwRdiOYHW7r5llL9+gmyk=</dsig:DigestValue>
+        <dsig:DigestValue>bVZ2wMrwVfEmeKbPk3m6m4h/P28=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -122,6 +122,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>y9TaKI9U1JUtlxWbdKyxxm2rCQw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Data\wabbit_star.xnb" size="460">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>YYlZ7vFr8/8YuSWlO9H54YwktRw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Game.ico" size="4286">

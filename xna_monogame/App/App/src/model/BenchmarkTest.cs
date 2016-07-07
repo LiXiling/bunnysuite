@@ -55,7 +55,7 @@ namespace App.src.model
         /// <param name="maxY">max Value in Y Dimension</param>
         public void Initialize(float maxX, float maxY)
         {
-            this.minX = 0;
+            this.minX = 50;
             this.minY = 100;
             this.maxX = maxX;
             this.maxY = maxY;
