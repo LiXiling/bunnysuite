@@ -13,10 +13,12 @@ namespace App.src.model
     {
         //Bunnies
         public List<Bunny> bunnies;
+        public List<Texture2D> bunnyTextures;
 
         //testImpl Interfaces
         private List<IBunnyModifier> modifierList = new List<IBunnyModifier>();
         private List<IBunnyModifier> testProcedureList = new List<IBunnyModifier>();
+        private List<ITextureLoader> texLoaderList = new List<ITextureLoader>();
 
         //Misc. Helper
         public Random random;
@@ -43,6 +45,7 @@ namespace App.src.model
             this.step = step;
 
             bunnies = new List<Bunny>();
+            bunnyTextures = new List<Texture2D>();
             random = new Random();
         }
         /// <summary>
@@ -67,7 +70,22 @@ namespace App.src.model
             this.content = content;
             this.spriteBatch = spriteBatch;
 
+            LoadTextures();
+
             AddBunnies(minVal);
+        }
+
+        private void LoadTextures(){
+            foreach (ITextureLoader loader in texLoaderList)
+            {
+                loader.LoadTexture(this);
+            }
+
+        }
+
+        public Texture2D getTexture()
+        {
+            return bunnyTextures.ElementAt(random.Next(bunnyTextures.Count));
         }
 
         /// <summary>
@@ -120,13 +138,18 @@ namespace App.src.model
         {
             for (int i = 0; i < count; i++)
             {
-                Bunny bunny = new Bunny(content);
+                Bunny bunny = new Bunny(this.getTexture());
                 foreach (IBunnyModifier modifier in modifierList)
                 {
                     modifier.ModifyBunny(bunny, this);
                 }
                 bunnies.Add(bunny);
             }
+        }
+
+        public void addTextureLoader(ITextureLoader loader)
+        {
+            texLoaderList.Add(loader);
         }
 
         /// <summary>

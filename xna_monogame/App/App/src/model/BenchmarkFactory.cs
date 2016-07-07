@@ -23,12 +23,16 @@ namespace App.src.model
             BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step);
             String[] testnames = testnameList.Split(',');
 
+            Boolean loaderAdded = false;
+
             foreach(String testname in testnames){
 
                 switch (testname)
                 {
                     case "standard":
                         bt.addSpawnModifier(new FixedPositionModifier());
+                        bt.addTextureLoader(new StandardTextureLoader());
+                        loaderAdded = true;
                         break;
                     case "animation":
                         bt.addSpawnModifier(new SpeedModifier());
@@ -37,6 +41,8 @@ namespace App.src.model
                     case "texturechange":
                         bt.addSpawnModifier(new RandomPositionModifier());
                         bt.addUpdateModifier(new TexturechangeModifier());
+                        bt.addTextureLoader(new MultiTextureLoader());
+                        loaderAdded = true;
                         break;
                     case "rotation":
                         bt.addSpawnModifier(new RandomPositionModifier());
@@ -54,12 +60,21 @@ namespace App.src.model
                     case "multitexture":
                         bt.addSpawnModifier(new RandomPositionModifier());
                         bt.addSpawnModifier(new TexturechangeModifier());
+                        bt.addTextureLoader(new MultiTextureLoader());
+                        loaderAdded = true;
                         break;
                     default:
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
+                        bt.addTextureLoader(new StandardTextureLoader());
+                        loaderAdded = true;
                         break;
                     }
+            }
+
+            if (!loaderAdded)
+            {
+                bt.addTextureLoader(new StandardTextureLoader());
             }
 
             return bt;

@@ -103,21 +103,16 @@
     <Compile Include="src\Program.cs" />
     <Compile Include="src\BunnyMark.cs" />
     <Compile Include="src\testImpl\AnimationModifier.cs" />
+    <Compile Include="src\testImpl\ITextureLoader.cs" />
+    <Compile Include="src\testImpl\MultiTextureLoader.cs" />
     <Compile Include="src\testImpl\SpeedModifier.cs" />
     <Compile Include="src\testImpl\FixedPositionModifier.cs" />
     <Compile Include="src\testImpl\IBunnyModifier.cs" />
+    <Compile Include="src\testImpl\StandardTextureLoader.cs" />
     <Compile Include="src\testImpl\TexturechangeModifier.cs" />
     <Compile Include="src\testImpl\RandomPositionModifier.cs" />
     <Compile Include="src\testImpl\RotationModifier.cs" />
     <Compile Include="src\testImpl\ScaleModifier.cs" />
-    <Compile Include="src\tests_depr\AnimationTest.cs" />
-    <Compile Include="src\tests_depr\ATest.cs" />
-    <Compile Include="src\tests_depr\MultiTextureTest.cs" />
-    <Compile Include="src\tests_depr\RandomTest.cs" />
-    <Compile Include="src\tests_depr\RotationTest.cs" />
-    <Compile Include="src\tests_depr\ScaledTest.cs" />
-    <Compile Include="src\tests_depr\StandardTest.cs" />
-    <Compile Include="src\tests_depr\TextureChangeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

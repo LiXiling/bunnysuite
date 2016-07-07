@@ -6,7 +6,7 @@ namespace App
 {
     public class Bunny
     {
-        private const int numberOfTextures = 3;
+        //private const int numberOfTextures = 3;
         private static double fullCircle = Math.PI * 2;
         private double growth = 0.1;
 
@@ -24,27 +24,16 @@ namespace App
 
 
         public Texture2D texture;
-        private Texture2D[] textureArray;
+        //private Texture2D[] textureArray;
 
-        public Bunny(ContentManager content)
+        public Bunny(Texture2D texture)
         {
-            textureArray = new Texture2D[numberOfTextures];
-            loadArray(content);
+            changeTexture(texture);
         }
 
-        private void loadArray(ContentManager content)
+        public void changeTexture(Texture2D texture)
         {
-            for (int i = 0; i < textureArray.Length; i++)
-            {
-                textureArray[i] = content.Load<Texture2D>(@"wabbit_alpha" + i);
-            }
-            texture = textureArray[0];
-        }
-
-        public void changeTexture(int j, ContentManager content)
-        {
-            int i = j % numberOfTextures;
-            texture = textureArray[i];
+            this.texture = texture;
             originX = texture.Width / 2;
             originY = texture.Height / 2;
         }
@@ -55,7 +44,8 @@ namespace App
             this.X += this.SpeedX;
             this.Y += this.SpeedY;
             this.SpeedY += gravity;
-            //this.SpeedX += (float) random.NextDouble();
+            //?
+            this.SpeedX += (float) random.NextDouble();
 
             if (this.X > maxX)
             {
@@ -70,11 +60,11 @@ namespace App
 
             if (this.Y > maxY)
             {
-                this.SpeedY *= -0.9f;
+                this.SpeedY *= -0.8f;
                 this.Y = maxY;
                 if ((float)random.NextDouble() > 0.5)
                 {
-                    this.SpeedY -= (float)random.NextDouble();
+                    this.SpeedY -= 3f + (float) random.NextDouble() * 4f;
                 }
             }
             else if (this.Y < minY)

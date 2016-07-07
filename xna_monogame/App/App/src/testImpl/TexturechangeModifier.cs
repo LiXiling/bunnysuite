@@ -10,7 +10,7 @@ namespace App.src.testImpl
     public class TexturechangeModifier : IBunnyModifier
     {
         public void ModifyBunny(Bunny bunny, BenchmarkTest bt){
-                bunny.changeTexture(bt.random.Next(), bt.content);           
+                bunny.changeTexture(bt.getTexture());           
         }
     }
 }
