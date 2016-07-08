@@ -75,7 +75,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>bVZ2wMrwVfEmeKbPk3m6m4h/P28=</dsig:DigestValue>
+        <dsig:DigestValue>f0gcZWRHqlp57AK7030DQMeaua0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -122,6 +122,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>y9TaKI9U1JUtlxWbdKyxxm2rCQw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Data\wabbit_ghost.xnb" size="374">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>4MtYA+1Pp16V76TaExcyixkhRJc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Data\wabbit_star.xnb" size="460">
