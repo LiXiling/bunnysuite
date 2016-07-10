@@ -75,7 +75,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>f0gcZWRHqlp57AK7030DQMeaua0=</dsig:DigestValue>
+        <dsig:DigestValue>3Ok9Z9rERpb/yL6vG/Nn5U3Qcxc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -124,22 +124,31 @@
       <dsig:DigestValue>y9TaKI9U1JUtlxWbdKyxxm2rCQw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_ghost.xnb" size="374">
+  <file name="Data\wabbit_ghost.xnb" size="432">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>4MtYA+1Pp16V76TaExcyixkhRJc=</dsig:DigestValue>
+      <dsig:DigestValue>pYyLF/GXEjLo5aCrtTBJBBxTXrk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_star.xnb" size="460">
+  <file name="Data\wabbit_star.xnb" size="494">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>YYlZ7vFr8/8YuSWlO9H54YwktRw=</dsig:DigestValue>
+      <dsig:DigestValue>i6/baj7Tv9mcKWVFQqXg6jYDhkk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Data\wabbit_y.xnb" size="506">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>U/CYoZ7E8EXpaC5oeLa13FoKn88=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Game.ico" size="4286">
