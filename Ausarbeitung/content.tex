@@ -64,5 +64,19 @@ Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
 \section{Beschreibung der Tests}
 \label{sec:tests}
 
+\begin{center}
+    \begin{tabular}{ | l | p{5cm} |}
+    \hline
+    Testname & Beschreibung \\ \hline
+    standard & Bunnies werden in die linke obere Ecke gezeichnet.\\ \hline
+    random & Bunnies werden in jedem Frame an eine neue zufällige Stelle gezeichnet.\\ \hline
+    scaled & Bunnies werden an zufällige feste Position gezeichnet. Mit jedem Frame wird die Skalierung um ein "Wachstum" verändert \(initial 0.1\). Immer wenn die Skalierung >= 5 oder <= 0.2 ist, wird das Wachstum mit -1 multipliziert. \\ \hline
+    multitexture & Bunnies werden an zufällige feste Position gezeichnet. Jeder Bunny hat eine feste Textur, die zufällig aus drei Texturen ausgewählt wird.\\ \hline
+    texturechange & Bunnies werden an zufällige feste Position gezeichnet. Mit jedem Frame bekommt jeder Bunny eine zufällig aus drei Texturen ausgewählte neue Textur. \\ \hline
+    animation & Bunnies werden in die linke obere Ecke gezeichnet und mit zufälligen Geschwindigkeiten in x- und y-Richtung initialisiert. Mit jedem Frame wird die Position des Bunnies um die Geschwindigkeit verschoben. Zusätzlich wird zur y-Geschwindigkeit mit jedem Frame ein Gravitationswert in Richtung (0,-1) addiert. Verlässt der Bunny dadurch den Bildbereich nach links oder rechts, wird die x-Geschwindigkeit mit -1 multipliziert. Verlässt er den Bildbereich nach unten, wird die y-Geschwindigkeit mit -0.8 multipliziert und zusätzlich mit 50-prozentiger Wahrscheinlichkeit ein zufälliger Wert zwischen 3 und 7 addiert. Verlässt er den Bildbereich nach oben, wird die y-Geschwindigkeit auf 0 gesetzt. Dadurch entsteht der Eindruck einer Sprungbewegung.\\ \hline
+    \\ \hline
+    \end{tabular}
+\end{center}
+
 \chapter{Zusammenfassung und Ausblick}
 
