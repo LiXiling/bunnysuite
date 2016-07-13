@@ -24,6 +24,19 @@ Der Benchmark soll vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchm
 
 \chapter{Konzept und Design}
 
+\section{Identifizierte Bottlenecks}
+Da jede 2D-Grafik-Bibliothek ihre eigenen Stärken und Schwächen aufweist und für unterschiedliche Zwecke optimiert ist, ist es wichtig, differenzierte Tests durchzuführen, um gezielt mögliche Schwachstellen zu identifizieren, ohne dabei die Stärken zu ignorieren. Zu diesem Zweck wurden verschiedene "Bottlenecks" identifiziert, also häufige Schwachstellen, für die gezielt Tests entwickelt wurden. Diese sind unter anderem:\\
+\begin{itemize} 
+\item Animieren der Objekte
+\item Objekte mit veränderlichen Texturen
+\item Vielzahl an gleichzeitig dargestellten Objekten mit unterschiedlichen Texturen
+\item Skalierung der Objekte
+\item Rotation der Objekte
+\item Objekte mit (halb-)transparenten Texturen
+\end{itemize}
+
+\chapter{Umsetzung und Tests}
+
 \section{Ablauf der Tests}
 Der Ablauf eines Tests im \textit{BunnySuite}-Frameworks ist in Abbildung \ref{dia:architecture} schematisch dargestellt. Das Framework besteht im Wesentlichen aus zwei Teilen: 
 \begin{enumerate}
@@ -45,20 +58,7 @@ Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
 \item[step] Schrittweite, um die X nach jeder Messung erhöht wird
 \end{description}
 
-
-\section{Identifizierte Bottlenecks}
-Da jede 2D-Grafik-Bibliothek ihre eigenen Stärken und Schwächen aufweist und für unterschiedliche Zwecke optimiert ist, ist es wichtig, differenzierte Tests durchzuführen, um gezielt mögliche Schwachstellen zu identifizieren, ohne dabei die Stärken zu ignorieren. Zu diesem Zweck wurden verschiedene "Bottlenecks" identifiziert, also häufige Schwachstellen, für die gezielt Tests entwickelt wurden. Diese sind unter anderem:\\
-\begin{itemize} 
-\item Animieren der Objekte
-\item Objekte mit veränderlichen Texturen
-\item Vielzahl an gleichzeitig dargestellten Objekten mit unterschiedlichen Texturen
-\item Skalierung der Objekte
-\item Rotation der Objekte
-\item Objekte mit (halb-)transparenten Texturen
-\end{itemize}
-
-\chapter{Umsetzung und Tests}
-\section{Tests}
+\section{Beschreibung der Tests}
 \label{sec:tests}
 
 \chapter{Zusammenfassung und Ausblick}
