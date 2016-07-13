@@ -32,13 +32,13 @@ Supported Tests at the moment (not all frameworks support all tests yet):
 * scaled
 * multitexture
 * texturechange
-* animated
+* animation
 * rotation
 * (alpha, coming soon)
 
 Some of the frameworks (LibGDX, xna, ..) already allow for combined tests:
 ```python
-run_test(frameworks, "scaled,animated,texturechange", 1000, 20000, 1000)
+run_test(frameworks, "scaled,animation,texturechange", 1000, 20000, 1000)
 ```
 
 The result of each test can be found at `<framework>\bin\log\<testname>.log`
