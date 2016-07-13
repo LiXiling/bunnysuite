@@ -29,6 +29,7 @@ namespace App
 
         public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal)
         {
+            this.Window.Title = "BunnySuite - XNA";
             test_name = testnameList;
             max_val = maxVal;
 

@@ -68,7 +68,7 @@ namespace App.src.model
                         loaderAdded = true;
                         bt.addSpawnModifier(new FixedPositionModifier());
                         break;
-                    case "ghost":
+                    case "alpha":
                         bt.addTextureLoader(new GhostTextureLoader());
                         loaderAdded = true;
                         bt.addSpawnModifier(new FixedPositionModifier());
