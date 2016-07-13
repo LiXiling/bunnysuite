@@ -13,6 +13,10 @@ Das vollautomatisierte Test-Framework soll Entscheidern der Spieleentwicklung di
 
 \chapter{Grundlagen}
 \section{2D-Frameworks}
+2D-Frameworks sind eine Spezialisierung von Game-Frameworks. Diese sollen den Entwickler beim Implementieren der Game Loop, bestehend aus den Phasen \emph{Update} und \emph{Draw}, unterstützen. Hierbei stellt das Framework ofts bereits eigene, und optimierte Klassen für Texturen, Audio-Dateien u.a. bereit.\\
+
+Der wahrscheinlich größte Unterschied zu 3D-Frameworks besteht in der Komplexität der Grafikberechnung. So muss das 2D-Framework meistens keine Informationen über Oberflächen der Objekte, z.B. Orientierung über NormalMaps oder Materialeigenschaften für das \emph{Physically Based Rendering (PBR)}, außer der konkreten Farbe kennen.
+
 \section{Benchmarking}
 Der Benchmark soll vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen:\\
 \begin{description} 
