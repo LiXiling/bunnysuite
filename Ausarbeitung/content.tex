@@ -23,6 +23,29 @@ Der Benchmark soll vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchm
 \end{description}
 
 \chapter{Konzept und Design}
+
+\section{Ablauf der Tests}
+Der Ablauf eines Tests im \textit{BunnySuite}-Frameworks ist in Abbildung \ref{dia:architecture} schematisch dargestellt. Das Framework besteht im Wesentlichen aus zwei Teilen: 
+\begin{enumerate}
+\item Das \textbf{Manager-Skript} ist dafür zuständig, den spezifizierten Test für alle Frameworks nacheinander zu starten, anschließend die Logs zu analysieren und die Ergebnisse in einem Diagramm zu visualisieren.
+\item Es gibt eine \textbf{ausführbare EXE-Datei} für jedes Framework. Diese Datei wird vom Manager-Skript gestartet und bekommt die Parameter für die Messung als Argumente über die Command-Line übergeben. Das Programm führt die spezifizierten Tests durch und loggt die Renderzeit pro Frame bei X Objekten.
+\end{enumerate}
+\begin{figure}[h]
+\caption{Ablauf eines Tests}
+\centering
+\includegraphics[width=0.8\textwidth]{Architecture}
+\label{dia:architecture}
+\end{figure}
+~\\
+Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
+\begin{description}
+\item[test\_name] Der Name eines Tests. Die Tests werden in \ref{sec:tests} aufgelistet.
+\item[min\_val] Startwert für die Anzahl X der zu zeichnenden Objekte
+\item[max\_val] Endwert für X
+\item[step] Schrittweite, um die X nach jeder Messung erhöht wird
+\end{description}
+
+
 \section{Identifizierte Bottlenecks}
 Da jede 2D-Grafik-Bibliothek ihre eigenen Stärken und Schwächen aufweist und für unterschiedliche Zwecke optimiert ist, ist es wichtig, differenzierte Tests durchzuführen, um gezielt mögliche Schwachstellen zu identifizieren, ohne dabei die Stärken zu ignorieren. Zu diesem Zweck wurden verschiedene "Bottlenecks" identifiziert, also häufige Schwachstellen, für die gezielt Tests entwickelt wurden. Diese sind unter anderem:\\
 \begin{itemize} 
