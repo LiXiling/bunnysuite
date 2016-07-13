@@ -13,11 +13,30 @@ Das vollautomatisierte Test-Framework soll Entscheidern der Spieleentwicklung di
 
 \chapter{Grundlagen}
 \section{2D-Frameworks}
-\section{Identifizierte Bottlenecks}
+\section{Benchmarking}
+Der Benchmark soll vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Anzahl Bunnies als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien gen\"ugen:\\
+\begin{itemize} 
+\item \strong{Validit\"at}: Dass sich die Kennzahl mit empirischen Messergebnissen deckt ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen \"ubliche Gr\"o\ss{}e {\em Renderzeit in Sekunden} gew\"ahlt, im Gegensatz zu ihrer Inversen, {\em Frames per Second}, oder einem arbitr\"aren Punktesystem. 
+\item \strong{Objektivit\"at}: ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}).
+\item \strong{Reliabilit\"at}: Als Ma\ss{}nahme f\"ur hohe Reliabilit\"at werden alle Messungen jeweils zehn mal durchgef\"uhrt und anschlie\ss{}end der Durchschnitt gebildet, um Einfl\"usse von Hintergrundprozessen zu minimieren. (siehe ..) 
+% Falls es noch eine ausführliche Testreihe zur Reliabilität geben sollte, muss das hier noch eingefügt werden.
+\end{itemize}
 
 \chapter{Konzept und Design}
+\section{Identifizierte Bottlenecks}
+Da jede 2D-Grafik-Bibliothek ihre eigenen St\"arken und Schw\"achen aufweist und für unterschiedliche Zwecke optimiert ist, ist es wichtig, differenzierte Tests durchzuf\"uhren, um gezielt m\"ogliche Schwachstellen zu identifizieren, ohne dabei die St\"arken zu ignorieren. Zu diesem Zweck wurden verschiedene "Bottlenecks" identifiziert, also h\"aufige Schwachstellen, für die gezielt Tests entwickelt wurden. Diese sind unter anderem:\\
+\begin{itemize} 
+\item Animieren der Objekte
+\item Objekte mit ver\"anderlichen Texturen
+\item Vielzahl an gleichzeitig dargestellten Objekten mit unterschiedlichen Texturen
+\item Skalierung der Objekte
+\item Rotation der Objekte
+\item Objekte mit (halb-)transparenten Texturen
+\end{itemize}
 
 \chapter{Umsetzung und Tests}
+\section{Tests}
+\label{sec:tests}
 
 \chapter{Zusammenfassung und Ausblick}
 
