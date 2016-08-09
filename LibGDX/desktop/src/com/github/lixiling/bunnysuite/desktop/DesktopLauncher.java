@@ -3,6 +3,7 @@ package com.github.lixiling.bunnysuite.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.github.lixiling.bunnysuite.Bunnymark;
+import com.github.lixiling.bunnysuite.BunnymarkUtils;
 import com.github.lixiling.bunnysuite.TestFactory;
 
 /**
@@ -14,8 +15,17 @@ public class DesktopLauncher {
 	private static final String USAGE = "Usage:\nApp.jar [testname]{,[testname]} [minValue] [maxValue] [stepSize]"; 
 	
 	public static void main(String[] arg) {
+		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		Bunnymark.setScreenDimensions(config.width = 640, config.height = 480);
+		int width, height;
+		try {
+			width = Integer.parseInt(arg[4]);
+			height = Integer.parseInt(arg[5]);
+		} catch (Exception e) {
+			width = 800;
+			height = 600;
+		}
+		BunnymarkUtils.setScreenDimensions(config.width = width, config.height = height);
 	
 		try {
 			if (Integer.parseInt(arg[3]) < 1) {

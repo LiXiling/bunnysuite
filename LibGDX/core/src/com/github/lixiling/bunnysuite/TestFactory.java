@@ -1,7 +1,9 @@
 package com.github.lixiling.bunnysuite;
 
+import com.github.lixiling.bunnysuite.test.AlphaTextureDecorator;
 import com.github.lixiling.bunnysuite.test.BaseTest;
 import com.github.lixiling.bunnysuite.test.BunnyTest;
+import com.github.lixiling.bunnysuite.test.HdTextureDecorator;
 import com.github.lixiling.bunnysuite.test.JumpDecorator;
 import com.github.lixiling.bunnysuite.test.MultiTextureDecorator;
 import com.github.lixiling.bunnysuite.test.RandomDecorator;
@@ -14,6 +16,10 @@ import com.github.lixiling.bunnysuite.test.TextureChangeDecorator;
  * @author Victor Schuemmer
  */
 public class TestFactory {
+	
+	private TestFactory() {
+	}
+	
 	/**
 	 * Creates a {@link BunnyTest} composed of all given tests.
 	 * @param tests string array containing the test identifiers
@@ -43,6 +49,12 @@ public class TestFactory {
 				break;
 			case "rotated":
 				test = new RotationDecorator(test);
+				break;
+			case "alpha":
+				test = new AlphaTextureDecorator(test);
+				break;
+			case "hd":
+				test = new HdTextureDecorator(test);
 				break;
 			default:
 				// TODO If needed in the future, this may be replaced by an appropriate exception.

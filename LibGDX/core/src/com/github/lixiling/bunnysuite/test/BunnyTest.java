@@ -23,4 +23,6 @@ public interface BunnyTest {
 	 * is created.
 	 */
 	public abstract void setInitialValues(Bunny bunny);
+	
+	public abstract void initialize();
 }
