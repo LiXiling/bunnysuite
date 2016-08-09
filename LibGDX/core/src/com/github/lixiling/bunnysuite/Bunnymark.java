@@ -1,7 +1,6 @@
 package com.github.lixiling.bunnysuite;
 
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Vector;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -19,122 +18,7 @@ import com.github.lixiling.bunnysuite.test.BunnyTest;
  */
 public class Bunnymark extends ApplicationAdapter {
 
-	private static Texture[] bunnyTextures;
-
-	/**
-	 * Sets the textures the tests pull from. Should be more than 1, otherwise
-	 * some tests might get boring.
-	 * 
-	 * @param bunnyTextures
-	 */
-	public static void setBunnyTextures(Texture[] bunnyTextures) {
-		Bunnymark.bunnyTextures = bunnyTextures;
-	}
-
-	/**
-	 * @param i
-	 * @return A bunny texture. For different values of i the same texture may
-	 *         be returned. Using the same i twice will always result in the
-	 *         same texture.
-	 */
-	public static Texture getBunnyTexture(int i) {
-		if (i < 0)
-			i *= -1;
-		return bunnyTextures[i % bunnyTextures.length];
-	}
-
-	/**
-	 * Convenience method to get a random bunny texture.
-	 * 
-	 * @return a random bunny texture
-	 */
-	public static Texture getRandomBunnyTexture() {
-		return bunnyTextures[random.nextInt(bunnyTextures.length)];
-	}
-
-	private static int screenWidth = 640;
-	private static int screenHeight = 480;
-
-	/**
-	 * Set the screen dimension the bunnymark assumes.
-	 * 
-	 * @param screenWidth
-	 * @param screenHeight
-	 */
-	public static void setScreenDimensions(int screenWidth, int screenHeight) {
-		Bunnymark.screenWidth = screenWidth;
-		Bunnymark.screenHeight = screenHeight;
-	}
-
-	/**
-	 * @return the screen width the bunnymark assumes, which may not be the
-	 *         actual window width.
-	 */
-	public static int getScreenWidth() {
-		return screenWidth;
-	}
-
-	/**
-	 * @return the screen height the bunnymark assumes, which may not be the
-	 *         actual window height.
-	 */
-	public static int getScreenHeight() {
-		return screenHeight;
-	}
-
-	private static Random random = new Random();
-
-	/**
-	 * Convenience method to get a random integer without creating a new Random
-	 * object.
-	 * 
-	 * @param max
-	 *            the random integer is in the interval [0,max)
-	 * @return a random integer
-	 */
-	public static int nextRandomInt(int max) {
-		return random.nextInt(max);
-	}
-
-	/**
-	 * Convenience method to get a random float without creating a new Random
-	 * object.
-	 * 
-	 * @return a random float
-	 */
-	public static float nextRandomFloat() {
-		return random.nextFloat();
-	}
-
-	/**
-	 * @return a random float between 0 and the screen width.
-	 */
-	public static float getRandomX() {
-		return random.nextFloat() * screenWidth;
-	}
-
-	/**
-	 * @return a random float between 0 and the screen height.
-	 */
-	public static float getRandomY() {
-		return random.nextFloat() * screenHeight;
-	}
-
 	private Vector<Bunny> bunnies;
-
-	/**
-	 * @return a vector containing all current bunnies.
-	 */
-	public Vector<Bunny> getBunnies() {
-		return bunnies;
-	}
-
-	/**
-	 * @return the current number of bunnies.
-	 */
-	public int numberOfBunnies() {
-		return bunnies.size();
-	}
 
 	private BunnyTest test;
 	private Logger logger;
@@ -163,7 +47,7 @@ public class Bunnymark extends ApplicationAdapter {
 	 */
 	public Bunnymark(BunnyTest test, String testName, int minBunnies, int maxBunnies, int step) {
 		this.test = test;
-		this.logger = new Logger(testName);
+		if (step > 0) this.logger = new Logger(testName);
 		// this.logger = new Logger(Long.toString(System.currentTimeMillis()));
 		// logger.addLine(test.getTestDescription());
 		// logger.addLine("");
@@ -185,14 +69,14 @@ public class Bunnymark extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		bunnyTextures = new Texture[] { new Texture("wabbit_alpha0.png"), new Texture("wabbit_alpha1.png"),
-				new Texture("wabbit_alpha2.png") };
+		test.initialize();
 		addBunnies(minBunnies);
+		
 	}
 
 	@Override
 	public void dispose() {
-		logger.write();
+		if (logger != null) logger.write();
 	}
 
 	@Override
@@ -200,7 +84,7 @@ public class Bunnymark extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.21f, 0.21f, 0.21f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		if (numberOfBunnies() > maxBunnies)
+		if (bunnies.size() > maxBunnies)
 			Gdx.app.exit();
 
 		if (renderedFramesCount >= framesPerStep) {
@@ -210,11 +94,10 @@ public class Bunnymark extends ApplicationAdapter {
 			// frame is logged alongside the number of rendered bunnies.
 			float avgRenderTime = 0.0f;
 			for (float t : renderTimes)
-				avgRenderTime += t;
-
+				avgRenderTime += t;		
 			avgRenderTime /= framesPerStep;
 
-			logger.addLog(numberOfBunnies(), avgRenderTime);
+			if (logger != null) logger.addLog(bunnies.size(), avgRenderTime);
 
 			// add some more bunnies.
 			addBunnies(step);
@@ -230,13 +113,13 @@ public class Bunnymark extends ApplicationAdapter {
 		// Save the render time for the current frame.
 		renderTimes[renderedFramesCount++] = Gdx.graphics.getDeltaTime();
 
-		font.draw(batch, "FPS=" + Gdx.graphics.getFramesPerSecond() + "               COUNT=" + numberOfBunnies(), 10,
+		font.draw(batch, "FPS=" + Gdx.graphics.getFramesPerSecond() + "               COUNT=" + bunnies.size(), 10,
 				20);
 		batch.end();
 	}
 
 	private void updateBunnies() {
-		Iterator<Bunny> it = getBunnies().iterator();
+		Iterator<Bunny> it = bunnies.iterator();
 		while (it.hasNext()) {
 			Bunny bunny = it.next();
 			test.update(bunny);
@@ -245,9 +128,9 @@ public class Bunnymark extends ApplicationAdapter {
 
 	private void addBunnies(int amount) {
 		for (int i = 0; i < amount; i++) {
-			Bunny bunny = new Bunny(Bunnymark.getBunnyTexture(0));
+			Bunny bunny = new Bunny(BunnymarkUtils.getBunnyTexture(0));
 			test.setInitialValues(bunny);
-			getBunnies().add(bunny);
+			bunnies.add(bunny);
 		}
 	}
 
@@ -257,8 +140,14 @@ public class Bunnymark extends ApplicationAdapter {
 		while (it.hasNext()) {
 			Bunny bunny = it.next();
 			Texture t = bunny.getTexture();
-			batch.draw(t, bunny.getX(), bunny.getY(), 0, 0, t.getWidth(), t.getHeight(), bunny.getScaleX(),
+			
+			// scale down hd textures to be smaller than maxTextureHeight
+			float height = Math.min(BunnymarkUtils.getMaxTextureHeight(), t.getHeight());
+			float width = height/t.getHeight() * t.getWidth();
+			
+			batch.draw(t, bunny.getX(), bunny.getY(), 0, 0, width, height, bunny.getScaleX(),
 					bunny.getScaleY(), bunny.getRotation(), 0, 0, t.getWidth(), t.getHeight(), false, false);
 		}
 	}
+	
 }

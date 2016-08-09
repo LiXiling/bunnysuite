@@ -1,7 +1,7 @@
 package com.github.lixiling.bunnysuite.test;
 
+import com.github.lixiling.bunnysuite.BunnymarkUtils;
 import com.github.lixiling.bunnysuite.Bunny;
-import com.github.lixiling.bunnysuite.Bunnymark;
 
 /**
  * A decorator for {@link BaseTest} that makes the bunnies change size in a
@@ -30,9 +30,14 @@ public final class ScaledDecorator extends BaseTestDecorator {
 
 	@Override
 	public void setInitialValues(Bunny bunny) {
-		bunny.setScale(Bunnymark.nextRandomFloat() * 5);
-		bunny.teleport(Bunnymark.getRandomX(), Bunnymark.getRandomY());
+		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 5);
+		bunny.teleport(BunnymarkUtils.getRandomX(), BunnymarkUtils.getRandomY());
 		baseTest.setInitialValues(bunny);
+	}
+
+	@Override
+	public void initialize() {
+		baseTest.initialize();
 	}
 
 }

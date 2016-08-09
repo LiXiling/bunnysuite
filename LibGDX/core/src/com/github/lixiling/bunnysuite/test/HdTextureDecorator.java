@@ -4,32 +4,33 @@ import com.badlogic.gdx.graphics.Texture;
 import com.github.lixiling.bunnysuite.Bunny;
 import com.github.lixiling.bunnysuite.BunnymarkUtils;
 
-/**
- * The most basic test, that does indeed nothing with the bunnies. Add
- * decorators to create more interesting tests.
- * 
- * @author Victor Schuemmer
- */
-public class BaseTest implements BunnyTest {
+public class HdTextureDecorator extends BaseTestDecorator {
+
+	public HdTextureDecorator(BunnyTest baseTest) {
+		super(baseTest);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void update(Bunny bunny) {
+		baseTest.update(bunny);
 	}
 
 	@Override
 	public String getTestDescription() {
-		return "";
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void setInitialValues(Bunny bunny) {
-		bunny.setTexture(BunnymarkUtils.getRandomBunnyTexture());
+		baseTest.setInitialValues(bunny);
 	}
-	
+
 	@Override
 	public void initialize() {
-		if (!BunnymarkUtils.hasTexture())
-			BunnymarkUtils.addBunnyTexture(new Texture("wabbit_0.png"));
+		BunnymarkUtils.addBunnyTexture(new Texture("wabbit_hd.png"));
+		baseTest.initialize();
 	}
 
 }
