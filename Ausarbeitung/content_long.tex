@@ -3,7 +3,7 @@ TODO
 \end{abstract}
 
 \chapter{Einleitung}
-Moderne Computerspiele setzen basieren meistens auf der graphischen Darstellung ihrer Spielwelt. Dabei geht vor allem in den letzten Jahren der Trend  verstaerkt in die Richtung photorealistischen 3D-Renderings und weg von der simpleren 2D Darstellung.
+Moderne Computerspiele setzen basieren meistens auf der graphischen Darstellung ihrer Spielwelt. Dabei geht vor allem in den letzten Jahren der Trend  verstärkt in die Richtung photorealistischen 3D-Renderings und weg von der simpleren 2D Darstellung.
 Dabei ist schnelles 2D-Rendering immernoch eine nichttriviale Aufgabe für GPUs. Für viele Anwendungen sind die verfügbaren Bibliotheken im Allgemeinen immer noch viel zu langsam. Um das zu verbessern, haben wir mit \textit{BunnySuite} ein Framework entwickelt, mit dem gängige 2D-Grafik-Bibliotheken einem automatisierten Stresstest ausgesetzt werden können.\\
 Mit dem \textit{BunnyMark}\footnote{https://github.com/openfl/openfl-samples/tree/master/demos/BunnyMark} gab es bereits eine Metrik zum Vergleich von Bibliotheken. Jedoch wurde hier nur die Anzahl der gerenderten Objekte (in diesem Fall Häschen, deshalb der Name) gemessen, bei denen noch 60 fps erreicht werden. Diese Zahl war nur schwer zu interpretieren und musste für ein ausführlicheres Ranking durch aussagekräftigere Metriken, bspw. \textit{Renderzeit pro Frame bei X Objekten} ersetzt werden. Auch findet diese Messung bei BunnyMark zu Demozwecken nur interaktiv statt: Häschen werden per Mausklick zur Szene hinzugefügt. Im von uns entwickelten BunnySuite-Framework können solche Messungen automatisiert erfolgen. Die Tests für mehrere Frameworks werden automatisch nacheinander gestartet und das Ergebnis wird in einem Diagramm zusammengefasst. Das Framework ist leicht erweiterbar, so dass man es mit wenig Aufwand an neue Bibliotheken anpassen kann.\\
 Das vollautomatisierte Test-Framework soll Entscheidern der Spieleentwicklung die Möglichkeit eines Rankings bieten, um die richtige Bibliothek für ihre Anforderungen zu finden. Des Weiteren sollen Entwickler von Bibliotheken das Framework nutzen können, um ihre eigene Engine zu testen und zu optimieren. Die Leistungen der Bibliotheken können so transparent verglichen werden, was den Wettbewerb zwischen den Bibliotheken stimulieren und Anreize setzen soll, stärker an der Performanz zu arbeiten.
@@ -19,7 +19,7 @@ Game-Frameworks sollen die Entwickler beim Implementieren der Game-Loop unterst�
 
 \begin{description}
 
-\item[Update()] Der interne Zustand der Spielwelt und ihrer Objekte wird aktualisiert, bspw. die Position der Spielfigur gemaess der Benutzereingaben angepasst oder das nächste Frame in einer Animation wird ausgewählt oder die Punktzahl erhöht. Zeitgleich finden hier auch komplexere Berechnungen statt, wie die Kollisionsbestimmung, die wieder zu neuen Berechnungen fuehren kann (Positionen werden angepasst, damit Objekte sich nicht ueberlagern; "Gesundheitswerte" werden bei Treffern verringert)
+\item[Update()] Der interne Zustand der Spielwelt und ihrer Objekte wird aktualisiert, bspw. die Position der Spielfigur gemäß der Benutzereingaben angepasst oder das nächste Frame in einer Animation wird ausgewählt oder die Punktzahl erhöht. Zeitgleich finden hier auch komplexere Berechnungen statt, wie die Kollisionsbestimmung, die wieder zu neuen Berechnungen führen kann (Positionen werden angepasst, damit Objekte sich nicht überlagern; "Gesundheitswerte" werden bei Treffern verringert)
 \item[Draw()] Die im vorherigen Schritt berechnete Spielwelt wird auf dem Bildschirm dargestellt. Dazu gehören die korrekte Position aller Objekte, die Texturierung und Beleuchtung dieser Objekte, und ggf. Transformationen (Skalierung, Rotation). Auch muss bei Überlagerung von Objekten auf die korrekte Darstellung geachtet werden. Anschließend wird noch die Benutzeroberfläche über den Bildschirminhalt gelegt.
 \end{description}
 
@@ -39,7 +39,7 @@ Ebenso entfällt bei der Darstellung eine komplexe Berechnung der Überlagerung 
 \item Hintergrund rendern
 \item Nicht Spieler Objekte rendern
 \item Spieler Objekt rendern
-\item Benutzeroberflaeche rendern
+\item Benutzeroberfläche rendern
 \end{enumerate}
 Diese Besonderheiten vereinfachen die Berechnung im 2D-Darstellungsfall. Dadurch ist dieser Fall aber nicht so gut optimiert, wie die 3D-Anwendung, und es werden regelmäßig Grenzen ausgereizt.
 
