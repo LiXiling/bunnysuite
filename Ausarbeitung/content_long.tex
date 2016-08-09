@@ -9,45 +9,42 @@ Mit dem \textit{BunnyMark}\footnote{https://github.com/openfl/openfl-samples/tre
 Das vollautomatisierte Test-Framework soll Entscheidern der Spieleentwicklung die Möglichkeit eines Rankings bieten, um die richtige Bibliothek für ihre Anforderungen zu finden. Des Weiteren sollen Entwickler von Bibliotheken das Framework nutzen können, um ihre eigene Engine zu testen und zu optimieren. Die Leistungen der Bibliotheken können so transparent verglichen werden, was den Wettbewerb zwischen den Bibliotheken stimulieren und Anreize setzen soll, stärker an der Performanz zu arbeiten.
 
 \chapter{Zeitplan und Aufgabenverteilung}
-Das Team hat sich darauf geeinigt, dass jeder Entwickler sich auf eine Bibliothek konzentriert. In Regelmaessigen Meetings werden Konzepte diskutiert und Designentscheidungen getroffen. Somit soll in allem Frameworks eine vergleichbare Implementierung erreicht werden
+Das Team hat sich darauf geeinigt, dass jeder Entwickler sich auf eine Bibliothek konzentriert. In regelmäßigen Meetings werden Konzepte diskutiert und Designentscheidungen getroffen. Auf diese Weise soll in allem Frameworks eine vergleichbare Implementierung erreicht werden.\\
 \includegraphics[width=1.2\textwidth]{projektplan.pdf}
 
 
 \chapter{Grundlagen}
 \section{2D-Frameworks}
-Game Frameworks sollen die Entwickler beim Implementieren der Game Loop unterstützen. Diese Game Loop besteht hauptsaechlich aus 2 Phasen:
+Game-Frameworks sollen die Entwickler beim Implementieren der Game-Loop unterstützen. Diese Game-Loop besteht hauptsächlich aus 2 Phasen:
 
 \begin{description}
 
-\item[Update()] Der interne Zustand der Spielwelt und ihrer Objekte wird aktualisiert, bspw. die Position der Spielfigur gemaess der Benutzereingaben angepasst oder das naechste Frame in einer Animation wird ausgewaehlt oder die Punktzahl erhoeht. Zeitgleich finden hier auch komplexere Berechnungen statt, wie die Kollisionsbestimmung, die wieder zu neuen Berechnungen fuehren kann (Positionen werden angepasst, damit Objekte sich nicht ueberlagern; "Gesundheitswerte" werden bei Treffern verringert)
-\item[Draw()] Die im vorherigen Schritt berechnete Spielwelt wird auf dem Bildschirm dargestellt. Dazu gehoeren die korrekte Position aller Objekte, die Texturierung und Beleuchtung dieser Objekte, und ggf. Transformationen (Skalierung, Rotation). Auch muss bei Ueberlagerung von Objekten auf die korrekte Darstellung geachtet werden. Anschliessend wird noch die Benutzeroberflaeche ueber den Bildschirminhalt gelegt.
+\item[Update()] Der interne Zustand der Spielwelt und ihrer Objekte wird aktualisiert, bspw. die Position der Spielfigur gemaess der Benutzereingaben angepasst oder das nächste Frame in einer Animation wird ausgewählt oder die Punktzahl erhöht. Zeitgleich finden hier auch komplexere Berechnungen statt, wie die Kollisionsbestimmung, die wieder zu neuen Berechnungen fuehren kann (Positionen werden angepasst, damit Objekte sich nicht ueberlagern; "Gesundheitswerte" werden bei Treffern verringert)
+\item[Draw()] Die im vorherigen Schritt berechnete Spielwelt wird auf dem Bildschirm dargestellt. Dazu gehören die korrekte Position aller Objekte, die Texturierung und Beleuchtung dieser Objekte, und ggf. Transformationen (Skalierung, Rotation). Auch muss bei Überlagerung von Objekten auf die korrekte Darstellung geachtet werden. Anschließend wird noch die Benutzeroberfläche über den Bildschirminhalt gelegt.
 \end{description}
 
-Die Game Frameworks unterstuetzen die Entwickler indem sie verschiedene Funktionalitaeten bereits zur Verfuegung stellen. Dazu gehoeren:
+Die Game-Frameworks unterstützen die Entwickler, indem sie verschiedene Funktionalitäten bereits zur Verfügung stellen. Dazu gehören:
 
 \begin{itemize}
-\item Einfacher Zugriff auf Eingabegeraete, wie Maus, Tastatur, Gamepad, Joystick, Touch- und Gestensteuerung
-\item optimierte Klassen fuer Assets wie Audiodateien oder Texturen inklusive Kompression
-\item optimierte Renderfunktionen, die direkt Graphikschnittstellen wie OpenGL, Dirext3D oder Vulkan ansprechen. Diese koennen auch bereits Transformationen wie Drehungen oder Einfaerbungen anbieten.
+\item Einfacher Zugriff auf Eingabegeräte, wie Maus, Tastatur, Gamepad, Joystick, Touch- und Gestensteuerung
+\item optimierte Klassen für Assets wie Audiodateien oder Texturen inklusive Kompression
+\item optimierte Renderfunktionen, die direkt Grafikschnittstellen wie OpenGL, Direct3D oder Vulkan ansprechen. Diese können auch bereits Transformationen wie Drehungen oder Einfärbungen anbieten.
 \end{itemize}
 
-Diese Bibliotheken helfen den Entwicklern eine effiziente Implementierung zu erreichen, ohne sehr hardwarenahe Optimierungen selber programmieren zu muessen. Somit soll sehr einfach der "Goldstandard" von 60 Frames per Second in der Darstellungen erreicht werden, bei dem fuer jeden Schritt der Gameloop eine Rechenzeit von knapp 16,67ms zur Verfuegung steht. Dies beinhaltet das einlesen von Assets wie Texturen vom Speichersystem der jeweiligen Plattform. 
-
-Der wahrscheinlich größte Unterschied zu 3D-Frameworks besteht in der Komplexität der Grafikberechnung. So muss das 2D-Framework meistens keine Informationen über Oberflächen der Objekte, z.B. Orientierung über NormalMaps oder Materialeigenschaften für das \emph{Physically Based Rendering (PBR)}, außer der konkreten Farbe, kennen. 
-Auch koennen diese Objekte bereits ihrer Darstellung entsprechend als Sprite vorliegen, die ggf. noch mit Transformationen angepasst, direkt dargestellt werden koennen. Somit muss kein komplexes 3 dimensionales Objekt auf einmal im Speicher gehalten werden, bei dem man sowieso nur die der Kamera zugewandten Seite sieht, sondern bspw. nur ein Spritesheet mit den 4 moeglichen Orientierungen des Objekts.
-Ebenso entfaellt bei der Darstellung eine komplexe Berechnung der Ueberlagerung, oder verdeckter Rueckseiten der Objekte. Es wird nur die momentane Orientierung der Objekte dargestellt. Die Verdeckung von Objekten kann durch Layerbasiertes Rendering geloest werden:
-
+Diese Bibliotheken helfen den Entwicklern, eine effiziente Implementierung zu erreichen, ohne sehr hardwarenahe Optimierungen selber programmieren zu müssen. Somit soll sehr einfach der "Goldstandard" von 60 Frames per Second in der Darstellungen erreicht werden, bei dem für jeden Schritt der Gameloop eine Rechenzeit von knapp 16,67 ms zur Verfügung steht. Dies beinhaltet das Einlesen von Assets wie Texturen vom Speichersystem der jeweiligen Plattform.\\ 
+Der wahrscheinlich größte Unterschied zu 3D-Frameworks besteht in der Komplexität der Grafikberechnung. So muss das 2D-Framework keine Informationen über Oberflächen der Objekte, z.B. Orientierung über NormalMaps oder Materialeigenschaften für das \emph{Physically Based Rendering (PBR)}, außer der konkreten Farbe kennen.\\
+Auch können diese Objekte bereits ihrer Darstellung entsprechend als Sprite vorliegen, die, ggf. noch mit Transformationen angepasst, direkt dargestellt werden können. Somit muss kein komplexes dreidimensionales Objekt auf einmal im Speicher gehalten werden, bei dem man sowieso nur die der Kamera zugewandten Seite sieht, sondern nur ein Spritesheet mit den 4 möglichen Orientierungen des Objekts.
+Ebenso entfällt bei der Darstellung eine komplexe Berechnung der Überlagerung oder verdeckter Rückseiten der Objekte. Es wird nur die momentane Orientierung der Objekte dargestellt. Die Verdeckung von Objekten kann durch layerbasiertes Rendering gelöst werden:
 \begin{enumerate}
 \item Hintergrund rendern
 \item Nicht Spieler Objekte rendern
 \item Spieler Objekt rendern
 \item Benutzeroberflaeche rendern
 \end{enumerate}
-
-Diese Besonderheiten vereinfachen die Berechnung im 2D-Darstellungsfall. Dadurch ist dieser Fall aber nicht so gut optimiert, wie die 3D Anwendung, und es werden regelmaessig Grenzen ausgereizt.
+Diese Besonderheiten vereinfachen die Berechnung im 2D-Darstellungsfall. Dadurch ist dieser Fall aber nicht so gut optimiert, wie die 3D-Anwendung, und es werden regelmäßig Grenzen ausgereizt.
 
 \section{Benchmarking}
-Um eine moeglichst einfache Bedienung zu gewaehrleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen:\\
+Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen:\\
 \begin{description}
 \item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt, im Gegensatz zu ihrer Inversen, {\em Frames per Second}, oder einem arbiträren Punktesystem.\\
 \item[Objektivität] ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}).\\
