@@ -44,7 +44,7 @@ public class TestFactory {
 			case "texturechange":
 				test = new TextureChangeDecorator(test);
 				break;
-			case "animated":
+			case "animation":
 				test = new JumpDecorator(test);
 				break;
 			case "rotated":
