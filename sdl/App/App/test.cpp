@@ -8,7 +8,8 @@
 
 using namespace std;
 
-#define NUM_MAX_BUNNIES 100
+#define NUM_MAX_BUNNIES 100000
+#define NUM_ANIM_FRAMES 3
 #define REPETITIONS 10
 
 // the arguments
@@ -19,105 +20,129 @@ int step;
 int SCREEN_X = 800;
 int SCREEN_Y = 600;
 
-void (*renderFrame)(SDL_Renderer*);
-
 int n;
 SDL_Rect rect_bunny;
-SDL_Texture *bunny;
+SDL_Texture *bunny[NUM_ANIM_FRAMES];
 
 double renderTimes[REPETITIONS];
 int frameNo;
 
+// helper function to create random doubles
+double randomDouble(double min, double max)
+{
+	double f = (double)rand() / RAND_MAX;
+	return min + f * (max - min);
+}
+
 class Bunny {
 public:
-	SDL_Rect rect;
+	double x;
+	double y;
+	double scaleX;
+	double scaleY;
+	double speedX;
+	double speedY;
 	double rotation;
+	int texture;
 
 	Bunny(){
-		rect.x = rand() % SCREEN_X;
-		rect.y = rand() % SCREEN_Y;
-		rect.w = rect_bunny.w;
-		rect.h = rect_bunny.h;
+		x = 0.0;
+		y = 0.0;
+		scaleX = 1.0;
+		scaleY = 1.0;
+		speedX = 0.0;
+		speedY = 0.0;
 		rotation = 0.0;
+		texture = 0;
 	}
 };
 
 Bunny *bunnies;
 
-// ##### standard #####
-void renderFrameStandard(SDL_Renderer* ren){
-	// make the window black
-	SDL_RenderClear(ren);
-	// draw n normal bunnies in the top left corner
-	rect_bunny.x = rect_bunny.y = 0;
-	for (int i = 0; i < n; ++i){
-		SDL_RenderCopy(ren, bunny, NULL, &rect_bunny);
-	}
-	// show result
-	SDL_RenderPresent(ren);
-}
-
-// ##### random #####
-void renderFrameRandom(SDL_Renderer* ren){
-	// make the window black
-	SDL_RenderClear(ren);
-	// draw n normal bunnies at random places
-	for (int i = 0; i < n; ++i){
-		rect_bunny.x = rand() % SCREEN_X;
-		rect_bunny.y = rand() % SCREEN_Y;
-		SDL_RenderCopy(ren, bunny, NULL, &rect_bunny);
-	}
-	// show result
-	SDL_RenderPresent(ren);
-}
-
-// ##### scaled #####
-void renderFrameScaled(SDL_Renderer* ren){
-	// make the window black
-	SDL_RenderClear(ren);
-	// draw n randomly scaled bunnies at random places
-	for (int i = 0; i < n; ++i){
-		double scale_x = ((double)rand() / RAND_MAX)*4.8 + 0.2;
-		double scale_y = ((double)rand() / RAND_MAX)*4.8 + 0.2;
-		bunnies[i].rect.w = rect_bunny.w * scale_x;
-		bunnies[i].rect.h = rect_bunny.h * scale_y;
-		SDL_RenderCopy(ren, bunny, NULL, &bunnies[i].rect);
-	}
-	// show result
-	SDL_RenderPresent(ren);
-}
-
-// ##### rotation #####
-void renderFrameRotated(SDL_Renderer* ren){
+void renderFrame(SDL_Renderer* ren){
 	// make the window black
 	SDL_RenderClear(ren);
 	for (int i = 0; i < n; ++i){
-		// perform the rotation
-		bunnies[i].rotation += 0.2;
+		// set scale and position
+		SDL_Rect rect = rect_bunny;
+		rect.x = bunnies[i].x;
+		rect.y = bunnies[i].y;
+		rect.w *= bunnies[i].scaleX;
+		rect.h *= bunnies[i].scaleY;
 		// render rotated bunny
-		//SDL_RenderCopy(ren, bunny, NULL, &(bunnies[i].rect));
-		SDL_RenderCopyEx(ren, bunny, NULL, &bunnies[i].rect, bunnies[i].rotation, NULL, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(ren, bunny[bunnies[i].texture], NULL, &rect, bunnies[i].rotation, NULL, SDL_FLIP_NONE);
 	}
 	// show result
 	SDL_RenderPresent(ren);
 }
 
-// sets the function that is used to render a frame
-void setFrameRenderFunction(){
-	if (test_name == "standard"){
-		renderFrame = renderFrameStandard;
+// set initial bunny values
+void setInitialValues(){
+	for (int i = 0; i < max_val; ++i){
+		if (test_name.find("random") != string::npos){
+			// set bunny to random position
+			bunnies[i].x = rand() % SCREEN_X;
+			bunnies[i].y = rand() % SCREEN_Y;
+		}
+		if (test_name.find("scaled") != string::npos){
+			// random scaling
+			bunnies[i].scaleX = randomDouble(0.2, 5.0);
+			bunnies[i].scaleY = randomDouble(0.2, 5.0);
+		}
+		if (test_name.find("multitexture") != string::npos){
+			// set random texture
+			bunnies[i].texture = rand() % NUM_ANIM_FRAMES;
+		}
+		if (test_name.find("animation") != string::npos){
+			// set random speed
+			bunnies[i].speedX = randomDouble(0.0, 5.0);
+			bunnies[i].speedY = randomDouble(-2.5, 2.5);
+		}
 	}
-	else if (test_name == "random"){
-		renderFrame = renderFrameRandom;
-	}
-	else if (test_name == "scaled"){
-		renderFrame = renderFrameScaled;
-	}
-	else if (test_name == "rotation"){
-		renderFrame = renderFrameRotated;
-	}
-	else {
-		renderFrame = NULL;
+}
+
+// updates bunny values for a new frame
+void updateBunnies(){
+	for (int i = 0; i < n; ++i){
+		if (test_name.find("teleport") != string::npos){
+			// set bunny to new random position
+			bunnies[i].x = rand() % SCREEN_X;
+			bunnies[i].y = rand() % SCREEN_Y;
+		}
+		if (test_name.find("scaling") != string::npos){
+			// random rescaling
+			bunnies[i].scaleX = randomDouble(0.2, 5.0);
+			bunnies[i].scaleY = randomDouble(0.2, 5.0);
+		}
+		if (test_name.find("rotation") != string::npos){
+			// perform the rotation
+			bunnies[i].rotation += 1.0;
+		}
+		if (test_name.find("texturechange") != string::npos){
+			// set random texture
+			bunnies[i].texture = rand() % NUM_ANIM_FRAMES;
+		}
+		if (test_name.find("animation") != string::npos){
+			bunnies[i].x += bunnies[i].speedX;
+			if (bunnies[i].x < 0 || bunnies[i].x > SCREEN_X){
+				bunnies[i].speedX *= -1;
+			}
+			// add gravity
+			bunnies[i].speedY += 0.5;
+			bunnies[i].y += bunnies[i].speedY;
+			// collision with floor
+			if (bunnies[i].y > SCREEN_Y){
+				bunnies[i].y = SCREEN_Y;
+				bunnies[i].speedY *= -0.8;
+				if (rand() % 2 == 0)
+					bunnies[i].speedY -= randomDouble(3.0, 7.0);
+			}
+			// collision with ceiling
+			if (bunnies[i].y < 0){
+				bunnies[i].speedY = 0.0;
+			}
+		}
+		
 	}
 }
 
@@ -125,10 +150,10 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "rotation";
-		min_val = 1000;
-		max_val = 20000;
-		step = 1000;
+		test_name = "animation,multitexture";
+		min_val = 10;
+		max_val = 2000;
+		step = 10;
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
@@ -146,14 +171,14 @@ int main(int argc, char* argv[]){
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	// prepare bunny
-	bunny = IMG_LoadTexture(ren, "bunny.png");
+	bunny[0] = IMG_LoadTexture(ren, "wabbit_alpha0.png");
+	bunny[1] = IMG_LoadTexture(ren, "wabbit_alpha1.png");
+	bunny[2] = IMG_LoadTexture(ren, "wabbit_alpha2.png");
 	rect_bunny.x = 0;
 	rect_bunny.y = 0;
-	SDL_QueryTexture(bunny, NULL, NULL, &rect_bunny.w, &rect_bunny.h);
+	SDL_QueryTexture(bunny[0], NULL, NULL, &rect_bunny.w, &rect_bunny.h);
 	bunnies = new Bunny[max_val];
-
-	// prepare test
-	setFrameRenderFunction();
+	setInitialValues();
 
 	// prepare timing
 	Uint32 time_last_log;
@@ -173,12 +198,13 @@ int main(int argc, char* argv[]){
 	// main loop
 	time_last_log = SDL_GetTicks();
 	while (true){
+		updateBunnies();
 		renderFrame(ren);
 		// measure frame time
 		time_current = SDL_GetTicks();
 		renderTimes[frameNo] = (time_current - time_last_log) / 1000.0;
 		time_last_log = time_current;
-		// check if one second is over
+		// check if #REPETITIONS frames are over
 		frameNo += 1;
 		if (frameNo == REPETITIONS){
 			double renderTime = 0.0;
