@@ -44,12 +44,3 @@ def get_data_from_log(framework, test_name):
 		x = np.array([int(v[0]) for v in values])
 		y = np.array([float(v[1]) for v in values])
 		return (x, y)
-
-###################################################################################################		
-		
-frameworks = ['SDL','xna_monogame','LibGDX']
-
-# run some tests for all frameworks
-run_test(frameworks, "random", 1000, 20000, 1000)
-
-###################################################################################################
