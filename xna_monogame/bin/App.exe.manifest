@@ -68,14 +68,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="App.exe" size="18944">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="App.exe" size="19456">
       <assemblyIdentity name="App" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>2dD2Y9ftvLIdJi6cn1J/W6q96cc=</dsig:DigestValue>
+        <dsig:DigestValue>DAyOIAb0L1hcBqaJ/MEZucdU1IM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -131,6 +131,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>pYyLF/GXEjLo5aCrtTBJBBxTXrk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Data\wabbit_hd.xnb" size="148088">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>W/8CRDBsNqjfz0bhg9L+ORKOfAk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Data\wabbit_star.xnb" size="494">

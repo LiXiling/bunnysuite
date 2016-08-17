@@ -103,6 +103,7 @@
     <Compile Include="src\Program.cs" />
     <Compile Include="src\BunnyMark.cs" />
     <Compile Include="src\testImpl\AnimationModifier.cs" />
+    <Compile Include="src\testImpl\HDTextureLoader.cs" />
     <Compile Include="src\testImpl\GhostTextureLoader.cs" />
     <Compile Include="src\testImpl\ITextureLoader.cs" />
     <Compile Include="src\testImpl\MultiTextureLoader.cs" />

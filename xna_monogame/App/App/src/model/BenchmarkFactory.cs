@@ -73,6 +73,11 @@ namespace App.src.model
                         loaderAdded = true;
                         bt.addSpawnModifier(new FixedPositionModifier());
                         break;
+                    case "hd":
+                        bt.addTextureLoader(new HDTextureLoader());
+                        loaderAdded = true;
+                        bt.addSpawnModifier(new FixedPositionModifier());
+                        break;
                     default:
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());

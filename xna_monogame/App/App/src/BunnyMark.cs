@@ -27,15 +27,15 @@ namespace App
         private Logger logger;
         private DebugText debugText;
 
-        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal)
+        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal, int xRes, int yRes)
         {
             this.Window.Title = "BunnySuite - XNA";
             test_name = testnameList;
             max_val = maxVal;
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = xRes;
+            graphics.PreferredBackBufferHeight = yRes;
             Content.RootDirectory = "Data";
 
             this.bt = bt;

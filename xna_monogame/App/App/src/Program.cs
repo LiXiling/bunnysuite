@@ -11,6 +11,9 @@ namespace App
         private static int max_val;
         private static int step;
 
+        private static int xRes = 800;
+        private static int yRes = 600;
+
         static void Main(string[] args)
         {
             BenchmarkFactory bf = new BenchmarkFactory();
@@ -18,7 +21,7 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                testnameList = "scaled,alpha";
+                testnameList = "scaled,hd";
                 min_val = 10;
                 max_val = 10000;
                 step = 200;
@@ -32,9 +35,21 @@ namespace App
                 step = Int32.Parse(args[3]);
             }
 
+            //Read Resolution Width
+            if (args.Length >= 5)
+            {
+                xRes = Int32.Parse(args[5]);
+            }
+            
+            //Read Resolution Height
+            if (args.Length >= 6)
+            {
+                yRes = Int32.Parse(args[6]);
+            }
+            
             BenchmarkTest bt = bf.ConstructBenchmark(testnameList, min_val, max_val, step);
 
-            using (BunnyMark game = new BunnyMark(bt, testnameList, max_val))
+            using (BunnyMark game = new BunnyMark(bt, testnameList, max_val, xRes, yRes))
             {
                 game.Run();
             }
