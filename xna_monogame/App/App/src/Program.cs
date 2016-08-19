@@ -21,10 +21,12 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                testnameList = "scaled,hd";
-                min_val = 10;
-                max_val = 10000;
-                step = 200;
+                testnameList = "scaled,random,hd";
+                min_val = 0;
+                max_val = 20000;
+                step = 1000;
+                xRes = 1280;
+                yRes = 720;
             }
             else
             {
@@ -38,13 +40,13 @@ namespace App
             //Read Resolution Width
             if (args.Length >= 5)
             {
-                xRes = Int32.Parse(args[5]);
+                xRes = Int32.Parse(args[4]);
             }
             
             //Read Resolution Height
             if (args.Length >= 6)
             {
-                yRes = Int32.Parse(args[6]);
+                yRes = Int32.Parse(args[5]);
             }
             
             BenchmarkTest bt = bf.ConstructBenchmark(testnameList, min_val, max_val, step);

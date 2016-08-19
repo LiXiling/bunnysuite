@@ -20,8 +20,9 @@ namespace App
         SpriteBatch spriteBatch;
         private Color bgColor;
 
-        //Bunnies
+        //Test Values
         private int bunnyCount = 0;
+        private bool btFinished = false;
 
         //Misc. Helpers
         private Logger logger;
@@ -33,14 +34,20 @@ namespace App
             test_name = testnameList;
             max_val = maxVal;
 
+            Console.WriteLine(xRes + " " + yRes);
+
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = xRes;
             graphics.PreferredBackBufferHeight = yRes;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Data";
 
             this.bt = bt;
 
             logger = new Logger(test_name);
+
+            this.IsFixedTimeStep = false;
+            //graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         protected override void Initialize()
@@ -65,33 +72,37 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
-            bunnyCount = bt.RunTest();
+            btFinished = bt.RunTest();
+
+            debugText.Update(gameTime);
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            bunnyCount = bt.getBunnyCount();
+
+            GraphicsDevice.Clear(bgColor);
+
+            spriteBatch.Begin();
+
+            bt.Draw();
+            debugText.Draw(spriteBatch, bunnyCount);
+
+            spriteBatch.End();
+
+            logger.addLog(gameTime, bunnyCount);
+
             //Exit if enough Bunnies are drawn
-            if (bunnyCount > max_val)
+            if (btFinished && bunnyCount == max_val)
             {
                 logger.write();
                 this.Exit();
                 return;
             }
 
-            debugText.Update(gameTime);
-            base.Update(gameTime);
-        }
-
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(bgColor);
-            
-            spriteBatch.Begin();
-            
-            bt.Draw();
-            debugText.Draw(spriteBatch, bunnyCount);
-            
-            spriteBatch.End();
-
-            logger.addLog(gameTime, bunnyCount);
             base.Draw(gameTime);
+            
         }
     }
 }

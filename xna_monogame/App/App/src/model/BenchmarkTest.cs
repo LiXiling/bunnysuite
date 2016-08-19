@@ -88,15 +88,24 @@ namespace App.src.model
             return bunnyTextures.ElementAt(random.Next(bunnyTextures.Count));
         }
 
+        public int getBunnyCount()
+        {
+            return bunnies.Count;
+        }
+
         /// <summary>
         /// Runs the TestAnimation. Every 10 frames new Bunnies are added according to the step value
         /// </summary>
-        /// <returns>The current Amount of drawn Bunnies</returns>
-        public int RunTest()
+        /// <returns>True, if the max number of Bunnies has been reached</returns>
+        public bool RunTest()
         {
             //Every 10 frames make a new step
             if (frameCount == 10)
             {
+                if (bunnies.Count >= maxVal)
+                {
+                    return true;
+                }
                 AddBunnies(step);
                 frameCount = 0;
             }
@@ -105,7 +114,7 @@ namespace App.src.model
             //return if no additional TestProcedure is given
             if (testProcedureList.Count == 0)
             {
-                return bunnies.Count;
+                return false;
             }
 
             foreach (Bunny bunny in bunnies)
@@ -115,7 +124,7 @@ namespace App.src.model
                     testProcedure.ModifyBunny(bunny, this);
                 }
             }
-            return bunnies.Count;
+            return false;
         }
 
         /// <summary>
