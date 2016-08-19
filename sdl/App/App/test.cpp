@@ -17,8 +17,8 @@ string test_name;
 int min_val;
 int max_val;
 int step;
-int SCREEN_X = 800;
-int SCREEN_Y = 600;
+int SCREEN_X;
+int SCREEN_Y;
 
 int n;
 SDL_Rect rect_bunny;
@@ -154,13 +154,25 @@ int main(int argc, char* argv[]){
 		min_val = 10;
 		max_val = 2000;
 		step = 10;
+		
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
 		min_val = atoi(argv[2]);
 		max_val = atoi(argv[3]);
 		step = atoi(argv[4]);
+		
 	}
+	// screensize is optional parameter
+	if (argc < 7){
+		SCREEN_X = 800;
+		SCREEN_Y = 600;
+	}
+	else {
+		SCREEN_X = atoi(argv[5]);
+		SCREEN_Y = atoi(argv[6]);
+	}
+
 	n = min_val;
 
 	// start SDL window
