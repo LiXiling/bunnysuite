@@ -103,6 +103,7 @@ Bunny *bunnies;
 
 void renderFrame(SDL_Renderer* ren){
 	// make the window black
+	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
 	// render bunnies
 	for (int i = 0; i < n; ++i){
@@ -202,7 +203,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "random,pulsation";
+		test_name = "triangles,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
