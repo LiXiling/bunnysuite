@@ -1,5 +1,6 @@
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL2_gfxPrimitives.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -11,6 +12,12 @@ using namespace std;
 #define NUM_MAX_BUNNIES 100000
 #define NUM_ANIM_FRAMES 3
 #define REPETITIONS 10
+
+#define NATURE_BUNNY 0
+#define NATURE_TRIANGLE 1
+#define NATURE_CIRCLE 2
+#define NATURE_SQUARE 3
+#define NATURE_TEXT 4
 
 // the arguments
 string test_name;
@@ -44,6 +51,7 @@ public:
 	double speedY;
 	double rotation;
 	int texture;
+	int nature;
 
 	Bunny(){
 		x = 0.0;
@@ -54,6 +62,36 @@ public:
 		speedY = 0.0;
 		rotation = 0.0;
 		texture = 0;
+		nature = NATURE_BUNNY;
+	}
+
+	void render(SDL_Renderer *ren){
+		// set scale and position
+		SDL_Rect rect = rect_bunny;
+		rect.x = int(floor(x));
+		rect.y = int(floor(y));
+		rect.w = int(floor(rect.w*scaleX));
+		rect.h = int(floor(rect.h*scaleY));
+		// render rotated bunny
+		if (nature == NATURE_BUNNY){
+			SDL_RenderCopyEx(ren, bunny[texture], NULL, &rect, rotation, NULL, SDL_FLIP_NONE);
+		}
+		// render triangle
+		else if (nature == NATURE_TRIANGLE) {
+			filledTrigonColor(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, 0xFF00FFFF);
+		}
+		// render circle
+		else if (nature == NATURE_CIRCLE) {
+			circleColor(ren, rect.x, rect.y, 13, 0xFF00FFFF);
+		}
+		// render square
+		else if (nature == NATURE_SQUARE){
+			rectangleColor(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, 0xFF00FFFF);
+		}
+		// render text
+		else if (nature == NATURE_TEXT) {
+			stringColor(ren, rect.x, rect.y, "Hello World :D", 0xFF00FFFF);
+		}
 	}
 };
 
@@ -62,15 +100,9 @@ Bunny *bunnies;
 void renderFrame(SDL_Renderer* ren){
 	// make the window black
 	SDL_RenderClear(ren);
+	// render bunnies
 	for (int i = 0; i < n; ++i){
-		// set scale and position
-		SDL_Rect rect = rect_bunny;
-		rect.x = bunnies[i].x;
-		rect.y = bunnies[i].y;
-		rect.w *= bunnies[i].scaleX;
-		rect.h *= bunnies[i].scaleY;
-		// render rotated bunny
-		SDL_RenderCopyEx(ren, bunny[bunnies[i].texture], NULL, &rect, bunnies[i].rotation, NULL, SDL_FLIP_NONE);
+		bunnies[i].render(ren);		
 	}
 	// show result
 	SDL_RenderPresent(ren);
@@ -98,6 +130,18 @@ void setInitialValues(){
 			bunnies[i].speedX = randomDouble(0.0, 5.0);
 			bunnies[i].speedY = randomDouble(-2.5, 2.5);
 		}
+		if (test_name.find("triangles") != string::npos){
+			bunnies[i].nature = NATURE_TRIANGLE;
+		}
+		if (test_name.find("circles") != string::npos){
+			bunnies[i].nature = NATURE_CIRCLE;
+		}
+		if (test_name.find("squares") != string::npos){
+			bunnies[i].nature = NATURE_SQUARE;
+		}
+		if (test_name.find("text") != string::npos){
+			bunnies[i].nature = NATURE_TEXT;
+		}
 	}
 }
 
@@ -109,10 +153,8 @@ void updateBunnies(){
 			bunnies[i].x = rand() % SCREEN_X;
 			bunnies[i].y = rand() % SCREEN_Y;
 		}
-		if (test_name.find("scaling") != string::npos){
-			// random rescaling
-			bunnies[i].scaleX = randomDouble(0.2, 5.0);
-			bunnies[i].scaleY = randomDouble(0.2, 5.0);
+		if (test_name.find("pulsation") != string::npos){
+			// TODO
 		}
 		if (test_name.find("rotation") != string::npos){
 			// perform the rotation
@@ -150,9 +192,9 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "animation,multitexture";
+		test_name = "animation,squares";
 		min_val = 10;
-		max_val = 2000;
+		max_val = 50000;
 		step = 10;
 		
 	} else {
@@ -198,7 +240,7 @@ int main(int argc, char* argv[]){
 	frameNo = 0;
 
 	// seed random number generator
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	// prepare logging
 	ofstream logfile;
@@ -209,8 +251,20 @@ int main(int argc, char* argv[]){
 	}
 	// main loop
 	time_last_log = SDL_GetTicks();
-	while (true){
+	bool running = true;
+	while (running){
+		// pull events
+		SDL_Event event;
+		while (SDL_PollEvent(&event) != 0) {
+			// close on X
+			if (event.type == SDL_QUIT){
+				running = false;
+				break;
+			}
+		}
+		// update
 		updateBunnies();
+		// render
 		renderFrame(ren);
 		// measure frame time
 		time_current = SDL_GetTicks();
