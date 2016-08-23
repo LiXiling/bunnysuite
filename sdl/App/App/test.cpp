@@ -47,6 +47,8 @@ public:
 	double y;
 	double scaleX;
 	double scaleY;
+	double pulsationX;
+	double pulsationY;
 	double speedX;
 	double speedY;
 	double rotation;
@@ -58,6 +60,8 @@ public:
 		y = 0.0;
 		scaleX = 1.0;
 		scaleY = 1.0;
+		pulsationX = 0.1;
+		pulsationY = 0.1;
 		speedX = 0.0;
 		speedY = 0.0;
 		rotation = 0.0;
@@ -154,7 +158,13 @@ void updateBunnies(){
 			bunnies[i].y = rand() % SCREEN_Y;
 		}
 		if (test_name.find("pulsation") != string::npos){
-			// TODO
+			// bunnies grow and shrink
+			bunnies[i].scaleX += bunnies[i].pulsationX;
+			if (bunnies[i].scaleX >= 5.0 || bunnies[i].scaleX <= 0.2)
+				bunnies[i].pulsationX *= -1;
+			bunnies[i].scaleY += bunnies[i].pulsationY;
+			if (bunnies[i].scaleY >= 5.0 || bunnies[i].scaleY <= 0.2)
+				bunnies[i].pulsationY *= -1;
 		}
 		if (test_name.find("rotation") != string::npos){
 			// perform the rotation
@@ -192,10 +202,10 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "animation,squares";
-		min_val = 10;
+		test_name = "random,pulsation";
+		min_val = 1;
 		max_val = 50000;
-		step = 10;
+		step = 1;
 		
 	} else {
 		// read the arguments
