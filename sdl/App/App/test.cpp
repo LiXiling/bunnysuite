@@ -31,6 +31,7 @@ int SCREEN_Y;
 int n;
 SDL_Rect rect_bunny;
 SDL_Texture *bunny[NUM_ANIM_FRAMES];
+SDL_PixelFormat* pixelFormat;
 
 double renderTimes[REPETITIONS];
 int frameNo;
@@ -55,7 +56,7 @@ public:
 	double rotation;
 	int texture;
 	int nature;
-	Uint32 color;
+	SDL_Color color;
 
 	Bunny(){
 		x = 0.0;
@@ -69,8 +70,10 @@ public:
 		rotation = 0.0;
 		texture = 0;
 		nature = NATURE_BUNNY;
-		color = 0xFF00FFFF;
-		//color = rand();
+		color.a = 255;
+		color.r = rand() % 255;
+		color.g = rand() % 255;
+		color.b = rand() % 255;
 	}
 
 	void render(SDL_Renderer *ren){
@@ -86,23 +89,23 @@ public:
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
-			filledTrigonColor(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, color);
+			filledTrigonRGBA(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, color.r, color.g, color.b, color.a);
 		}
 		// render circle
 		else if (nature == NATURE_CIRCLE) {
-			circleColor(ren, rect.x, rect.y, 13, color);
+			circleRGBA(ren, rect.x, rect.y, 13, color.r, color.g, color.b, color.a);
 		}
 		// render square
 		else if (nature == NATURE_SQUARE){
-			rectangleColor(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color);
+			rectangleRGBA(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color.r, color.g, color.b, color.a);
 		}
 		// render particle
 		else if (nature == NATURE_PARTICLE){
-			pixelColor(ren, rect.x, rect.y, color);
+			pixelRGBA(ren, rect.x, rect.y, color.r, color.g, color.b, color.a);
 		}
 		// render text
 		else if (nature == NATURE_TEXT) {
-			stringColor(ren, rect.x, rect.y, "Hello World :D", color);
+			stringRGBA(ren, rect.x, rect.y, "Hello World :D", color.r, color.g, color.b, color.a);
 		}
 	}
 };
@@ -214,18 +217,16 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "particles,animation";
+		test_name = "triangles,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
-		
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
 		min_val = atoi(argv[2]);
 		max_val = atoi(argv[3]);
 		step = atoi(argv[4]);
-		
 	}
 	// screensize is optional parameter
 	if (argc < 7){
