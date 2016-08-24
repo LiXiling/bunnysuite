@@ -10,15 +10,16 @@
 using namespace std;
 
 #define NUM_MAX_BUNNIES 100000
-#define NUM_ANIM_FRAMES 3
+#define NUM_MAX_TEXTURES 16
 #define REPETITIONS 10
 
 #define NATURE_BUNNY 0
 #define NATURE_TRIANGLE 1
 #define NATURE_CIRCLE 2
 #define NATURE_SQUARE 3
-#define NATURE_PARTICLE 4
-#define NATURE_TEXT 5
+#define NATURE_LINE 4
+#define NATURE_PARTICLE 5
+#define NATURE_TEXT 6
 
 // the arguments
 string test_name;
@@ -29,8 +30,8 @@ int SCREEN_X;
 int SCREEN_Y;
 
 int n;
-SDL_Rect rect_bunny;
-SDL_Texture *bunny[NUM_ANIM_FRAMES];
+SDL_Texture *bunnyTexture[NUM_MAX_TEXTURES];
+int numTextures = 0;
 SDL_PixelFormat* pixelFormat;
 
 double renderTimes[REPETITIONS];
@@ -55,6 +56,7 @@ public:
 	double speedY;
 	double rotation;
 	int texture;
+	SDL_Rect textureRect;
 	int nature;
 	SDL_Color color;
 
@@ -68,7 +70,8 @@ public:
 		speedX = 0.0;
 		speedY = 0.0;
 		rotation = 0.0;
-		texture = 0;
+		texture = rand() % numTextures;
+		SDL_QueryTexture(bunnyTexture[texture], NULL, NULL, &textureRect.w, &textureRect.h);
 		nature = NATURE_BUNNY;
 		color.a = 255;
 		color.r = rand() % 255;
@@ -78,26 +81,31 @@ public:
 
 	void render(SDL_Renderer *ren){
 		// set scale and position
-		SDL_Rect rect = rect_bunny;
+		SDL_Rect rect = textureRect;
 		rect.x = int(floor(x));
 		rect.y = int(floor(y));
 		rect.w = int(floor(rect.w*scaleX));
 		rect.h = int(floor(rect.h*scaleY));
 		// render rotated bunny
 		if (nature == NATURE_BUNNY){
-			SDL_RenderCopyEx(ren, bunny[texture], NULL, &rect, rotation, NULL, SDL_FLIP_NONE);
+			SDL_RenderCopyEx(ren, bunnyTexture[texture], NULL, &rect, rotation, NULL, SDL_FLIP_NONE);
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
-			filledTrigonRGBA(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, color.r, color.g, color.b, color.a);
+			filledTrigonRGBA(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y,
+				color.r, color.g, color.b, color.a);
 		}
 		// render circle
 		else if (nature == NATURE_CIRCLE) {
-			circleRGBA(ren, rect.x, rect.y, 13, color.r, color.g, color.b, color.a);
+			aacircleRGBA(ren, rect.x, rect.y, 13, color.r, color.g, color.b, color.a);
 		}
 		// render square
 		else if (nature == NATURE_SQUARE){
 			rectangleRGBA(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color.r, color.g, color.b, color.a);
+		}
+		// render line
+		else if (nature == NATURE_LINE){
+			aalineRGBA(ren, rect.x, rect.y, rect.x + rect.w, rect.y + rect.h, color.r, color.g, color.b, color.a);
 		}
 		// render particle
 		else if (nature == NATURE_PARTICLE){
@@ -111,6 +119,11 @@ public:
 };
 
 Bunny *bunnies;
+
+void addTexture(string name, SDL_Renderer* ren){
+	bunnyTexture[numTextures] = IMG_LoadTexture(ren, (name + ".png").c_str());
+	numTextures++;
+}
 
 void renderFrame(SDL_Renderer* ren){
 	// make the window black
@@ -137,10 +150,6 @@ void setInitialValues(){
 			bunnies[i].scaleX = randomDouble(0.2, 5.0);
 			bunnies[i].scaleY = randomDouble(0.2, 5.0);
 		}
-		if (test_name.find("multitexture") != string::npos){
-			// set random texture
-			bunnies[i].texture = rand() % NUM_ANIM_FRAMES;
-		}
 		if (test_name.find("animation") != string::npos){
 			// set random speed
 			bunnies[i].speedX = randomDouble(0.0, 5.0);
@@ -155,10 +164,13 @@ void setInitialValues(){
 		if (test_name.find("squares") != string::npos){
 			bunnies[i].nature = NATURE_SQUARE;
 		}
+		if (test_name.find("lines") != string::npos){
+			bunnies[i].nature = NATURE_LINE;
+		}
 		if (test_name.find("particles") != string::npos){
 			bunnies[i].nature = NATURE_PARTICLE;
 		}
-		if (test_name.find("text") != string::npos){
+		if (test_name.find("texts") != string::npos){
 			bunnies[i].nature = NATURE_TEXT;
 		}
 	}
@@ -187,7 +199,9 @@ void updateBunnies(){
 		}
 		if (test_name.find("texturechange") != string::npos){
 			// set random texture
-			bunnies[i].texture = rand() % NUM_ANIM_FRAMES;
+			bunnies[i].texture = rand() % numTextures;
+			SDL_QueryTexture(bunnyTexture[bunnies[i].texture], NULL, NULL, 
+				&bunnies[i].textureRect.w, &bunnies[i].textureRect.h);
 		}
 		if (test_name.find("animation") != string::npos){
 			bunnies[i].x += bunnies[i].speedX;
@@ -217,7 +231,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "triangles,animation";
+		test_name = "lines,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
@@ -246,14 +260,25 @@ int main(int argc, char* argv[]){
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Window *win = SDL_CreateWindow("SDL", 100, 100, SCREEN_X, SCREEN_Y, SDL_WINDOW_SHOWN);
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	
+	// load textures depending on flags
+	if (test_name.find("multitexture") != string::npos){
+		addTexture("wabbit_alpha0", ren);
+		addTexture("wabbit_alpha1", ren);
+		addTexture("wabbit_alpha2", ren);
+	}
+	if (test_name.find("alpha") != string::npos){
+		addTexture("wabbit_ghost", ren);
+	}
+	if (test_name.find("thin") != string::npos){
+		addTexture("wabbit_y", ren);
+	}
+	// default case
+	if (numTextures == 0){
+		addTexture("wabbit_alpha0", ren);
+	}
 
 	// prepare bunny
-	bunny[0] = IMG_LoadTexture(ren, "wabbit_alpha0.png");
-	bunny[1] = IMG_LoadTexture(ren, "wabbit_alpha1.png");
-	bunny[2] = IMG_LoadTexture(ren, "wabbit_alpha2.png");
-	rect_bunny.x = 0;
-	rect_bunny.y = 0;
-	SDL_QueryTexture(bunny[0], NULL, NULL, &rect_bunny.w, &rect_bunny.h);
 	bunnies = new Bunny[max_val];
 	setInitialValues();
 
