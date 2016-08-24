@@ -17,7 +17,8 @@ using namespace std;
 #define NATURE_TRIANGLE 1
 #define NATURE_CIRCLE 2
 #define NATURE_SQUARE 3
-#define NATURE_TEXT 4
+#define NATURE_PARTICLE 4
+#define NATURE_TEXT 5
 
 // the arguments
 string test_name;
@@ -30,6 +31,7 @@ int SCREEN_Y;
 int n;
 SDL_Rect rect_bunny;
 SDL_Texture *bunny[NUM_ANIM_FRAMES];
+SDL_PixelFormat* pixelFormat;
 
 double renderTimes[REPETITIONS];
 int frameNo;
@@ -54,6 +56,7 @@ public:
 	double rotation;
 	int texture;
 	int nature;
+	SDL_Color color;
 
 	Bunny(){
 		x = 0.0;
@@ -67,6 +70,10 @@ public:
 		rotation = 0.0;
 		texture = 0;
 		nature = NATURE_BUNNY;
+		color.a = 255;
+		color.r = rand() % 255;
+		color.g = rand() % 255;
+		color.b = rand() % 255;
 	}
 
 	void render(SDL_Renderer *ren){
@@ -82,19 +89,23 @@ public:
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
-			filledTrigonColor(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, 0xFF00FFFF);
+			filledTrigonRGBA(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, color.r, color.g, color.b, color.a);
 		}
 		// render circle
 		else if (nature == NATURE_CIRCLE) {
-			circleColor(ren, rect.x, rect.y, 13, 0xFF00FFFF);
+			circleRGBA(ren, rect.x, rect.y, 13, color.r, color.g, color.b, color.a);
 		}
 		// render square
 		else if (nature == NATURE_SQUARE){
-			rectangleColor(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, 0xFF00FFFF);
+			rectangleRGBA(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color.r, color.g, color.b, color.a);
+		}
+		// render particle
+		else if (nature == NATURE_PARTICLE){
+			pixelRGBA(ren, rect.x, rect.y, color.r, color.g, color.b, color.a);
 		}
 		// render text
 		else if (nature == NATURE_TEXT) {
-			stringColor(ren, rect.x, rect.y, "Hello World :D", 0xFF00FFFF);
+			stringRGBA(ren, rect.x, rect.y, "Hello World :D", color.r, color.g, color.b, color.a);
 		}
 	}
 };
@@ -143,6 +154,9 @@ void setInitialValues(){
 		}
 		if (test_name.find("squares") != string::npos){
 			bunnies[i].nature = NATURE_SQUARE;
+		}
+		if (test_name.find("particles") != string::npos){
+			bunnies[i].nature = NATURE_PARTICLE;
 		}
 		if (test_name.find("text") != string::npos){
 			bunnies[i].nature = NATURE_TEXT;
@@ -207,14 +221,12 @@ int main(int argc, char* argv[]){
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
-		
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
 		min_val = atoi(argv[2]);
 		max_val = atoi(argv[3]);
 		step = atoi(argv[4]);
-		
 	}
 	// screensize is optional parameter
 	if (argc < 7){
