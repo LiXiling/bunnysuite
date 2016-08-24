@@ -97,6 +97,8 @@
     <Compile Include="src\model\BenchmarkFactory.cs" />
     <Compile Include="src\model\BenchmarkTest.cs" />
     <Compile Include="src\model\Bunny.cs" />
+    <Compile Include="src\model\IRenderable.cs" />
+    <Compile Include="src\model\Triangle.cs" />
     <Compile Include="src\output\Logger.cs" />
     <Compile Include="src\output\DebugText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,15 +109,16 @@
     <Compile Include="src\testImpl\GhostTextureLoader.cs" />
     <Compile Include="src\testImpl\ITextureLoader.cs" />
     <Compile Include="src\testImpl\MultiTextureLoader.cs" />
+    <Compile Include="src\testImpl\ScaleModifier.cs" />
     <Compile Include="src\testImpl\SpeedModifier.cs" />
     <Compile Include="src\testImpl\FixedPositionModifier.cs" />
     <Compile Include="src\testImpl\IBunnyModifier.cs" />
     <Compile Include="src\testImpl\StandardTextureLoader.cs" />
-    <Compile Include="src\testImpl\StarTextureLoader.cs" />
+    <Compile Include="src\testImpl\ThinTextureLoader.cs" />
     <Compile Include="src\testImpl\TexturechangeModifier.cs" />
     <Compile Include="src\testImpl\RandomPositionModifier.cs" />
     <Compile Include="src\testImpl\RotationModifier.cs" />
-    <Compile Include="src\testImpl\ScaleModifier.cs" />
+    <Compile Include="src\testImpl\PulseModifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

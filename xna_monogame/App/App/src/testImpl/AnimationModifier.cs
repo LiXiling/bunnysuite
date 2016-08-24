@@ -8,9 +8,9 @@ namespace App.src.testImpl
 {
     public class AnimationModifier : IBunnyModifier
     {
-        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
+        public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-            bunny.jump(bt.random, bt.gravity, bt.minX, bt.minY, bt.maxX, bt.maxY);
+            renderable.Jump(bt.random, bt.gravity, bt.minX, bt.minY, bt.maxX, bt.maxY);
         }
     }
 }

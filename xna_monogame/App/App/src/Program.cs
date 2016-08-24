@@ -21,7 +21,7 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                testnameList = "scaled,random,hd";
+                testnameList = "animation";
                 min_val = 0;
                 max_val = 20000;
                 step = 1000;

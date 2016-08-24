@@ -9,8 +9,9 @@ namespace App.src.testImpl
 {
     public class TexturechangeModifier : IBunnyModifier
     {
-        public void ModifyBunny(Bunny bunny, BenchmarkTest bt){
-                bunny.changeTexture(bt.getTexture());           
+        public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
+        {
+                renderable.ChangeTexture(bt.getTexture());           
         }
     }
 }

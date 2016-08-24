@@ -1,14 +1,15 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace App
+namespace App.src.model
 {
-    public class Bunny
+    public class Bunny : IRenderable
     {
         //private const int numberOfTextures = 3;
         private static double fullCircle = Math.PI * 2;
-        private double growth = 0.1;
+        private float growth = 0.1f;
 
         public float X;
         public float Y;
@@ -19,8 +20,8 @@ namespace App
         public float SpeedX;
         public float SpeedY;
 
-        public double Rotation = 0;
-        public double Scale = 1;
+        public float Rotation = 0;
+        public Vector2 Scale = new Vector2(1f, 1f);
 
 
         public Texture2D texture;
@@ -28,24 +29,50 @@ namespace App
 
         public Bunny(Texture2D texture)
         {
-            changeTexture(texture);
+            ChangeTexture(texture);
         }
 
-        public void changeTexture(Texture2D texture)
+        public void ChangeTexture(Texture2D texture)
         {
             this.texture = texture;
             originX = texture.Width / 2;
             originY = texture.Height / 2;
         }
 
-        public void jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
+        public void Draw(SpriteBatch spriteBatch, GraphicsDevice device, BasicEffect basicEffect)
+        {            
+            spriteBatch.Draw(
+                this.texture,
+                new Vector2(this.X, this.Y),
+                null,
+                Color.White,
+                this.Rotation,
+                new Vector2(this.originX, this.originY),
+                this.Scale,
+                SpriteEffects.None,
+                0f
+           );
+            
+        }
+
+        public void Grow()
+        {
+            Scale.X += growth;
+            Scale.Y += growth;
+            if (Scale.X >= 5 || Scale.X <= 0.2)
+            {
+                growth *= -1;
+            }
+        }
+
+        public void Jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
         {
 
             this.X += this.SpeedX;
             this.Y += this.SpeedY;
             this.SpeedY += gravity;
             //?
-            this.SpeedX += (float) random.NextDouble();
+            this.SpeedX += (float)random.NextDouble();
 
             if (this.X > maxX)
             {
@@ -64,7 +91,7 @@ namespace App
                 this.Y = maxY;
                 if ((float)random.NextDouble() > 0.5)
                 {
-                    this.SpeedY -= 3f + (float) random.NextDouble() * 4f;
+                    this.SpeedY -= 3f + (float)random.NextDouble() * 4f;
                 }
             }
             else if (this.Y < minY)
@@ -74,24 +101,27 @@ namespace App
             }
         }
 
-        public void teleport(Random random, float maxX, float maxY)
+        public void Rotate(Random random)
+        {
+            Rotation = (float) ((Rotation + random.NextDouble() * 0.1) % fullCircle);
+        }
+
+        public void SetScale(float xScale, float yScale)
+        {
+            Scale.X = xScale;
+            Scale.Y = yScale;
+        }
+
+        public void SetSpeed(float xSpeed, float ySpeed)
+        {
+            SpeedX = xSpeed;
+            SpeedY = ySpeed;
+        }
+
+        public void Teleport(Random random, float maxX, float maxY)
         {
             X = random.Next((int)maxX);
             Y = random.Next((int)maxY);
-        }
-
-        public void grow()
-        {
-            Scale += growth;
-            if (Scale >= 5 || Scale <= 0.2)
-            {
-                growth *= -1;
-            }
-        }
-
-        public void rotate(Random random)
-        {
-            Rotation = (Rotation + random.NextDouble() * 0.1) % fullCircle;
-        }
+        }                
     }
 }

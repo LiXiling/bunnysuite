@@ -12,8 +12,8 @@ namespace App.src.testImpl
         /// <summary>
         /// Modifies a Bunny's status
         /// </summary>
-        /// <param name="bunny">The Bunny to be modified</param>
+        /// <param name="renderable">The RenderObject to be modified</param>
         /// <param name="bt">The BenchmarkTest calling this method</param>
-        void ModifyBunny(Bunny bunny, BenchmarkTest bt);
+        void ModifyBunny(IRenderable renderable, BenchmarkTest bt);
     }
 }

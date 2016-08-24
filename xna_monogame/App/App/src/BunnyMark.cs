@@ -12,13 +12,14 @@ namespace App
         //Test Parameter
         private String test_name;
         private int max_val;
-        
+
         private BenchmarkTest bt;
 
         //Graphics IO
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Color bgColor;
+        BasicEffect basicEffect;
 
         //Test Values
         private int bunnyCount = 0;
@@ -55,11 +56,19 @@ namespace App
             bgColor = new Color(21, 21, 21);
             bt.Initialize(graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37);
             base.Initialize();
+
+            basicEffect = new BasicEffect(graphics.GraphicsDevice);
+            basicEffect.VertexColorEnabled = true;
+            basicEffect.Projection = Matrix.CreateOrthographicOffCenter(
+                0, graphics.GraphicsDevice.Viewport.Width,      // left, right
+                graphics.GraphicsDevice.Viewport.Height, 0,     // bottom, top
+                0, 1                                            // near, far plane
+            );                                         
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
             debugText = new DebugText(Content);
 
             bt.LoadContent(Content, spriteBatch);
@@ -83,12 +92,11 @@ namespace App
             bunnyCount = bt.getBunnyCount();
 
             GraphicsDevice.Clear(bgColor);
+            basicEffect.CurrentTechnique.Passes[0].Apply();
 
             spriteBatch.Begin();
-
-            bt.Draw();
+            bt.Draw(spriteBatch, graphics.GraphicsDevice, basicEffect);                       
             debugText.Draw(spriteBatch, bunnyCount);
-
             spriteBatch.End();
 
             logger.addLog(gameTime, bunnyCount);
@@ -102,7 +110,7 @@ namespace App
             }
 
             base.Draw(gameTime);
-            
+
         }
     }
 }

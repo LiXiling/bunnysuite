@@ -23,74 +23,76 @@ namespace App.src.model
             BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step);
             String[] testnames = testnameList.Split(',');
 
-            Boolean loaderAdded = false;
+            Boolean textureAdded = false;
 
             foreach(String testname in testnames){
 
                 switch (testname)
                 {
-                    case "standard":
-                        bt.addSpawnModifier(new FixedPositionModifier());
-                        bt.addTextureLoader(new StandardTextureLoader());
-                        loaderAdded = true;
+                    case "alpha":
+                        bt.addTextureLoader(new GhostTextureLoader());                        
+                        textureAdded = true;
                         break;
                     case "animation":
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
+                        break;                    
+                    case "hd":
+                        bt.addTextureLoader(new HDTextureLoader());                        
+                        textureAdded = true;
                         break;
-                    case "texturechange":
-                        bt.addSpawnModifier(new RandomPositionModifier());
-                        bt.addUpdateModifier(new TexturechangeModifier());
+                    case "no_output":
+                        bt.noOutput = true;
+                        break;
+                    case "multitexture":
+                        bt.addSpawnModifier(new TexturechangeModifier());
                         bt.addTextureLoader(new MultiTextureLoader());
-                        loaderAdded = true;
+                        textureAdded = true;
+                        break;
+                    case "pulsation":
+                        bt.addUpdateModifier(new PulseModifier());
+                        break;
+                    case "random":
+                        bt.addSpawnModifier(new RandomPositionModifier());                  
                         break;
                     case "rotation":
                         bt.addSpawnModifier(new RandomPositionModifier());
                         bt.addUpdateModifier(new RotationModifier());
-                        break;
-                    case "random":
-                        RandomPositionModifier rt = new RandomPositionModifier();
-                        bt.addSpawnModifier(rt);
-                        bt.addUpdateModifier(rt);
-                        break;
+                        break;      
                     case "scaled":
-                        bt.addSpawnModifier(new RandomPositionModifier());
-                        bt.addUpdateModifier(new ScaleModifier());
+                        bt.addSpawnModifier(new ScaleModifier());
                         break;
-                    case "multitexture":
-                        bt.addSpawnModifier(new RandomPositionModifier());
-                        bt.addSpawnModifier(new TexturechangeModifier());
-                        bt.addTextureLoader(new MultiTextureLoader());
-                        loaderAdded = true;
-                        break;
-                    case "star":
-                        bt.addTextureLoader(new StarTextureLoader());
-                        loaderAdded = true;
+                    case "standard":
                         bt.addSpawnModifier(new FixedPositionModifier());
+                        bt.addTextureLoader(new StandardTextureLoader());
+                        textureAdded = true;
                         break;
-                    case "alpha":
-                        bt.addTextureLoader(new GhostTextureLoader());
-                        loaderAdded = true;
-                        bt.addSpawnModifier(new FixedPositionModifier());
+                    case "thin":
+                        bt.addTextureLoader(new ThinTextureLoader());                        
+                        textureAdded = true;
                         break;
-                    case "hd":
-                        bt.addTextureLoader(new HDTextureLoader());
-                        loaderAdded = true;
-                        bt.addSpawnModifier(new FixedPositionModifier());
+                    case "teleport":
+                        bt.addUpdateModifier(new RandomPositionModifier());
                         break;
+                    case "texturechange":
+                        bt.addUpdateModifier(new TexturechangeModifier());                      
+                        break;                                                                                
                     default:
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
                         bt.addTextureLoader(new StandardTextureLoader());
-                        loaderAdded = true;
+                        textureAdded = true;
                         break;
                     }
             }
 
-            if (!loaderAdded)
+            if (!textureAdded)
             {
                 bt.addTextureLoader(new StandardTextureLoader());
             }
+
+            //Spawn at least inside the window
+            //bt.addSpawnModifier(new FixedPositionModifier());
 
             return bt;
         }
