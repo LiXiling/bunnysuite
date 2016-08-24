@@ -17,7 +17,8 @@ using namespace std;
 #define NATURE_TRIANGLE 1
 #define NATURE_CIRCLE 2
 #define NATURE_SQUARE 3
-#define NATURE_TEXT 4
+#define NATURE_PARTICLE 4
+#define NATURE_TEXT 5
 
 // the arguments
 string test_name;
@@ -54,6 +55,7 @@ public:
 	double rotation;
 	int texture;
 	int nature;
+	Uint32 color;
 
 	Bunny(){
 		x = 0.0;
@@ -67,6 +69,8 @@ public:
 		rotation = 0.0;
 		texture = 0;
 		nature = NATURE_BUNNY;
+		color = 0xFF00FFFF;
+		//color = rand();
 	}
 
 	void render(SDL_Renderer *ren){
@@ -82,19 +86,23 @@ public:
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
-			filledTrigonColor(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, 0xFF00FFFF);
+			filledTrigonColor(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y, color);
 		}
 		// render circle
 		else if (nature == NATURE_CIRCLE) {
-			circleColor(ren, rect.x, rect.y, 13, 0xFF00FFFF);
+			circleColor(ren, rect.x, rect.y, 13, color);
 		}
 		// render square
 		else if (nature == NATURE_SQUARE){
-			rectangleColor(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, 0xFF00FFFF);
+			rectangleColor(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color);
+		}
+		// render particle
+		else if (nature == NATURE_PARTICLE){
+			pixelColor(ren, rect.x, rect.y, color);
 		}
 		// render text
 		else if (nature == NATURE_TEXT) {
-			stringColor(ren, rect.x, rect.y, "Hello World :D", 0xFF00FFFF);
+			stringColor(ren, rect.x, rect.y, "Hello World :D", color);
 		}
 	}
 };
@@ -143,6 +151,9 @@ void setInitialValues(){
 		}
 		if (test_name.find("squares") != string::npos){
 			bunnies[i].nature = NATURE_SQUARE;
+		}
+		if (test_name.find("particles") != string::npos){
+			bunnies[i].nature = NATURE_PARTICLE;
 		}
 		if (test_name.find("text") != string::npos){
 			bunnies[i].nature = NATURE_TEXT;
@@ -203,7 +214,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "triangles,animation";
+		test_name = "particles,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
