@@ -1,0 +1,8 @@
+- Die REPETITIONS-Konstante als optionales Command-Line-Argument dazunehmen (weil mit höherer Anzahl wird die Kurve smoother...)
+	-> Trade-Off Genauigkeit <-> Testdauer in der Ausarbeitung erwähnen
+- Ausarbeitung: Zu jedem Framework kurz ein paar implementierungstechnische Besonderheiten
+- Ausarbeigung: Beschreibung der GUI, wie umgesetzt?
+- Partikel-Algorithmus aus Game-Technology (hat Victor erwähnt)
+- Textur einfärben als Test
+
+- NICHT VERGESSEN: Abstract bei der Ausarbeitung!!!
