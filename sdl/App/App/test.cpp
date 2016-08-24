@@ -75,6 +75,8 @@ public:
 		rotation = 0.0;
 		texture = rand() % numTextures;
 		SDL_QueryTexture(bunnyTexture[texture], NULL, NULL, &textureRect.w, &textureRect.h);
+		textureRect.w = int(floor((textureRect.w * 37.0 / textureRect.h)));
+		textureRect.h = 37;
 		nature = (natures.size() == 0) ? NATURE_BUNNY : natures.at(rand() % natures.size());
 		color.a = 255;
 		color.r = rand() % 256;
@@ -216,7 +218,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "lines,circles,particles,animation";
+		test_name = "hdtexture,multitexture,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
@@ -257,6 +259,9 @@ int main(int argc, char* argv[]){
 	}
 	if (test_name.find("thin") != string::npos){
 		addTexture("wabbit_y", ren);
+	}
+	if (test_name.find("hdtexture") != string::npos){
+		addTexture("wabbit_hd", ren);
 	}
 	// default case
 	if (numTextures == 0){
