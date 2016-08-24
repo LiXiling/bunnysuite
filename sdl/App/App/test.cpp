@@ -218,7 +218,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "hdtexture,multitexture,animation";
+		test_name = "texts,triangles,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;

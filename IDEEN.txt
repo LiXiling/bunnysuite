@@ -4,6 +4,9 @@
 - Ausarbeigung: Beschreibung der GUI, wie umgesetzt?
 - Partikel-Algorithmus aus Game-Technology (hat Victor erwähnt)
 - Textur einfärben als Test
+- Balkendiagramm für den Schwellwert, bei dem es unter 60 fps fällt
+- Mehr Daten in Logfiles angeben (erste Zeile)
+- Auflösung in Dateinamen von Logfiles integrieren
 
 - NICHT VERGESSEN: Abstract bei der Ausarbeitung!!!
 
