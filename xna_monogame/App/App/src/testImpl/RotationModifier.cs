@@ -8,9 +8,9 @@ namespace App.src.testImpl
 {
     public class RotationModifier : IBunnyModifier
     {
-        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
+        public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-            bunny.rotate(bt.random);
+            renderable.Rotate(bt.random);
         }
     }
 }

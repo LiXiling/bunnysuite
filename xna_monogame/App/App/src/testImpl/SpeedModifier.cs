@@ -9,10 +9,12 @@ namespace App.src.testImpl
 {
     public class SpeedModifier : IBunnyModifier
     {
-        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
+        public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-            bunny.SpeedX = (float)bt.random.NextDouble() * 5;
-            bunny.SpeedY = (float)bt.random.NextDouble() * 5;
+            renderable.SetSpeed(
+                (float)bt.random.NextDouble() * 5,
+                (float)bt.random.NextDouble() * 5
+            );
         }
     }
 }

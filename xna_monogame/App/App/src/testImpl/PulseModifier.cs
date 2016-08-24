@@ -6,11 +6,11 @@ using System.Text;
 
 namespace App.src.testImpl
 {
-    public class FixedPositionModifier : IBunnyModifier
+    public class PulseModifier : IBunnyModifier
     {
         public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-            renderable.Jump(bt.random, bt.gravity, bt.minX, bt.minY, bt.maxX, bt.maxY);
+            renderable.Grow();
         }
     }
 }

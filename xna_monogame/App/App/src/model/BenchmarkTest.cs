@@ -12,7 +12,7 @@ namespace App.src.model
     public class BenchmarkTest
     {
         //Bunnies
-        public List<Bunny> bunnies;
+        public List<IRenderable> bunnies;
         public List<Texture2D> bunnyTextures;
 
         //testImpl Interfaces
@@ -23,7 +23,6 @@ namespace App.src.model
         //Misc. Helper
         public Random random;
         public ContentManager content;
-        public SpriteBatch spriteBatch;
         private int frameCount = 0;
 
         //Animation Constants
@@ -38,13 +37,15 @@ namespace App.src.model
         public int maxVal;
         public int step;
 
+        public bool noOutput = false;
+
         public BenchmarkTest(int minVal, int maxVal, int step)
         {
             this.minVal = minVal;
             this.maxVal = maxVal;
             this.step = step;
 
-            bunnies = new List<Bunny>();
+            bunnies = new List<IRenderable>();
             bunnyTextures = new List<Texture2D>();
             random = new Random();
         }
@@ -68,14 +69,14 @@ namespace App.src.model
         public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
         {
             this.content = content;
-            this.spriteBatch = spriteBatch;
 
             LoadTextures();
 
             AddBunnies(minVal);
         }
 
-        private void LoadTextures(){
+        private void LoadTextures()
+        {
             foreach (ITextureLoader loader in texLoaderList)
             {
                 loader.LoadTexture(this);
@@ -117,7 +118,7 @@ namespace App.src.model
                 return false;
             }
 
-            foreach (Bunny bunny in bunnies)
+            foreach (IRenderable bunny in bunnies)
             {
                 foreach (IBunnyModifier testProcedure in testProcedureList)
                 {
@@ -127,14 +128,21 @@ namespace App.src.model
             return false;
         }
 
-        /// <summary>
-        /// Called inside a spriteBatch.Begin() Block! Draws all the Bunnies onto the screen
-        /// </summary>
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch, GraphicsDevice device, BasicEffect basicEffect)
         {
-            foreach (Bunny bunny in bunnies)
+            if (noOutput)
             {
-                spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White, (float)bunny.Rotation, new Vector2(bunny.originX, bunny.originY), (float)bunny.Scale, SpriteEffects.None, 0f);
+                return;
+            }
+
+            if (bunnies.Count == 0)
+            {
+                return;
+            }
+
+            foreach (IRenderable bunny in bunnies)
+            {
+                bunny.Draw(spriteBatch, device, basicEffect);
             }
 
         }
@@ -148,6 +156,7 @@ namespace App.src.model
             for (int i = 0; i < count; i++)
             {
                 Bunny bunny = new Bunny(this.getTexture());
+                //Triangle bunny = new Triangle();
                 foreach (IBunnyModifier modifier in modifierList)
                 {
                     modifier.ModifyBunny(bunny, this);
