@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <vector>
 #include <time.h>
 
 using namespace std;
@@ -16,7 +17,7 @@ using namespace std;
 #define NATURE_BUNNY 0
 #define NATURE_TRIANGLE 1
 #define NATURE_CIRCLE 2
-#define NATURE_SQUARE 3
+#define NATURE_RECT 3
 #define NATURE_LINE 4
 #define NATURE_PARTICLE 5
 #define NATURE_TEXT 6
@@ -33,6 +34,8 @@ int n;
 SDL_Texture *bunnyTexture[NUM_MAX_TEXTURES];
 int numTextures = 0;
 SDL_PixelFormat* pixelFormat;
+
+vector<int> natures;
 
 double renderTimes[REPETITIONS];
 int frameNo;
@@ -72,11 +75,11 @@ public:
 		rotation = 0.0;
 		texture = rand() % numTextures;
 		SDL_QueryTexture(bunnyTexture[texture], NULL, NULL, &textureRect.w, &textureRect.h);
-		nature = NATURE_BUNNY;
+		nature = (natures.size() == 0) ? NATURE_BUNNY : natures.at(rand() % natures.size());
 		color.a = 255;
-		color.r = rand() % 255;
-		color.g = rand() % 255;
-		color.b = rand() % 255;
+		color.r = rand() % 256;
+		color.g = rand() % 256;
+		color.b = rand() % 256;
 	}
 
 	void render(SDL_Renderer *ren){
@@ -99,8 +102,8 @@ public:
 		else if (nature == NATURE_CIRCLE) {
 			aacircleRGBA(ren, rect.x, rect.y, 13, color.r, color.g, color.b, color.a);
 		}
-		// render square
-		else if (nature == NATURE_SQUARE){
+		// render rectangle
+		else if (nature == NATURE_RECT){
 			rectangleRGBA(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color.r, color.g, color.b, color.a);
 		}
 		// render line
@@ -154,24 +157,6 @@ void setInitialValues(){
 			// set random speed
 			bunnies[i].speedX = randomDouble(0.0, 5.0);
 			bunnies[i].speedY = randomDouble(-2.5, 2.5);
-		}
-		if (test_name.find("triangles") != string::npos){
-			bunnies[i].nature = NATURE_TRIANGLE;
-		}
-		if (test_name.find("circles") != string::npos){
-			bunnies[i].nature = NATURE_CIRCLE;
-		}
-		if (test_name.find("squares") != string::npos){
-			bunnies[i].nature = NATURE_SQUARE;
-		}
-		if (test_name.find("lines") != string::npos){
-			bunnies[i].nature = NATURE_LINE;
-		}
-		if (test_name.find("particles") != string::npos){
-			bunnies[i].nature = NATURE_PARTICLE;
-		}
-		if (test_name.find("texts") != string::npos){
-			bunnies[i].nature = NATURE_TEXT;
 		}
 	}
 }
@@ -231,7 +216,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "lines,animation";
+		test_name = "lines,circles,particles,animation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
@@ -276,6 +261,26 @@ int main(int argc, char* argv[]){
 	// default case
 	if (numTextures == 0){
 		addTexture("wabbit_alpha0", ren);
+	}
+
+	// collect natures
+	if (test_name.find("triangles") != string::npos){
+		natures.push_back(NATURE_TRIANGLE);
+	}
+	if (test_name.find("circles") != string::npos){
+		natures.push_back(NATURE_CIRCLE);
+	}
+	if (test_name.find("rectangles") != string::npos){
+		natures.push_back(NATURE_RECT);
+	}
+	if (test_name.find("lines") != string::npos){
+		natures.push_back(NATURE_LINE);
+	}
+	if (test_name.find("particles") != string::npos){
+		natures.push_back(NATURE_PARTICLE);
+	}
+	if (test_name.find("texts") != string::npos){
+		natures.push_back(NATURE_TEXT);
 	}
 
 	// prepare bunny
