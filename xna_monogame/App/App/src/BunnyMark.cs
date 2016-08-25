@@ -88,22 +88,11 @@ namespace App
             bunnyCount = bt.getBunnyCount();
             GraphicsDevice.Clear(bgColor);
 
-            Vector2 center = new Vector2(200, 200);
-            Vector2[] relVertex = new Vector2[4];
-            relVertex[0] = new Vector2(100, 137);
-            relVertex[1] = new Vector2(113, 100);
-            relVertex[2] = new Vector2(126, 137);
-            relVertex[3] = new Vector2(125, 137);
-
-
             spriteBatch.Begin();
             drawBatch.Begin(DrawSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
-            
-            //drawBatch.FillCircle(new SolidColorBrush(Color.SkyBlue), center, 175);
-            //drawBatch.FillPath(new SolidColorBrush(Color.Red), relVertex);
-
+                  
             bt.Draw(spriteBatch, drawBatch);
-            //debugText.Draw(spriteBatch, bunnyCount);
+            debugText.Draw(spriteBatch, bunnyCount);
 
             drawBatch.End();
             spriteBatch.End();
@@ -112,7 +101,7 @@ namespace App
             logger.addLog(gameTime, bunnyCount);
 
             //Exit if enough Bunnies are drawn
-            if (btFinished && bunnyCount == max_val)
+            if (btFinished && bunnyCount >= max_val)
             {
                 logger.write();
                 this.Exit();
