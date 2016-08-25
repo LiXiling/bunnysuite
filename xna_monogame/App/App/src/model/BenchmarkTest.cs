@@ -166,6 +166,9 @@ namespace App.src.model
                     case RenderEnum.Circle:
                         bunny = new Circle(random);
                         break;
+                    case RenderEnum.Rectangle:
+                        bunny = new Rectangle(random);
+                        break;
                     case RenderEnum.Triangle:
                         bunny = new Triangle(random);
                         break;

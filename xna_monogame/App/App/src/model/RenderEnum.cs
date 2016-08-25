@@ -7,6 +7,6 @@ namespace App.src.model
 {
     public enum RenderEnum
     {
-        Bunny, Triangle, Circle
+        Bunny, Triangle, Circle, Rectangle
     }
 }

@@ -115,6 +115,7 @@
     <Compile Include="src\model\Bunny.cs" />
     <Compile Include="src\model\Circle.cs" />
     <Compile Include="src\model\IRenderable.cs" />
+    <Compile Include="src\model\Rectangle.cs" />
     <Compile Include="src\model\RenderEnum.cs" />
     <Compile Include="src\model\Triangle.cs" />
     <Compile Include="src\output\Logger.cs" />

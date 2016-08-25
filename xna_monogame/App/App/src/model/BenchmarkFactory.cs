@@ -59,6 +59,9 @@ namespace App.src.model
                     case "random":
                         bt.addSpawnModifier(new RandomPositionModifier());                  
                         break;
+                    case "rectangles":
+                        bt.setRenderState(RenderEnum.Rectangle);
+                        break;
                     case "rotation":
                         bt.addSpawnModifier(new RandomPositionModifier());
                         bt.addUpdateModifier(new RotationModifier());
