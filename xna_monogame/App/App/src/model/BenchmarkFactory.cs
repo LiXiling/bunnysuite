@@ -36,7 +36,10 @@ namespace App.src.model
                     case "animation":
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
-                        break;                    
+                        break;      
+                    case "circles":
+                        bt.setRenderState(RenderEnum.Circle);
+                        break;
                     case "hdtexture":
                         bt.addTextureLoader(new HDTextureLoader());                        
                         textureAdded = true;
