@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LilyPath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +11,7 @@ namespace App.src.model
     public interface IRenderable
     {
         void ChangeTexture(Texture2D texture);
-        void Draw(SpriteBatch spriteBatch, GraphicsDevice device, BasicEffect basicEffect);
+        void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch);
         void Grow();
         void Jump(Random random, float gravity, float minX, float minY, float maxX, float maxY);
         void Rotate(Random random);

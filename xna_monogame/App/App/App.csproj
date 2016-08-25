@@ -94,10 +94,27 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\lilipath\Brush.cs" />
+    <Compile Include="src\lilipath\DrawBatch.cs" />
+    <Compile Include="src\lilipath\DrawCache.cs" />
+    <Compile Include="src\lilipath\Enums.cs" />
+    <Compile Include="src\lilipath\GraphicsPath.cs" />
+    <Compile Include="src\lilipath\LineCapInfo.cs" />
+    <Compile Include="src\lilipath\PathBuilder.cs" />
+    <Compile Include="src\lilipath\Pen.cs" />
+    <Compile Include="src\lilipath\SolidColorBrush.cs" />
+    <Compile Include="src\lilipath\TextureBrush.cs" />
+    <Compile Include="src\lilipath\Triangulator.cs" />
+    <Compile Include="src\lilipath\utility\Buffer.cs" />
+    <Compile Include="src\lilipath\utility\PenWorkspace.cs" />
+    <Compile Include="src\lilipath\utility\Pool.cs" />
+    <Compile Include="src\lilipath\utility\Pools.cs" />
+    <Compile Include="src\lilipath\utility\ZeroList.cs" />
     <Compile Include="src\model\BenchmarkFactory.cs" />
     <Compile Include="src\model\BenchmarkTest.cs" />
     <Compile Include="src\model\Bunny.cs" />
     <Compile Include="src\model\IRenderable.cs" />
+    <Compile Include="src\model\RenderEnum.cs" />
     <Compile Include="src\model\Triangle.cs" />
     <Compile Include="src\output\Logger.cs" />
     <Compile Include="src\output\DebugText.cs" />
@@ -163,6 +180,7 @@
     <None Include="App_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

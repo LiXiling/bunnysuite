@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using App.src.model;
+using LilyPath;
 
 namespace App
 {
@@ -18,8 +19,9 @@ namespace App
         //Graphics IO
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        DrawBatch drawBatch;
+
         private Color bgColor;
-        BasicEffect basicEffect;
 
         //Test Values
         private int bunnyCount = 0;
@@ -54,21 +56,15 @@ namespace App
         protected override void Initialize()
         {
             bgColor = new Color(21, 21, 21);
-            bt.Initialize(graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37);
+            bt.Initialize(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             base.Initialize();
-
-            basicEffect = new BasicEffect(graphics.GraphicsDevice);
-            basicEffect.VertexColorEnabled = true;
-            basicEffect.Projection = Matrix.CreateOrthographicOffCenter(
-                0, graphics.GraphicsDevice.Viewport.Width,      // left, right
-                graphics.GraphicsDevice.Viewport.Height, 0,     // bottom, top
-                0, 1                                            // near, far plane
-            );                                         
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);            
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            drawBatch = new DrawBatch(GraphicsDevice);
+
             debugText = new DebugText(Content);
 
             bt.LoadContent(Content, spriteBatch);
@@ -90,14 +86,28 @@ namespace App
         protected override void Draw(GameTime gameTime)
         {
             bunnyCount = bt.getBunnyCount();
-
             GraphicsDevice.Clear(bgColor);
-            basicEffect.CurrentTechnique.Passes[0].Apply();
+
+            Vector2 center = new Vector2(200, 200);
+            Vector2[] relVertex = new Vector2[4];
+            relVertex[0] = new Vector2(100, 137);
+            relVertex[1] = new Vector2(113, 100);
+            relVertex[2] = new Vector2(126, 137);
+            relVertex[3] = new Vector2(125, 137);
+
 
             spriteBatch.Begin();
-            bt.Draw(spriteBatch, graphics.GraphicsDevice, basicEffect);                       
-            debugText.Draw(spriteBatch, bunnyCount);
+            drawBatch.Begin(DrawSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
+            
+            //drawBatch.FillCircle(new SolidColorBrush(Color.SkyBlue), center, 175);
+            //drawBatch.FillPath(new SolidColorBrush(Color.Red), relVertex);
+
+            bt.Draw(spriteBatch, drawBatch);
+            //debugText.Draw(spriteBatch, bunnyCount);
+
+            drawBatch.End();
             spriteBatch.End();
+
 
             logger.addLog(gameTime, bunnyCount);
 

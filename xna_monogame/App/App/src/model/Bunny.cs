@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using LilyPath;
 
 namespace App.src.model
 {
@@ -21,7 +22,9 @@ namespace App.src.model
         public float SpeedY;
 
         public float Rotation = 0;
+
         public Vector2 Scale = new Vector2(1f, 1f);
+        public float initScale = 1;
 
 
         public Texture2D texture;
@@ -35,11 +38,14 @@ namespace App.src.model
         public void ChangeTexture(Texture2D texture)
         {
             this.texture = texture;
+
+            initScale = (37f / texture.Height);
+
             originX = texture.Width / 2;
             originY = texture.Height / 2;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDevice device, BasicEffect basicEffect)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
         {            
             spriteBatch.Draw(
                 this.texture,
@@ -48,7 +54,7 @@ namespace App.src.model
                 Color.White,
                 this.Rotation,
                 new Vector2(this.originX, this.originY),
-                this.Scale,
+                Vector2.Multiply(this.Scale, this.initScale),
                 SpriteEffects.None,
                 0f
            );
@@ -67,12 +73,10 @@ namespace App.src.model
 
         public void Jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
         {
-
             this.X += this.SpeedX;
             this.Y += this.SpeedY;
             this.SpeedY += gravity;
-            //?
-            this.SpeedX += (float)random.NextDouble();
+            
 
             if (this.X > maxX)
             {
@@ -103,7 +107,7 @@ namespace App.src.model
 
         public void Rotate(Random random)
         {
-            Rotation = (float) ((Rotation + random.NextDouble() * 0.1) % fullCircle);
+            Rotation = (float) ((Rotation + 0.1) % fullCircle);
         }
 
         public void SetScale(float xScale, float yScale)
@@ -122,6 +126,6 @@ namespace App.src.model
         {
             X = random.Next((int)maxX);
             Y = random.Next((int)maxY);
-        }                
+        }
     }
 }

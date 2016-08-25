@@ -37,9 +37,10 @@ namespace App.src.model
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
                         break;                    
-                    case "hd":
+                    case "hdtexture":
                         bt.addTextureLoader(new HDTextureLoader());                        
                         textureAdded = true;
+                        Console.WriteLine("HD");
                         break;
                     case "no_output":
                         bt.noOutput = true;
@@ -76,7 +77,10 @@ namespace App.src.model
                         break;
                     case "texturechange":
                         bt.addUpdateModifier(new TexturechangeModifier());                      
-                        break;                                                                                
+                        break;
+                    case "triangle":
+                        bt.setRenderState(RenderEnum.Triangle);
+                        break;
                     default:
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
@@ -86,14 +90,12 @@ namespace App.src.model
                     }
             }
 
+            Console.WriteLine(textureAdded);
+
             if (!textureAdded)
             {
                 bt.addTextureLoader(new StandardTextureLoader());
             }
-
-            //Spawn at least inside the window
-            //bt.addSpawnModifier(new FixedPositionModifier());
-
             return bt;
         }
     }

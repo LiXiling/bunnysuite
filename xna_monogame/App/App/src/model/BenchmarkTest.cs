@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using App.src.testImpl;
+using LilyPath;
 
 namespace App.src.model
 {
@@ -38,6 +39,8 @@ namespace App.src.model
         public int step;
 
         public bool noOutput = false;
+        private RenderEnum state = RenderEnum.Bunny;
+
 
         public BenchmarkTest(int minVal, int maxVal, int step)
         {
@@ -56,8 +59,8 @@ namespace App.src.model
         /// <param name="maxY">max Value in Y Dimension</param>
         public void Initialize(float maxX, float maxY)
         {
-            this.minX = 50;
-            this.minY = 100;
+            this.minX = 0;
+            this.minY = 0;
             this.maxX = maxX;
             this.maxY = maxY;
         }
@@ -128,23 +131,20 @@ namespace App.src.model
             return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDevice device, BasicEffect basicEffect)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
         {
-            if (noOutput)
+            if (noOutput || bunnies.Count == 0)
             {
                 return;
             }
 
-            if (bunnies.Count == 0)
-            {
-                return;
-            }
+            int drawCalls = 0;
 
             foreach (IRenderable bunny in bunnies)
             {
-                bunny.Draw(spriteBatch, device, basicEffect);
+                drawCalls++;
+                bunny.Draw(spriteBatch, drawBatch);
             }
-
         }
 
         /// <summary>
@@ -153,10 +153,25 @@ namespace App.src.model
         /// <param name="count">Amount of Bunnies to be added</param>
         private void AddBunnies(int count)
         {
+
             for (int i = 0; i < count; i++)
             {
-                Bunny bunny = new Bunny(this.getTexture());
-                //Triangle bunny = new Triangle();
+                IRenderable bunny;
+
+                switch (state)
+                {
+                    case RenderEnum.Bunny:
+                        bunny = new Bunny(this.getTexture());
+                        break;
+                    case RenderEnum.Triangle:
+                        bunny = new Triangle(random);
+                        break;
+                    default:
+                        bunny = new Bunny(this.getTexture());
+                        break;
+                }
+                //Bunny bunny = new Bunny(this.getTexture());
+                //Triangle bunny = new Triangle(random);
                 foreach (IBunnyModifier modifier in modifierList)
                 {
                     modifier.ModifyBunny(bunny, this);
@@ -186,6 +201,11 @@ namespace App.src.model
         public void addUpdateModifier(IBunnyModifier runner)
         {
             testProcedureList.Add(runner);
+        }
+
+        public void setRenderState(RenderEnum newState)
+        {
+            state = newState;
         }
     }
 }
