@@ -43,7 +43,9 @@ namespace App.src.model
                     case "hdtexture":
                         bt.addTextureLoader(new HDTextureLoader());                        
                         textureAdded = true;
-                        Console.WriteLine("HD");
+                        break;
+                    case "lines":
+                        bt.setRenderState(RenderEnum.Line);
                         break;
                     case "no_output":
                         bt.noOutput = true;
@@ -81,10 +83,13 @@ namespace App.src.model
                     case "teleport":
                         bt.addUpdateModifier(new RandomPositionModifier());
                         break;
+                    case "texts":
+                        bt.setRenderState(RenderEnum.Text);
+                        break;
                     case "texturechange":
                         bt.addUpdateModifier(new TexturechangeModifier());                      
                         break;
-                    case "triangle":
+                    case "triangles":
                         bt.setRenderState(RenderEnum.Triangle);
                         break;
                     default:

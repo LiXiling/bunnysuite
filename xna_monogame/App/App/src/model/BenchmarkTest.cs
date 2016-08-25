@@ -166,8 +166,14 @@ namespace App.src.model
                     case RenderEnum.Circle:
                         bunny = new Circle(random);
                         break;
+                    case RenderEnum.Line:
+                        bunny = new Line(random);
+                        break;
                     case RenderEnum.Rectangle:
                         bunny = new Rectangle(random);
+                        break;
+                    case RenderEnum.Text:
+                        bunny = new Text(random, content, maxX, maxY);
                         break;
                     case RenderEnum.Triangle:
                         bunny = new Triangle(random);
@@ -176,8 +182,7 @@ namespace App.src.model
                         bunny = new Bunny(this.getTexture());
                         break;
                 }
-                //Bunny bunny = new Bunny(this.getTexture());
-                //Triangle bunny = new Triangle(random);
+                
                 foreach (IBunnyModifier modifier in modifierList)
                 {
                     modifier.ModifyBunny(bunny, this);
