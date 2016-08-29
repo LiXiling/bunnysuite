@@ -97,16 +97,16 @@ public:
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
-			filledTrigonRGBA(ren, rect.x, rect.y + 37, rect.x + 26, rect.y + 37, rect.x + 13, rect.y,
+			filledTrigonRGBA(ren, rect.x, rect.y + rect.h, rect.x + rect.w, rect.y + rect.h, rect.x + rect.w / 2, rect.y,
 				color.r, color.g, color.b, color.a);
 		}
 		// render circle
 		else if (nature == NATURE_CIRCLE) {
-			aacircleRGBA(ren, rect.x, rect.y, 13, color.r, color.g, color.b, color.a);
+			aacircleRGBA(ren, rect.x, rect.y, rect.w / 2, color.r, color.g, color.b, color.a);
 		}
 		// render rectangle
 		else if (nature == NATURE_RECT){
-			rectangleRGBA(ren, rect.x, rect.y, rect.x + 26, rect.y + 37, color.r, color.g, color.b, color.a);
+			rectangleRGBA(ren, rect.x, rect.y, rect.x + rect.w, rect.y + rect.h, color.r, color.g, color.b, color.a);
 		}
 		// render line
 		else if (nature == NATURE_LINE){
@@ -218,7 +218,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "texts,triangles,animation";
+		test_name = "lines,random,pulsation";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
