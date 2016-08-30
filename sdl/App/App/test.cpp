@@ -12,7 +12,6 @@ using namespace std;
 
 #define NUM_MAX_BUNNIES 100000
 #define NUM_MAX_TEXTURES 16
-#define REPETITIONS 10
 
 #define NATURE_BUNNY 0
 #define NATURE_TRIANGLE 1
@@ -29,6 +28,7 @@ int max_val;
 int step;
 int SCREEN_X;
 int SCREEN_Y;
+int REPETITIONS;
 
 int n;
 SDL_Texture *bunnyTexture[NUM_MAX_TEXTURES];
@@ -37,8 +37,8 @@ SDL_PixelFormat* pixelFormat;
 
 vector<int> natures;
 
-double renderTimes[REPETITIONS];
 int frameNo;
+double renderTime;
 
 // helper function to create random doubles
 double randomDouble(double min, double max)
@@ -218,7 +218,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "lines,random,pulsation";
+		test_name = "lines,random,pulsation,bunnies";
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
@@ -237,6 +237,13 @@ int main(int argc, char* argv[]){
 	else {
 		SCREEN_X = atoi(argv[5]);
 		SCREEN_Y = atoi(argv[6]);
+	}
+	// number of repetitions is another optional parameter
+	if (argc < 8){
+		REPETITIONS = 10;
+	}
+	else {
+		REPETITIONS = atoi(argv[7]);
 	}
 
 	n = min_val;
@@ -287,6 +294,9 @@ int main(int argc, char* argv[]){
 	if (test_name.find("texts") != string::npos){
 		natures.push_back(NATURE_TEXT);
 	}
+	if (test_name.find("bunnies") != string::npos){
+		natures.push_back(NATURE_BUNNY);
+	}
 
 	// prepare bunny
 	bunnies = new Bunny[max_val];
@@ -324,18 +334,13 @@ int main(int argc, char* argv[]){
 		updateBunnies();
 		// render
 		renderFrame(ren);
-		// measure frame time
-		time_current = SDL_GetTicks();
-		renderTimes[frameNo] = (time_current - time_last_log) / 1000.0;
-		time_last_log = time_current;
 		// check if #REPETITIONS frames are over
 		frameNo += 1;
 		if (frameNo == REPETITIONS){
-			double renderTime = 0.0;
-			for (int i = 0; i < REPETITIONS; ++i){
-				renderTime += renderTimes[i];
-			}
-			renderTime /= REPETITIONS;
+			// measure time
+			time_current = SDL_GetTicks();
+			renderTime = (time_current - time_last_log) / (1000.0 * REPETITIONS);
+			time_last_log = time_current;
 			logfile << n << "\t" << renderTime << endl;
 			frameNo = 0;
 			// set to next value
