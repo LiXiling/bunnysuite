@@ -39,6 +39,7 @@ namespace App.src.model
         public int step;
 
         public bool noOutput = false;
+        private List<RenderEnum> stateList = new List<RenderEnum>();
         private RenderEnum state = RenderEnum.Bunny;
 
 
@@ -85,12 +86,7 @@ namespace App.src.model
                 loader.LoadTexture(this);
             }
 
-        }
-
-        public Texture2D getTexture()
-        {
-            return bunnyTextures.ElementAt(random.Next(bunnyTextures.Count));
-        }
+        }        
 
         public int getBunnyCount()
         {
@@ -143,7 +139,7 @@ namespace App.src.model
             foreach (IRenderable bunny in bunnies)
             {
                 drawCalls++;
-                bunny.Draw(spriteBatch, drawBatch);
+                bunny.Draw(spriteBatch, drawBatch, this);
             }
         }
 
@@ -156,32 +152,7 @@ namespace App.src.model
 
             for (int i = 0; i < count; i++)
             {
-                IRenderable bunny;
-
-                switch (state)
-                {
-                    case RenderEnum.Bunny:
-                        bunny = new Bunny(this.getTexture());
-                        break;
-                    case RenderEnum.Circle:
-                        bunny = new Circle(random);
-                        break;
-                    case RenderEnum.Line:
-                        bunny = new Line(random);
-                        break;
-                    case RenderEnum.Rectangle:
-                        bunny = new Rectangle(random);
-                        break;
-                    case RenderEnum.Text:
-                        bunny = new Text(random, content, maxX, maxY);
-                        break;
-                    case RenderEnum.Triangle:
-                        bunny = new Triangle(random);
-                        break;
-                    default:
-                        bunny = new Bunny(this.getTexture());
-                        break;
-                }
+                IRenderable bunny = getNewSpawn();               
                 
                 foreach (IBunnyModifier modifier in modifierList)
                 {
@@ -214,9 +185,60 @@ namespace App.src.model
             testProcedureList.Add(runner);
         }
 
-        public void setRenderState(RenderEnum newState)
+        public void addRenderState(RenderEnum newState)
         {
-            state = newState;
+            stateList.Add(newState);
+        }
+
+        public Texture2D getRandomTexture()
+        {
+            return getTexture(random.Next(bunnyTextures.Count));
+        }
+
+        public Texture2D getTexture(int index)
+        {
+            return bunnyTextures.ElementAt(index);
+        }
+
+        private IRenderable getNewSpawn()
+        {
+            RenderEnum state;
+            IRenderable bunny;
+
+            if (stateList.Count == 0)
+            {
+                state = RenderEnum.Bunny;
+            }
+            else
+            {
+                state = stateList.ElementAt(random.Next(stateList.Count));
+            }
+
+            switch (state)
+            {
+                case RenderEnum.Bunny:
+                    bunny = new Bunny(random.Next(bunnyTextures.Count), this);
+                    break;
+                case RenderEnum.Circle:
+                    bunny = new Circle(random);
+                    break;
+                case RenderEnum.Line:
+                    bunny = new Line(random);
+                    break;
+                case RenderEnum.Rectangle:
+                    bunny = new Rectangle(random);
+                    break;
+                case RenderEnum.Text:
+                    bunny = new Text(random, content, maxX, maxY);
+                    break;
+                case RenderEnum.Triangle:
+                    bunny = new Triangle(random);
+                    break;
+                default:
+                    bunny = new Bunny(random.Next(bunnyTextures.Count), this);
+                    break;
+            }
+            return bunny;
         }
     }
 }

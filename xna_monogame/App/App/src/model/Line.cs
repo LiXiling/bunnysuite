@@ -10,8 +10,6 @@ namespace App.src.model
 {
     public class Line : IRenderable
     {
-        private static double fullCircle = Math.PI * 2;
-
         private float X = 13;
         private float Y = 18;
 
@@ -40,13 +38,12 @@ namespace App.src.model
             relVertex[1] = new Vector2(13, 19);
         }
 
-        public void ChangeTexture(Texture2D texture)
+        public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
         }
-        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
-            //drawBatch.FillPath(new SolidColorBrush(Color.LimeGreen), makeAbsolute(relVertex));
             drawBatch.DrawPrimitivePath(new Pen(brush), makeAbsolute(relVertex));
         }
         public void Grow()

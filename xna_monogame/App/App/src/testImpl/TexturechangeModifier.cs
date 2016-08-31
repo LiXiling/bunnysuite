@@ -11,7 +11,7 @@ namespace App.src.testImpl
     {
         public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-                renderable.ChangeTexture(bt.getTexture());           
+                renderable.ChangeTexture(bt.random.Next(bt.bunnyTextures.Count), bt);           
         }
     }
 }

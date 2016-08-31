@@ -26,18 +26,17 @@ namespace App.src.model
         public Vector2 Scale = new Vector2(1f, 1f);
         public float initScale = 1;
 
+        public int textureIndex;
 
-        public Texture2D texture;
-        //private Texture2D[] textureArray;
-
-        public Bunny(Texture2D texture)
+        public Bunny(int index, BenchmarkTest bt)
         {
-            ChangeTexture(texture);
+            ChangeTexture(index, bt);
         }
 
-        public void ChangeTexture(Texture2D texture)
+        public void ChangeTexture(int index, BenchmarkTest bt)
         {
-            this.texture = texture;
+            textureIndex = index;
+            Texture2D texture = bt.getTexture(index);
 
             initScale = (37f / texture.Height);
 
@@ -45,10 +44,10 @@ namespace App.src.model
             originY = texture.Height / 2;
         }
 
-        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {            
             spriteBatch.Draw(
-                this.texture,
+                bt.getTexture(textureIndex),
                 new Vector2(this.X, this.Y),
                 null,
                 Color.White,

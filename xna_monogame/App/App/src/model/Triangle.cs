@@ -10,8 +10,6 @@ namespace App.src.model
 {
     public class Triangle : IRenderable
     {
-        private static double fullCircle = Math.PI * 2;
-
         private float X = 13;
         private float Y = 25;
 
@@ -43,13 +41,12 @@ namespace App.src.model
 
         }
 
-        public void ChangeTexture(Texture2D texture)
+        public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
         }
-        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
-            //drawBatch.FillPath(new SolidColorBrush(Color.LimeGreen), makeAbsolute(relVertex));
             drawBatch.DrawPrimitivePath(new Pen(brush), makeAbsolute(relVertex));
         }
         public void Grow()

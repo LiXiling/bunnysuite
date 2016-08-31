@@ -87,15 +87,15 @@ namespace App
         {
             bunnyCount = bt.getBunnyCount();
             GraphicsDevice.Clear(bgColor);
-
-            spriteBatch.Begin();
+            
             drawBatch.Begin(DrawSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
+            spriteBatch.Begin();
                   
             bt.Draw(spriteBatch, drawBatch);
             debugText.Draw(spriteBatch, bunnyCount);
-
-            drawBatch.End();
+            
             spriteBatch.End();
+            drawBatch.End();
 
 
             logger.addLog(gameTime, bunnyCount);

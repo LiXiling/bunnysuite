@@ -10,8 +10,6 @@ namespace App.src.model
 {
     public class Circle : IRenderable
     {
-        private static double fullCircle = Math.PI * 2;
-
         private float X = 13;
         private float Y = 13;
 
@@ -35,11 +33,11 @@ namespace App.src.model
             ));
         }
 
-        public void ChangeTexture(Texture2D texture)
+        public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
         }
-        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
             drawBatch.DrawPrimitiveCircle(new Pen(brush), new Vector2(X, Y), radius * scale);
         }

@@ -10,8 +10,6 @@ namespace App.src.model
 {
     public class Rectangle : IRenderable
     {
-        private static double fullCircle = Math.PI * 2;
-
         private float X = 13;
         private float Y = 18;
 
@@ -44,13 +42,12 @@ namespace App.src.model
 
         }
 
-        public void ChangeTexture(Texture2D texture)
+        public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
         }
-        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
-        {
-            //drawBatch.FillPath(new SolidColorBrush(Color.LimeGreen), makeAbsolute(relVertex));
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
+        {            
             drawBatch.DrawPrimitivePath(new Pen(brush), makeAbsolute(relVertex));
         }
         public void Grow()

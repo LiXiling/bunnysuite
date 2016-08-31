@@ -3,7 +3,6 @@ using App.src.model;
 
 namespace App
 {
-#if WINDOWS || XBOX
     static class Program
     {
         private static String testnameList;
@@ -21,10 +20,10 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                testnameList = "lines,pulsation,rotation";
+                testnameList = "hdtexture,bunnies,rectangles,triangles,animation,pulsation";
                 min_val = 0;
                 max_val = 20000;
-                step = 10;
+                step = 100;
                 xRes = 1280;
                 yRes = 720;
             }
@@ -57,5 +56,4 @@ namespace App
             }
         }
     }
-#endif
 }

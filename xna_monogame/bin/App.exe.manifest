@@ -68,14 +68,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="App.exe" size="100864">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="App.exe" size="101376">
       <assemblyIdentity name="App" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>nDbyOkB7KNfSY50BR8U0nLfoUXU=</dsig:DigestValue>
+        <dsig:DigestValue>Y4mVv8PkGprjGaYQoS+sK3DwYEk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -88,13 +88,13 @@
       <dsig:DigestValue>xmmgEEp7m6SY5Ee63bDnysk3bpk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\effects.xnb" size="1870">
+  <file name="Data\effects.xnb" size="1866">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>q47X7+da+eE6jPULVaW4EWklLWw=</dsig:DigestValue>
+      <dsig:DigestValue>Pb9BGInjt+js+kl25BCIxSENlfE=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Data\fill.xnb" size="214">

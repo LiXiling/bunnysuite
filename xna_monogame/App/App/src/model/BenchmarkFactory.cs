@@ -37,15 +37,18 @@ namespace App.src.model
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
                         break;      
+                    case "bunnies":
+                        bt.addRenderState(RenderEnum.Bunny);
+                        break;
                     case "circles":
-                        bt.setRenderState(RenderEnum.Circle);
+                        bt.addRenderState(RenderEnum.Circle);
                         break;
                     case "hdtexture":
                         bt.addTextureLoader(new HDTextureLoader());                        
                         textureAdded = true;
                         break;
                     case "lines":
-                        bt.setRenderState(RenderEnum.Line);
+                        bt.addRenderState(RenderEnum.Line);
                         break;
                     case "no_output":
                         bt.noOutput = true;
@@ -62,7 +65,7 @@ namespace App.src.model
                         bt.addSpawnModifier(new RandomPositionModifier());                  
                         break;
                     case "rectangles":
-                        bt.setRenderState(RenderEnum.Rectangle);
+                        bt.addRenderState(RenderEnum.Rectangle);
                         break;
                     case "rotation":
                         bt.addSpawnModifier(new RandomPositionModifier());
@@ -84,13 +87,13 @@ namespace App.src.model
                         bt.addUpdateModifier(new RandomPositionModifier());
                         break;
                     case "texts":
-                        bt.setRenderState(RenderEnum.Text);
+                        bt.addRenderState(RenderEnum.Text);
                         break;
                     case "texturechange":
                         bt.addUpdateModifier(new TexturechangeModifier());                      
                         break;
                     case "triangles":
-                        bt.setRenderState(RenderEnum.Triangle);
+                        bt.addRenderState(RenderEnum.Triangle);
                         break;
                     default:
                         bt.addSpawnModifier(new SpeedModifier());

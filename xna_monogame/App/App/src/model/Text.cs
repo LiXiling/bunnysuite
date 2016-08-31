@@ -49,11 +49,11 @@ namespace App.src.model
             this.maxY = maxY;
         }
 
-        public void ChangeTexture(Texture2D texture)
+        public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
         }
-        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
             spriteBatch.DrawString(
                 spriteFont,
