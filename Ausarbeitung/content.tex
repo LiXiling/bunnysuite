@@ -42,10 +42,29 @@ Ebenso entfällt bei der Darstellung eine komplexe Berechnung der Überlagerung 
 \end{enumerate}
 Diese Besonderheiten vereinfachen die Berechnung im 2D-Darstellungsfall. Dadurch ist dieser Fall aber nicht so gut optimiert, wie die 3D-Anwendung, und es werden regelmäßig Grenzen ausgereizt.
 
+\subsection{Praktische Auswirkungen}
+Diese Problematik hat konkrete Auswirkungen auf den Ablauf von Videospielen. Hier das Beispiel des Speedrunnings:
+
+Beim Speedrunning versucht der Spieler, so schnell wie möglich die Zielbedingung zu erfüllen. Das sind, je nach Spiel und Kategorie, das einsammeln aller Collectibles im Spiel, das Besiegen des Endgegners oder aber "nur" das Erreichen der Credits nach dem Spiel. Aus mehreren Gründen sind diese Spieler an einer guten Perfomanz des Spieles interessiert:
+
+\begin{itemize}
+\item Die Rekorde im selben Run (selbes Spiel, selbe Kategorie) sind oft nur Sekundenbruchteile schneller als die zweitschnellesten Ergebnisse.
+\item Zum Erreichen des Zieles dürfen, abhängig von der Kategorie, auch Spielfehler ausgenutzt werden, oder sogar durch Speichermanipulation und gezielten Over/Underflows das Spiel umgeschrieben werden. Hierfür sind oft pixelgenaue Positionierung in der Spielwelt und auf den Frame perfekte Benutzereingaben notwendig, um diese "Glitches" gezielt ausführen zu können.
+\end{itemize}
+
+Jeglicher Performance-Einbruch des Spieles erschwert die Jagd auf den nächsten Weltrekord. Die einfachste Lösung dieses Problems ist es, das Spiel auf immer stärkeren Rechnern zu starten. Das ist auch einer der Gründe, weshalb Spieler ohne Speedrunning Hintergrund sich nicht solche Gedanken machen müssen. Fehlende Optimierung des Spiels wird durch mehr Rechenleistung ausgeglichen.
+Dies ist aber nicht immer möglich, vor allem bei Spielen, die nur auf Konsolen laufen. Hier muss der Speedrunner die fehlende Optimierung selber ausgleichen. Zum Beispiel:
+\begin{itemize}
+\item Betrachten des leeren Himmels: Es werden keine Objekte auf dem Bildschirm dargestellt - \emph{Daggerfall, PC Speedrun}
+\item Das gezielte zerstören von bestimmten Gegnern: Es werden weniger Objekte auf dem Bildschirm dargestellt - \emph{Mega Man 3, NES }
+\end{itemize}
+Dies sind auch erste Ansätze für die Sektion \nameref{sec:bottlenecks}.
+
 \section{Benchmarking}
 Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen:\\ %Quelle: http://www.uni-leipzig.de/~emkf/Referate/G%C3%BCtekriterien%20PPT.pdf
 \begin{description}
 \item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, aber für vor allem bei technischen Entwicklern, unsere Zielgruppe, nicht beliebt. Ein arbiträres Punktesystem würde die Messwerte nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
+
 \item[Objektivität] ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}). Damit soll die Implementierung in den einzelnen Frameworks möglichst gleich sein. Somit sollen die verschiedenen Messwerte auf dem selben Computer nur auf die Effizienz der verwendeten Bibliothek zurückzuführen sein, und nicht auf die Implementierung der Tests durch den verantwortlichen Entwickler.\\
 Der Bunnymark soll speziell die Grafikleistung der verschiedenen Frameworks bewerten. Daher muss gewährleistet sein, dass das Testergebnis nicht maßgeblich von Berechnungen auf der CPU beeinflusst wird. Das Messergebnis darf daher beim Ausführen der Tests ohne Draw()-Call, somit nur auf der Update()-Phase der Gameloop beruhend, keinen schlechteren Messwert als 16,67ms bzw. 60 Frames per Second erreichen (für die Spezifikationen des Testsystems siehe \ref{tab:specs}. Plattformübergreifend können (und werden) die Ergebnisse abweichen, da die Performanz sehr stark abhängig von der jeweiligen Hardware ist.\\
 Zusätzlich liegen die Benchmark-Implementierungen kompiliert als binäre Executable-Datei vor. Einige Gameframeworks bieten als Zielplattform auch HTML5 an. Hier wäre jedoch nochmal der zusätzliche Umweg über den Browser nötig. Somit würde die Effizienz des Browsers maßgeblich die Messergebnisse beeinflussen.\\
@@ -53,7 +72,7 @@ Zusätzlich liegen die Benchmark-Implementierungen kompiliert als binäre Execut
 \item[Reliabilität] Als Maßnahme für hohe Reliabilität werden alle Messungen jeweils zehn mal durchgeführt und anschließend der Durchschnitt gebildet. Durch diese Berechnung von Durchschnittswerten für die einzelnen Testszenen dauert der gesamte Test zwar länger, aber es werden punktuelle Performance-Änderungen durch Hintergrundprozesse negiert. \\
 % Falls es noch eine ausführliche Testreihe zur Reliabilität geben sollte, muss das hier noch eingefügt werden.
 \end{description}
-Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 600 px.
+Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 600 px, kann aber per Parameter angepasst werden
 
 \begin{table}
     \begin{tabular}{ | l | c |}
@@ -73,6 +92,7 @@ Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 
 Bei der Konzeption einer Benchmark gibt es grundsätzlich zwei verschiedene Herangehensweisen: Zum einen kann man eine repräsentative, in der Regel sehr komplexe Test-Szene rendern lassen, in der alle möglichen Schwierigkeiten und Bottlenecks vorkommen, die gemeinhin bei der Grafikprogrammierung auftauchen, und damit die GPU an die Grenze der Belastbarkeit zu bringen. Das ist der übliche Ansatz bei im Internet frei verfügbaren Benchmarks\footnote{Ein Beispiel: https://unigine.com/products/benchmarks/heaven/}, die dazu dienen, die Fähigkeiten der eigenen Grafikkarte, also Hardware, zu testen. Zum anderen kann man viele einzelne, feingranulare Tests definieren, die auf einzelne Bottlenecks abzielen. Für das BunnySuite-Framework haben wir diese Herangehensweise gewählt, da das Framework explizit für den Vergleich von Grafik-Libraries konzipiert ist. Der Vorteil von feingranularen Tests ist, dass die Ergebnisse für die Entwickler sehr viel aussagekräftiger sind, weil sie ihnen präzise Hinweise geben, an welchen Stellen das eigene Framework hinter die anderen abfällt und wo eine Optimierung am meisten bringen würde. Außerdem vereinfacht dieser Ansatz die Entwicklung und Implementierung der Tests enorm. Ein Nachteil ist, dass die Tests teilweise artifizielle Anforderungen stellen, die in echten 2D-Spielen nicht vorkommen. Dieser Nachteil wird aber dadurch ausgeglichen, dass man die Tests -- soweit sinnvoll -- frei kombinieren kann. Außerdem ist die spätere Erweiterung des Frameworks um komplexere Tests durchaus möglich.
 
 \section{Identifizierte Bottlenecks}
+\label{sec:bottlenecks}
 Da jede 2D-Grafik-Bibliothek ihre eigenen Stärken und Schwächen aufweist und für unterschiedliche Zwecke optimiert ist, ist es wichtig, differenzierte Tests durchzuführen, um gezielt mögliche Schwachstellen zu identifizieren, ohne dabei die Stärken zu ignorieren. Zu diesem Zweck wurden verschiedene "Bottlenecks" identifiziert, also häufige Schwachstellen, für die gezielt Tests entwickelt wurden. Diese sind unter anderem:\\
 \begin{itemize}
 \item Animieren der Objekte
@@ -84,6 +104,11 @@ Da jede 2D-Grafik-Bibliothek ihre eigenen Stärken und Schwächen aufweist und f
 \end{itemize}
 
 \chapter{Umsetzung und Tests}
+\section{Entwicklungsablauf}
+1. 2 Große Tests
+2. Anwendersicht
+3. Modulare Tests
+
 
 \section{Ablauf der Tests}
 Der Ablauf eines Tests im \textit{BunnySuite}-Frameworks ist in Abbildung \ref{dia:architecture} schematisch dargestellt. Das Framework besteht im Wesentlichen aus zwei Teilen:
@@ -113,32 +138,32 @@ Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
 
 \begin{description}
 \item[animation] n Objekte werden in die linke obere Ecke gezeichnet und mitzufälliger Geschwindigkeit in X und Y Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. \\
-\item[alpha]Zusaetzlich zu den vorhandenen Texturen wird die Textur "wabbit\_ghost" hinzugefuegt. Diese Textur zeichnet sich durch ihre Halbtransparenz aus. \\                                                                                                                                
+\item[alpha]Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_ghost" hinzugefügt. Diese Textur zeichnet sich durch ihre Halbtransparenz aus. \\                                                                                                                                
 \item[circles] Anstelle von texturierten Bunnies, wird das Primitv "Kreis" mit Radius 13px gezeichnet. \\
-\item[hdtexture] Zusätzlich zu den vorhandenen Texturen wird die Textur wabbit\_hd zum Texturenpool hinzugefuegt. Diese Textur ist sehr hoch aufgeloest. Die Bunnies werden daher am Anfang auf die Hoehe von 37px runterskaliert. \\
+\item[hdtexture] Zusätzlich zu den vorhandenen Texturen wird die Textur wabbit\_hd zum Texturenpool hinzugefügt. Diese Textur ist sehr hoch aufgelöst. Die Bunnies werden daher am Anfang auf die Höhe von 37px runterskaliert. \\
 \item[lines]Anstelle von texturierten Bunnies, wird das Primitv "Linie" mit den Punkten (0,0) und (26,37) gezeichnet. \\
 \item[multitexture] Zusätzlich zu den vorhandenen Texturen werden die Texturen wabbit\_1 und wabbit\_2 zum Texturenpool hinzugefügt. \\
-\item[no\_output] Es findet keine Ausgabe an den Bildschirm statt. Saemtliche Zustandsberechnungen aus der Update-Phase werden entsprechend der restlichen Testparameter normal ausgefuehrt. \\
+\item[no\_output] Es findet keine Ausgabe an den Bildschirm statt. Sämtliche Zustandsberechnungen aus der Update-Phase werden entsprechend der restlichen Testparameter normal ausgeführt. \\
 \item[random] Die Bunnies werden am Anfang an eine zufällige Stelle gesetzt. \\                                   
 \item[rectangle] Anstelle von texturierten Bunnies, wird das Primitv "Rechteck" mit den Punkten (0,0) und (26,37) gezeichnet. \\
-\item[pulsation] Mit jedem Frame wird die Skalierung um ein "Wachstum" verändert (initial 0.1). Immer wenn die Skalierung \textgreater= 5 oder \textless= 0.2 ist, wird das Wachstum mit -1 multipliziert. Somit scheinen die Objekte zwischen den beiden Groessenextremen hin und her zu pulsieren. \\
+\item[pulsation] Mit jedem Frame wird die Skalierung um ein "Wachstum" verändert (initial 0.1). Immer wenn die Skalierung \textgreater= 5 oder \textless= 0.2 ist, wird das Wachstum mit -1 multipliziert. Somit scheinen die Objekte zwischen den beiden Grössenextremen hin und her zu pulsieren. \\
 \item[scaled] Die Bunnies werden am Anfang mit einem zufälligen Faktor zwischen 0.2 und 5.0 skaliert (x- und y-Achse unabhängig). \\
 \item[teleport] Die Bunnies werden in jedem Frame an neue zufällige Stellen gezeichnet. \\
 \item[texts] Anstelle von texturierten Bunnies, wird der Text "Hello World!" gerendert. \\
 \item[texturechange] Mit jedem neuem Frame bekommt jeder Bunny eine neue zufällige Textur aus dem Texturenpool zugewiesen. \\
-\item[thin] Zusätzlich zu den vorhandenen Texturen wird die Textur wabbit\_y hinzugefügt, die nicht einer Rechteck-Annaeherung entspricht und damit viel Voll-Transparenz aufweist. \\
+\item[thin] Zusätzlich zu den vorhandenen Texturen wird die Textur wabbit\_y hinzugefügt, die nicht einer Rechteck-Annäherung entspricht und damit viel Voll-Transparenz aufweist. \\
 \item[triangle] Anstelle von texturierten Bunnies, wird das Primitv "Dreieck" mit den Punkten (0,37), (26,37), und (13,0) gezeichnet.
 \end{description}
 
 \section{Implementierungsdetails bei den einzelnen Frameworks}
 \subsection{SDL}
-SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeraete) ueber OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen fuer C\# oder Python zur Verfuegung. Fuer das BunnySuite-Projekt wurde SDL mit C++ verwendet. Beispiele fuer Spiele, die SDL einsetzen sind \emph{Angry Birds}, \emph{Dont't Starve} oder aber auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstuetzten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.
+SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeräte) über OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen für C\# oder Python zur Verfügung. Für das BunnySuite-Projekt wurde SDL mit C++ verwendet. Beispiele für Spiele, die SDL einsetzen sind \emph{Angry Birds}, \emph{Dont't Starve} oder aber auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstützten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.
 
 \subsection{XNA/Monogame}
-XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und laeuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame laueft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele fuer Spiele, die auf Monogame basieren sind \emph{Fez} oder \emph{Transistor}.
+XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und läuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame läuft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele für Spiele, die auf Monogame basieren sind \emph{Fez} oder \emph{Transistor}.
 
 \subsection{LibGDX}
-LibGDX ist ein auf Java basierendes open-source Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Aenderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele fuer Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}.
+LibGDX ist ein auf Java basierendes open-source Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Änderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele für Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}.
 
 \section{User Interface}
 \subsection{GUI}
@@ -147,6 +172,21 @@ Tests können auch ohne GUI direkt gestartet werden. Dazu muss man die zu testen
 
 \chapter{Ergebnisse der Messungen}
 In diesem Kapitel stellen wir ein paar interessante Ergebnisse von Messungen vor, die wir mit den Frameworks durchgeführt haben.\\
+Dazu referenzieren wir folgende 3 Computersysteme:
+
+\begin{table}
+    \begin{tabular}{ | l | c | c | c |}
+    \hline \\
+    			& Minimalsystem						& Mediumsystem					& Maximalsystem
+    Modellname 	& Dell XPS L322X 					&								& Custom-PC 							\\ \hline
+    CPU 		& Intel Core i5-3317U @ 4 x 1.7 GHz &								& Intel Xeon E3-1231 v3 @ 4 x 3.4 GHz 	\\ \hline
+    GPU 		& Intel HD Graphics 4000 			&								& NVidia Geforce GTX 780				\\ \hline
+    RAM 		& 4096 MB 							&								& 16384 MB 								\\ \hline
+    \end{tabular}
+    \caption{Spezifikationen des Minimaltestsystems}
+   	\label{tab:allspecs}
+\end{table}
+
 ...
 
 \chapter{Zusammenfassung und Ausblick}
