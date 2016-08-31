@@ -37,17 +37,19 @@ namespace App.src.model
         public int minVal;
         public int maxVal;
         public int step;
+        public int avg;
 
         public bool noOutput = false;
         private List<RenderEnum> stateList = new List<RenderEnum>();
         private RenderEnum state = RenderEnum.Bunny;
 
 
-        public BenchmarkTest(int minVal, int maxVal, int step)
+        public BenchmarkTest(int minVal, int maxVal, int step, int avg)
         {
             this.minVal = minVal;
             this.maxVal = maxVal;
             this.step = step;
+            this.avg = avg;
 
             bunnies = new List<IRenderable>();
             bunnyTextures = new List<Texture2D>();
@@ -100,7 +102,7 @@ namespace App.src.model
         public bool RunTest()
         {
             //Every 10 frames make a new step
-            if (frameCount == 10)
+            if (frameCount == avg)
             {
                 if (bunnies.Count >= maxVal)
                 {

@@ -13,12 +13,14 @@ namespace App
         private String name;
         private float elapsedTime = 0.0f;
         private int count = 0;
+        private int avg;
 
-        public Logger(String name)
+        public Logger(String name, int avg)
         {
             lines = new List<string>();
             loggedTuples = new List<Tuple<int, float>>();
             this.name = name;
+            this.avg = avg;
         }
         /// <summary>
         /// Add a new Entry to the Log if half a second in GameTime has elapsed
@@ -31,9 +33,9 @@ namespace App
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             
 
-            if (count == 10)
+            if (count == avg)
             {
-                addLog(bunnyCount, elapsedTime / 10.0f);
+                addLog(bunnyCount, elapsedTime / (avg + 0f));
                 elapsedTime = 0;
                 count = 0;
             }

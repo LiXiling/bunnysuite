@@ -18,9 +18,9 @@ namespace App.src.model
         /// <param name="maxVal">End Value for the Test</param>
         /// <param name="step">Step increment for the Test</param>
         /// <returns></returns>
-        public BenchmarkTest ConstructBenchmark(String testnameList, int minVal, int maxVal, int step)
+        public BenchmarkTest ConstructBenchmark(String testnameList, int minVal, int maxVal, int step, int avg)
         {
-            BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step);
+            BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step, avg);
             String[] testnames = testnameList.Split(',');
 
             Boolean textureAdded = false;

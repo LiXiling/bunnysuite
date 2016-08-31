@@ -12,6 +12,7 @@ namespace App
 
         private static int xRes = 800;
         private static int yRes = 600;
+        private static int avg = 10;
 
         static void Main(string[] args)
         {
@@ -47,10 +48,15 @@ namespace App
             {
                 yRes = Int32.Parse(args[5]);
             }
-            
-            BenchmarkTest bt = bf.ConstructBenchmark(testnameList, min_val, max_val, step);
 
-            using (BunnyMark game = new BunnyMark(bt, testnameList, max_val, xRes, yRes))
+            if (args.Length >= 7)
+            {
+                avg = Int32.Parse(args[6]);
+            }
+            
+            BenchmarkTest bt = bf.ConstructBenchmark(testnameList, min_val, max_val, step, avg);
+
+            using (BunnyMark game = new BunnyMark(bt, testnameList, max_val, xRes, yRes, avg))
             {
                 game.Run();
             }

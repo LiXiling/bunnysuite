@@ -26,12 +26,13 @@ namespace App
         //Test Values
         private int bunnyCount = 0;
         private bool btFinished = false;
+        private int avg;
 
         //Misc. Helpers
         private Logger logger;
         private DebugText debugText;
 
-        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal, int xRes, int yRes)
+        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal, int xRes, int yRes, int avg)
         {
             this.Window.Title = "BunnySuite - XNA";
             test_name = testnameList;
@@ -47,7 +48,8 @@ namespace App
 
             this.bt = bt;
 
-            logger = new Logger(test_name);
+            logger = new Logger(test_name, avg);
+            this.avg = avg;
 
             this.IsFixedTimeStep = false;
             //graphics.SynchronizeWithVerticalRetrace = false;
