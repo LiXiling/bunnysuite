@@ -84,7 +84,7 @@ namespace App.src.model
             }
         }        
 
-        public void Rotate(Random random)
+        public void Rotate()
         {
             return;
         }

@@ -14,7 +14,7 @@ namespace App.src.model
         void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt);
         void Grow();
         void Jump(Random random, float gravity, float minX, float minY, float maxX, float maxY);
-        void Rotate(Random random);
+        void Rotate();
         void SetScale(float xScale, float yScale);
         void SetSpeed(float xSpeed, float ySpeed);
         void Teleport(Random random, float maxX, float maxY);

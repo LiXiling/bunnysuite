@@ -110,9 +110,9 @@ namespace App.src.model
                 this.Y = minY;
             }
         }
-        public void Rotate(Random random)
+        public void Rotate()
         {
-            Rotation = (float)((Rotation + 0.1) % fullCircle);
+            Rotation = (float)((Rotation + Math.PI / 180.0));
         }
         public void SetScale(float xScale, float yScale)
         {

@@ -110,12 +110,10 @@ namespace App.src.model
             return result;
         }
 
-        public void Rotate(Random random)
+        public void Rotate()
         {
-            Rotation = (float)(Rotation + 000.1);
-
-            double s = Math.Sin(Rotation);
-            double c = Math.Cos(Rotation);
+            double s = Math.Sin(Math.PI / 180.0);
+            double c = Math.Cos(Math.PI / 180.0);
 
             for (int i = 0; i < relVertex.Length; i++)
             {

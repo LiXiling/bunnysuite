@@ -10,7 +10,7 @@ namespace App.src.testImpl
     {
         public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-            renderable.Rotate(bt.random);
+            renderable.Rotate();
         }
     }
 }
