@@ -1,10 +1,6 @@
-- Die REPETITIONS-Konstante als optionales Command-Line-Argument dazunehmen (weil mit höherer Anzahl wird die Kurve smoother...)
-	-> Trade-Off Genauigkeit <-> Testdauer in der Ausarbeitung erwähnen
 - Ausarbeitung: Zu jedem Framework kurz ein paar implementierungstechnische Besonderheiten
-- Ausarbeigung: Beschreibung der GUI, wie umgesetzt?
-- Partikel-Algorithmus aus Game-Technology (hat Victor erwähnt)
-- Textur einfärben als Test
-- Balkendiagramm für den Schwellwert, bei dem es unter 60 fps fällt
+- Ausarbeitung: Beschreibung der GUI, wie umgesetzt?
+- Balkendiagramm für den Schwellwert, bei dem ein Frame länger dauert als 0.019s
 - Mehr Daten in Logfiles angeben (erste Zeile)
 - Auflösung in Dateinamen von Logfiles integrieren
 

@@ -1,4 +1,4 @@
-#define TEST "random,tinted"
+#define TEST "animation,points"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -126,8 +126,8 @@ public:
 	}
 
 	void rotateVertices(double angle){
-		double s = sin(angle * M_PI / 180.0);
-		double c = cos(angle * M_PI / 180.0);
+		double s = sin(-angle * M_PI / 180.0);
+		double c = cos(-angle * M_PI / 180.0);
 		for (int i = 0; i < numVertices; ++i){
 			xVertices[i] = xVertices[i] * c + yVertices[i] * s;
 			yVertices[i] = -xVertices[i] * s + yVertices[i] * c;
@@ -292,9 +292,9 @@ int main(int argc, char* argv[]){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
 		test_name = TEST;
-		min_val = 1;
+		min_val = 1000;
 		max_val = 50000;
-		step = 1;
+		step = 1000;
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
