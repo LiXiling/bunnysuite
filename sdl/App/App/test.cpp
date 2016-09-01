@@ -1,4 +1,4 @@
-#define TEST "triangles,rotation,circles,rectangles,lines,points,bunnies,animation,pulsation"
+#define TEST "random,tinted,hdtexture"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -35,7 +35,7 @@ int REPETITIONS;
 int n;
 SDL_Texture *bunnyTexture[NUM_MAX_TEXTURES];
 int numTextures = 0;
-SDL_PixelFormat* pixelFormat;
+bool tinted = false;
 
 vector<int> natures;
 
@@ -140,6 +140,8 @@ public:
 			rect.y = int(floor(y - rect.h*scaleY / 2));
 			rect.w = int(floor(rect.w * scaleX));
 			rect.h = int(floor(rect.h * scaleY));
+			if(tinted)
+				SDL_SetTextureColorMod(bunnyTexture[texture], color.r, color.g, color.b);
 			SDL_RenderCopyEx(ren, bunnyTexture[texture], NULL, &rect, rotation, NULL, SDL_FLIP_NONE);
 		}
 		// render triangle
@@ -337,6 +339,10 @@ int main(int argc, char* argv[]){
 	// default case
 	if (numTextures == 0){
 		addTexture("wabbit_alpha0", ren);
+	}
+	// tinted?
+	if (test_name.find("tinted") != string::npos){
+		tinted = true;
 	}
 
 	// collect natures
