@@ -1,3 +1,5 @@
+#define TEST "triangles,rotation,circles,rectangles,lines,points,bunnies,animation,pulsation"
+
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL2_gfxPrimitives.h"
@@ -62,6 +64,9 @@ public:
 	SDL_Rect textureRect;
 	int nature;
 	SDL_Color color;
+	int numVertices;
+	double xVertices[4];
+	double yVertices[4];
 
 	Bunny(){
 		x = 0.0;
@@ -78,47 +83,106 @@ public:
 		textureRect.w = int(floor((textureRect.w * 37.0 / textureRect.h)));
 		textureRect.h = 37;
 		nature = (natures.size() == 0) ? NATURE_BUNNY : natures.at(rand() % natures.size());
+		if (nature == NATURE_TRIANGLE){
+			numVertices = 3;
+			xVertices[0] = -13.0;
+			yVertices[0] = 12.0;
+			xVertices[1] = 0.0;
+			yVertices[1] = -25.0;
+			xVertices[2] = 13.0;
+			yVertices[2] = 12.0;
+		}
+		else if (nature == NATURE_RECT){
+			numVertices = 4;
+			xVertices[0] = -13.0;
+			yVertices[0] = -18.0;
+			xVertices[1] = -13.0;
+			yVertices[1] = 19.0;
+			xVertices[2] = 13.0;
+			yVertices[2] = 19.0;
+			xVertices[3] = 13.0;
+			yVertices[3] = -18.0;
+		} 
+		else if (nature == NATURE_LINE){
+			numVertices = 2;
+			xVertices[0] = -13.0;
+			yVertices[0] = -18.0;
+			xVertices[1] = 13.0;
+			yVertices[1] = 19.0;
+		}
 		color.a = 255;
 		color.r = rand() % 256;
 		color.g = rand() % 256;
 		color.b = rand() % 256;
 	}
 
+	void rotate(double angle){
+		rotation += angle;
+		if (nature == NATURE_TRIANGLE || nature == NATURE_RECT || nature == NATURE_LINE){
+			rotateVertices(angle);
+		}
+	}
+
+	void rotateVertices(double angle){
+		double s = sin(angle * M_PI / 180.0);
+		double c = cos(angle * M_PI / 180.0);
+		for (int i = 0; i < numVertices; ++i){
+			xVertices[i] = xVertices[i] * c + yVertices[i] * s;
+			yVertices[i] = -xVertices[i] * s + yVertices[i] * c;
+		}
+	}
+
 	void render(SDL_Renderer *ren){
-		// set scale and position
-		SDL_Rect rect = textureRect;
-		rect.x = int(floor(x));
-		rect.y = int(floor(y));
-		rect.w = int(floor(rect.w*scaleX));
-		rect.h = int(floor(rect.h*scaleY));
-		// render rotated bunny
+		// render rotated and scaled bunny
 		if (nature == NATURE_BUNNY){
+			SDL_Rect rect = textureRect;
+			rect.x = int(floor(x - rect.w*scaleX / 2));
+			rect.y = int(floor(y - rect.h*scaleY / 2));
+			rect.w = int(floor(rect.w * scaleX));
+			rect.h = int(floor(rect.h * scaleY));
 			SDL_RenderCopyEx(ren, bunnyTexture[texture], NULL, &rect, rotation, NULL, SDL_FLIP_NONE);
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
-			filledTrigonRGBA(ren, rect.x, rect.y + rect.h, rect.x + rect.w, rect.y + rect.h, rect.x + rect.w / 2, rect.y,
+			trigonRGBA(ren, 
+				int(floor(x + xVertices[0] * scaleX)), int(floor(y + yVertices[0] * scaleY)),
+				int(floor(x + xVertices[1] * scaleX)), int(floor(y + yVertices[1] * scaleY)),
+				int(floor(x + xVertices[2] * scaleX)), int(floor(y + yVertices[2] * scaleY)),
 				color.r, color.g, color.b, color.a);
 		}
 		// render circle
 		else if (nature == NATURE_CIRCLE) {
-			aacircleRGBA(ren, rect.x, rect.y, rect.w / 2, color.r, color.g, color.b, color.a);
+			aacircleRGBA(ren, int(floor(x)), int(floor(y)), int(floor(scaleX*13)), color.r, color.g, color.b, color.a);
 		}
 		// render rectangle
+		else if (nature == NATURE_RECT && false){
+			rectangleRGBA(ren, 
+				int(floor(x - 13.0)), int(floor(y - 18.0)),
+				int(floor(x + 13.0)), int(floor(y + 19.0)), 
+				color.r, color.g, color.b, color.a);
+		}
 		else if (nature == NATURE_RECT){
-			rectangleRGBA(ren, rect.x, rect.y, rect.x + rect.w, rect.y + rect.h, color.r, color.g, color.b, color.a);
+			Sint16 xp[4], yp[4];
+			for (int i = 0; i < 4; ++i){
+				xp[i] = int(floor(x + xVertices[i] * scaleX));
+				yp[i] = int(floor(y + yVertices[i] * scaleY));
+			}
+			polygonRGBA(ren, xp, yp, 4, color.r, color.g, color.b, color.a);
 		}
 		// render line
 		else if (nature == NATURE_LINE){
-			aalineRGBA(ren, rect.x, rect.y, rect.x + rect.w, rect.y + rect.h, color.r, color.g, color.b, color.a);
+			aalineRGBA(ren, 
+				int(floor(x + xVertices[0] * scaleX)), int(floor(y + yVertices[0] * scaleY)),
+				int(floor(x + xVertices[1] * scaleX)), int(floor(y + yVertices[1] * scaleY)),
+				color.r, color.g, color.b, color.a);
 		}
 		// render particle
 		else if (nature == NATURE_PARTICLE){
-			pixelRGBA(ren, rect.x, rect.y, color.r, color.g, color.b, color.a);
+			pixelRGBA(ren, int(floor(x)), int(floor(y)), color.r, color.g, color.b, color.a);
 		}
 		// render text
 		else if (nature == NATURE_TEXT) {
-			stringRGBA(ren, rect.x, rect.y, "Hello World :D", color.r, color.g, color.b, color.a);
+			stringRGBA(ren, int(floor(x)), int(floor(y)), "Hello World :D", color.r, color.g, color.b, color.a);
 		}
 	}
 };
@@ -182,7 +246,7 @@ void updateBunnies(){
 		}
 		if (test_name.find("rotation") != string::npos){
 			// perform the rotation
-			bunnies[i].rotation += 1.0;
+			bunnies[i].rotate(1.0);
 		}
 		if (test_name.find("texturechange") != string::npos){
 			// set random texture
@@ -218,7 +282,7 @@ int main(int argc, char* argv[]){
 	if (argc < 5){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
-		test_name = "lines,random,pulsation,bunnies";
+		test_name = TEST;
 		min_val = 1;
 		max_val = 50000;
 		step = 1;
@@ -288,7 +352,7 @@ int main(int argc, char* argv[]){
 	if (test_name.find("lines") != string::npos){
 		natures.push_back(NATURE_LINE);
 	}
-	if (test_name.find("particles") != string::npos){
+	if (test_name.find("points") != string::npos){
 		natures.push_back(NATURE_PARTICLE);
 	}
 	if (test_name.find("texts") != string::npos){
