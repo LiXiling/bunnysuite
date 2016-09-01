@@ -16,7 +16,8 @@ For supported Tests and their definition, please refer to the wiki
 The result of each test can be found at `<framework>\bin\log\<testname>.log`
 
 The chart visualization can be found at `results\<testname>.png`
-------------------
+
+
 To conduct tests manually:
 Compile an executable for the desired frameworks. The path should be `<framework>\bin\App.exe`
 
