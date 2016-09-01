@@ -1,4 +1,4 @@
-#define TEST "random,tinted,hdtexture"
+#define TEST "random,tinted"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -31,6 +31,8 @@ int step;
 int SCREEN_X;
 int SCREEN_Y;
 int REPETITIONS;
+
+bool no_output = false;
 
 int n;
 SDL_Texture *bunnyTexture[NUM_MAX_TEXTURES];
@@ -256,6 +258,11 @@ void updateBunnies(){
 			SDL_QueryTexture(bunnyTexture[bunnies[i].texture], NULL, NULL, 
 				&bunnies[i].textureRect.w, &bunnies[i].textureRect.h);
 		}
+		if (test_name.find("colorchange") != string::npos){
+			bunnies[i].color.r = rand() % 256;
+			bunnies[i].color.g = rand() % 256;
+			bunnies[i].color.b = rand() % 256;
+		}
 		if (test_name.find("animation") != string::npos){
 			bunnies[i].x += bunnies[i].speedX;
 			if (bunnies[i].x < 0 || bunnies[i].x > SCREEN_X){
@@ -320,6 +327,11 @@ int main(int argc, char* argv[]){
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Window *win = SDL_CreateWindow("SDL", 100, 100, SCREEN_X, SCREEN_Y, SDL_WINDOW_SHOWN);
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	// no_output?
+	if (test_name.find("no_output") != string::npos){
+		no_output = true;
+	}
 	
 	// load textures depending on flags
 	if (test_name.find("multitexture") != string::npos){
@@ -341,7 +353,7 @@ int main(int argc, char* argv[]){
 		addTexture("wabbit_alpha0", ren);
 	}
 	// tinted?
-	if (test_name.find("tinted") != string::npos){
+	if (test_name.find("tinted") != string::npos || test_name.find("colorchange") != string::npos){
 		tinted = true;
 	}
 
@@ -403,7 +415,8 @@ int main(int argc, char* argv[]){
 		// update
 		updateBunnies();
 		// render
-		renderFrame(ren);
+		if (!no_output)
+			renderFrame(ren);
 		// check if #REPETITIONS frames are over
 		frameNo += 1;
 		if (frameNo == REPETITIONS){
