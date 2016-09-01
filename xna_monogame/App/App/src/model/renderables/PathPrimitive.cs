@@ -17,6 +17,7 @@ namespace App.src.model.renderables
         private float SpeedY;
 
         private float growth = 0.1f;
+        private double Rotation = 0.0;
         public Vector2 Scale = new Vector2(1f, 1f);
 
         private Vector2[] relVertex;
@@ -92,14 +93,20 @@ namespace App.src.model.renderables
         private Vector2[] makeAbsolute(Vector2[] relCoords)
         {
             Vector2[] result = (Vector2[])relCoords.Clone();
+            double s = Math.Sin(-Rotation * Math.PI / 180.0);
+            double c = Math.Cos(-Rotation * Math.PI / 180.0);
 
             for (int i = 0; i < relVertex.Length; i++)
             {
                 Vector2 p = result[i];
-                p = Vector2.Multiply(p, Scale);
+                p = Vector2.Multiply(p, Scale);                
+                
+                float xnew = (float)(p.X * c + p.Y * s);
+                float ynew = (float)(-p.X * s + p.Y * c);
 
-                result[i].X = p.X + this.X;
-                result[i].Y = p.Y + this.Y;
+
+                result[i].X = xnew + this.X;
+                result[i].Y = ynew + this.Y;                
             }
 
             return result;
@@ -107,18 +114,8 @@ namespace App.src.model.renderables
 
         public void Rotate()
         {
-            double s = Math.Sin(-Math.PI / 180.0);
-            double c = Math.Cos(-Math.PI / 180.0);
 
-            for (int i = 0; i < relVertex.Length; i++)
-            {
-                Vector2 p = relVertex[i];
-                float xnew = (float)(p.X * c + p.Y * s);
-                float ynew = (float)(-p.X * s + p.Y * c);
-
-                relVertex[i].X = xnew;
-                relVertex[i].Y = ynew;
-            }
+            Rotation += 1;
         }
         public void SetScale(float xScale, float yScale)
         {
