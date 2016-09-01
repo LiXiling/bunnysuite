@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using LilyPath;
 
-namespace App.src.model
+namespace App.src.model.renderables
 {
     public class Bunny : IRenderable
     {
@@ -26,6 +26,8 @@ namespace App.src.model
         public Vector2 Scale = new Vector2(1f, 1f);
         public float initScale = 1;
 
+        private Color color = Color.White;
+
         public int textureIndex;
 
         public Bunny(int index, BenchmarkTest bt)
@@ -44,13 +46,22 @@ namespace App.src.model
             originY = texture.Height / 2;
         }
 
+        public void ColorChange(Random r)
+        {
+            color = new Color(
+                (byte)r.Next(0, 255),
+                (byte)r.Next(0, 255),
+                (byte)r.Next(0, 255)
+            );
+        }
+
         public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {            
             spriteBatch.Draw(
                 bt.getTexture(textureIndex),
                 new Vector2(this.X, this.Y),
                 null,
-                Color.White,
+                color,
                 this.Rotation,
                 new Vector2(this.originX, this.originY),
                 Vector2.Multiply(this.Scale, this.initScale),

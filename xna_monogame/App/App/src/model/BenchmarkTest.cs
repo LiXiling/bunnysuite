@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using App.src.testImpl;
+using App.src.model.renderables;
 using LilyPath;
 
 namespace App.src.model
@@ -228,7 +229,7 @@ namespace App.src.model
                     bunny = new Line(random);
                     break;
                 case RenderEnum.Rectangle:
-                    bunny = new Rectangle(random);
+                    bunny = new App.src.model.renderables.Rectangle(random);
                     break;
                 case RenderEnum.Text:
                     bunny = new Text(random, content, maxX, maxY);

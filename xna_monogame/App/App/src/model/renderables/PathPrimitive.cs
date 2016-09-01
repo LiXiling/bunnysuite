@@ -6,48 +6,43 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using LilyPath;
 
-namespace App.src.model
+namespace App.src.model.renderables
 {
-    public class Rectangle : IRenderable
+    public class PathPrimitive : IRenderable
     {
-        private float X = 13;
-        private float Y = 18;
+        private float X;
+        private float Y;
 
         private float SpeedX;
         private float SpeedY;
 
-        private float Rotation;
-
         private float growth = 0.1f;
         public Vector2 Scale = new Vector2(1f, 1f);
 
-        private Vector2[] relVertex = new Vector2[5];
+        private Vector2[] relVertex;
         public static int calls = 0;
 
         private Brush brush;
 
-        public Rectangle(Random r)
+        public PathPrimitive(Random r)
+        {
+            ColorChange(r);
+        }        
+
+        public void ChangeTexture(int index, BenchmarkTest bt)
+        {
+            return;
+        }
+        public void ColorChange(Random r)
         {
             brush = new SolidColorBrush(new Color(
                 (byte)r.Next(0, 255),
                 (byte)r.Next(0, 255),
                 (byte)r.Next(0, 255)
             ));
-
-            relVertex[0] = new Vector2(-13, -18);
-            relVertex[1] = new Vector2(-13, 19);
-            relVertex[2] = new Vector2(13, 19);
-            relVertex[3] = new Vector2(13, -18);
-            relVertex[4] = relVertex[0];
-
-        }
-
-        public void ChangeTexture(int index, BenchmarkTest bt)
-        {
-            return;
         }
         public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
-        {            
+        {
             drawBatch.DrawPrimitivePath(new Pen(brush), makeAbsolute(relVertex));
         }
         public void Grow()
@@ -112,8 +107,8 @@ namespace App.src.model
 
         public void Rotate()
         {
-            double s = Math.Sin(Math.PI / 180.0);
-            double c = Math.Cos(Math.PI / 180.0);
+            double s = Math.Sin(-Math.PI / 180.0);
+            double c = Math.Cos(-Math.PI / 180.0);
 
             for (int i = 0; i < relVertex.Length; i++)
             {
@@ -134,6 +129,12 @@ namespace App.src.model
         {
             this.SpeedX = xSpeed;
             this.SpeedY = ySpeed;
+        }
+        public void setVertices(float originX, float originY, Vector2[] vertices)
+        {
+            X = originX;
+            Y = originY;
+            relVertex = vertices;
         }
         public void Teleport(Random random, float maxX, float maxY)
         {

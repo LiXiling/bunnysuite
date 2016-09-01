@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace App.src.model
+namespace App.src.model.renderables
 {
     public enum RenderEnum
     {

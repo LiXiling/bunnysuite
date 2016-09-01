@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using LilyPath;
 
-namespace App.src.model
+namespace App.src.model.renderables
 {
     public class Circle : IRenderable
     {
@@ -16,8 +16,6 @@ namespace App.src.model
         private float SpeedX;
         private float SpeedY;
 
-        private float Rotation;
-
         private float growth = 0.1f;
         private float radius = 13;
         private float scale = 1;
@@ -26,16 +24,20 @@ namespace App.src.model
 
         public Circle(Random r)
         {
-            brush = new SolidColorBrush(new Color(
-                (byte)r.Next(0, 255),
-                (byte)r.Next(0, 255),
-                (byte)r.Next(0, 255)
-            ));
+            ColorChange(r);
         }
 
         public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
+        }
+        public void ColorChange(Random r)
+        {
+            brush = new SolidColorBrush(new Color(
+                (byte)r.Next(0, 255),
+                (byte)r.Next(0, 255),
+                (byte)r.Next(0, 255)
+            ));
         }
         public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {

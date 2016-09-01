@@ -1,4 +1,5 @@
 ﻿using App.src.testImpl;
+using App.src.model.renderables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,9 @@ namespace App.src.model
                     case "circles":
                         bt.addRenderState(RenderEnum.Circle);
                         break;
+                    case "colorchange":
+                        bt.addUpdateModifier(new ColorChangeModifier());
+                        break;
                     case "hdtexture":
                         bt.addTextureLoader(new HDTextureLoader());                        
                         textureAdded = true;
@@ -78,11 +82,7 @@ namespace App.src.model
                         bt.addSpawnModifier(new FixedPositionModifier());
                         bt.addTextureLoader(new StandardTextureLoader());
                         textureAdded = true;
-                        break;
-                    case "thin":
-                        bt.addTextureLoader(new ThinTextureLoader());                        
-                        textureAdded = true;
-                        break;
+                        break;                    
                     case "teleport":
                         bt.addUpdateModifier(new RandomPositionModifier());
                         break;
@@ -91,6 +91,13 @@ namespace App.src.model
                         break;
                     case "texturechange":
                         bt.addUpdateModifier(new TexturechangeModifier());                      
+                        break;
+                    case "thin":
+                        bt.addTextureLoader(new ThinTextureLoader());
+                        textureAdded = true;
+                        break;
+                    case "tinted":
+                        bt.addSpawnModifier(new ColorChangeModifier());
                         break;
                     case "triangles":
                         bt.addRenderState(RenderEnum.Triangle);

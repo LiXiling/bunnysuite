@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using App.src.model;
+using App.src.model.renderables;
 
 namespace App.src.testImpl
 {

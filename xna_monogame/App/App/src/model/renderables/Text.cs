@@ -5,46 +5,73 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using LilyPath;
+using Microsoft.Xna.Framework.Content;
 
-namespace App.src.model
+namespace App.src.model.renderables
 {
-    public class Line : IRenderable
+    public class Text : IRenderable
     {
-        private float X = 13;
-        private float Y = 18;
+        private static double fullCircle = Math.PI * 2;
+        private static SpriteFont spriteFont;
+        private String textString = "Hello World!";
+
+        private float X = 0;
+        private float Y = 0;
+
+        private float maxX;
+        private float maxY;
 
         private float SpeedX;
         private float SpeedY;
 
-        private float Rotation;
+        private float Rotation = 0;
 
         private float growth = 0.1f;
+        public int initScale = 1;
         public Vector2 Scale = new Vector2(1f, 1f);
 
-        private Vector2[] relVertex = new Vector2[2];
-        public static int calls = 0;
+        private Color color;
 
-        private Brush brush;
-
-        public Line(Random r)
+        public Text(Random r, ContentManager content, float maxX, float maxY)
         {
-            brush = new SolidColorBrush(new Color(
-                (byte)r.Next(0, 255),
-                (byte)r.Next(0, 255),
-                (byte)r.Next(0, 255)
-            ));
+            ColorChange(r);
 
-            relVertex[0] = new Vector2(-13, -18);
-            relVertex[1] = new Vector2(13, 19);
+            if (spriteFont == null)
+            {
+                spriteFont = content.Load<SpriteFont>(@"default");
+            }
+
+            this.maxX = maxX;
+            this.maxY = maxY;
         }
 
         public void ChangeTexture(int index, BenchmarkTest bt)
         {
             return;
         }
+
+        public void ColorChange(Random r)
+        {
+            color =new Color(
+                (byte)r.Next(0, 255),
+                (byte)r.Next(0, 255),
+                (byte)r.Next(0, 255)
+            );
+        }
+
         public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
-            drawBatch.DrawPrimitivePath(new Pen(brush), makeAbsolute(relVertex));
+            spriteBatch.DrawString(
+                spriteFont,
+                textString,
+                new Vector2(maxX,maxY),
+                color,
+                Rotation,
+                new Vector2(this.X, this.Y),
+                initScale * Scale,
+                SpriteEffects.None,
+                0f
+           );
         }
         public void Grow()
         {
@@ -89,37 +116,9 @@ namespace App.src.model
                 this.Y = minY;
             }
         }
-
-        private Vector2[] makeAbsolute(Vector2[] relCoords)
-        {
-            Vector2[] result = (Vector2[])relCoords.Clone();
-
-            for (int i = 0; i < relVertex.Length; i++)
-            {
-                Vector2 p = result[i];
-                p = Vector2.Multiply(p, Scale);
-
-                result[i].X = p.X + this.X;
-                result[i].Y = p.Y + this.Y;
-            }
-
-            return result;
-        }
-
         public void Rotate()
         {
-            double s = Math.Sin(Math.PI / 180.0);
-            double c = Math.Cos(Math.PI / 180.0);
-
-            for (int i = 0; i < relVertex.Length; i++)
-            {
-                Vector2 p = relVertex[i];
-                float xnew = (float)(p.X * c + p.Y * s);
-                float ynew = (float)(-p.X * s + p.Y * c);
-
-                relVertex[i].X = xnew;
-                relVertex[i].Y = ynew;
-            }
+            Rotation = (float)((Rotation + Math.PI / 180.0));
         }
         public void SetScale(float xScale, float yScale)
         {

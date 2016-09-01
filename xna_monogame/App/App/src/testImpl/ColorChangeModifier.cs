@@ -7,11 +7,11 @@ using System.Text;
 
 namespace App.src.testImpl
 {
-    public class RotationModifier : IBunnyModifier
+    public class ColorChangeModifier : IBunnyModifier
     {
         public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-            renderable.Rotate();
+            renderable.ColorChange(bt.random);
         }
     }
 }
