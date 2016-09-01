@@ -1,6 +1,6 @@
 /* Orx - Portable Game Engine
  *
- * Copyright (c) 2008-2015 Orx-Project
+ * Copyright (c) 2008-2016 Orx-Project
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -51,7 +51,7 @@
 
 /** Misc defines
  */
-#define orxFONT_KZ_DEFAULT_FONT_NAME                  "-=DefaultFont=-"
+#define orxFONT_KZ_DEFAULT_FONT_NAME                  "default"
 
 
 /** Internal font structure */

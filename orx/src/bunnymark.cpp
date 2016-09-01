@@ -1,200 +1,84 @@
-//! Includes
-#include "bunnymark.h"
+#include <iostream>
+#include <fstream>
+#include <time.h>
+#include "orx.h"
+
+using namespace std;
+
+#define NUM_MAX_BUNNIES 100000
+#define NUM_MAX_TEXTURES 16
+
+#define NATURE_BUNNY 0
+#define NATURE_TRIANGLE 1
+#define NATURE_CIRCLE 2
+#define NATURE_RECT 3
+#define NATURE_LINE 4
+#define NATURE_PARTICLE 5
+#define NATURE_TEXT 6
+
+// the arguments
+string test_name;
+int min_val;
+int max_val;
+int step;
+int SCREEN_X;
+int SCREEN_Y;
+int REPETITIONS;
+
+int n;
+
+int frameNo = 0;
+clock_t lastMeasure;
+clock_t currentMeasure;
+ofstream logfile;
 
 
-//! Variables
-
-static const orxS32     s32MaxBunnyCount                    = 500000;
-static volatile orxS32  s32ActiveBunnyCount                 = 0;
-static orxFLOAT         fGravity                            = orxFLOAT_0;
-static orxVECTOR        avBunnyPosList[s32MaxBunnyCount]    = {};
-static orxVECTOR        avBunnySpeedList[s32MaxBunnyCount]  = {};
-
-
-//! Code
-
-orxSTATUS orxFASTCALL Bootstrap()
-{
-  orxSTATUS eResult = orxSTATUS_FAILURE;
-
-  // Adds default config paths
-  orxResource_AddStorage(orxCONFIG_KZ_RESOURCE_GROUP, "../../../data", orxFALSE);
-
-  // Loads main config file
-  orxConfig_Load("Bunny.ini");
-
-  // Done!
-  return eResult;
+orxSTATUS orxFASTCALL Update(void *_pContext){
+	// TODO update everything
+	return orxSTATUS_SUCCESS;
 }
 
-orxSTATUS orxFASTCALL Update(void *_pContext)
-{
-  orxSTATUS eResult = orxSTATUS_SUCCESS;
 
-  // For all active bunnies
-  for(orxS32 i = 0, iCount = s32ActiveBunnyCount; i < iCount; i++)
-  {
-    // Updates its speed
-    avBunnySpeedList[i].fY += orx2F(0.5f);
-
-    // Moves it
-    avBunnyPosList[i].fX += avBunnySpeedList[i].fX;
-    avBunnyPosList[i].fY += avBunnySpeedList[i].fY;
-
-    // Constrains it
-    if(avBunnyPosList[i].fX < orxFLOAT_0)
-    {
-        avBunnySpeedList[i].fX  = -avBunnySpeedList[i].fX;
-        avBunnyPosList[i].fX    = orxFLOAT_0;
-    }
-    else if(avBunnyPosList[i].fX > orx2F(800.0f))
-    {
-        avBunnySpeedList[i].fX  = -avBunnySpeedList[i].fX;
-        avBunnyPosList[i].fX    = orx2F(800.0f);
-    }
-    if(avBunnyPosList[i].fY < orxFLOAT_0)
-    {
-        avBunnySpeedList[i].fY  = -avBunnySpeedList[i].fY;
-        avBunnyPosList[i].fY    = orxFLOAT_0;
-    }
-    else if (avBunnyPosList[i].fY > orx2F(600.0f))
-    {
-        avBunnySpeedList[i].fY  = -avBunnySpeedList[i].fY;
-        avBunnyPosList[i].fY    = orx2F(600.0f);
-    }
-  }
-
-  // Done!
-  return eResult;
-}
-
-orxSTATUS orxFASTCALL EventHandler(const orxEVENT *_pstEvent)
-{
-  orxSTATUS eResult = orxSTATUS_SUCCESS;
-
-  // Object start?
-  if(_pstEvent->eID == orxRENDER_EVENT_OBJECT_START)
-  {
-    orxOBJECT *pstObject;
-
-    // Gets sending object
-    pstObject = orxOBJECT(_pstEvent->hSender);
-
-    // Bunny?
-    if(orxString_Compare(orxObject_GetName(pstObject), "Bunny") == 0)
-    {
-      orxDISPLAY_TRANSFORM  stTransform;
-      orxBITMAP            *pstBitmap;
-
-      // Gets its current bitmap
-      pstBitmap = orxTexture_GetBitmap(orxObject_GetWorkingTexture(pstObject));
-
-      // Sets its color
-      orxDisplay_SetBitmapColor(pstBitmap, orx2RGBA(255, 255, 255, 255));
-
-      // Inits transform
-      stTransform.fRepeatX  =
-      stTransform.fRepeatY  =
-      stTransform.fScaleX   =
-      stTransform.fScaleY   = orxFLOAT_1;
-      stTransform.fSrcX     =
-      stTransform.fSrcY     =
-      stTransform.fRotation = orxFLOAT_0;
-
-      // For all active bunnies
-      for(orxS32 i = 0, iCount = orxConfig_GetS32("Count"); i < iCount; i++)
-      {
-        // Updates transform
-        stTransform.fDstX   = avBunnyPosList[i].fX;
-        stTransform.fDstY   = avBunnyPosList[i].fY;
-
-        // Renders it
-        orxDisplay_TransformBitmap(pstBitmap, &stTransform, orxDISPLAY_SMOOTHING_OFF, orxDISPLAY_BLEND_MODE_ALPHA);
-      }
-
-      // Runs update task
-      orxThread_RunTask(Update, orxNULL, orxNULL, orxNULL);
-
-      // Stores FPS
-      orxConfig_SetS32("FPS", orxFPS_GetFPS());
-
-      // Don't render it
-      eResult = orxSTATUS_FAILURE;
-    }
-  }
-
-  // Done!
-  return eResult;
-}
-
-orxSTATUS orxFASTCALL Init()
-{
-  orxSTATUS eResult = orxSTATUS_SUCCESS;
+orxSTATUS orxFASTCALL Init(){
 
   // Creates viewport
-  orxViewport_CreateFromConfig("Viewport");
+  orxVIEWPORT *vp = orxViewport_CreateFromConfig("Viewport");
 
-  // Creates scene
-  orxObject_CreateFromConfig("Scene");
+  // TODO init bunnies
 
-  // Pushes bunny config section
-  orxConfig_PushSection("Bunny");
+  // start the clock
+  lastMeasure = clock();
 
-  // Adds render event handler
-  orxEvent_AddHandler(orxEVENT_TYPE_RENDER, EventHandler);
-
-  // Gets gravity
-  fGravity = orxConfig_GetFloat("Gravity");
-
-  // Inits all bunnies
-  for(orxS32 i = 0; i < s32MaxBunnyCount; i++)
-  {
-    orxConfig_GetVector("InitPos", &avBunnyPosList[i]);
-    orxConfig_GetVector("InitSpeed", &avBunnySpeedList[i]);
-  }
-
-  // Done!
-  return eResult;
+  return orxSTATUS_SUCCESS;
 }
 
-orxSTATUS orxFASTCALL Run()
-{
-  orxS32    s32Delta = 0, s32Count;
-  orxSTATUS eResult = orxSTATUS_SUCCESS;
+void addBunnies(int num){
+	for (int i = 0; i < num; ++i){
+		orxOBJECT *b = orxObject_CreateFromConfig("Bunny");
+	}
+}
 
-  // Add bunnies?
-  if(orxInput_IsActive("AddBunny") && orxInput_HasNewStatus("AddBunny"))
-  {
-    s32Delta = orxConfig_GetS32("Delta");
-  }
+orxSTATUS orxFASTCALL Run(){
+	// TODO exit on close
+	if(false)  {
+		return orxSTATUS_FAILURE;
+	}
 
-  // Remove bunnies?
-  if(orxInput_IsActive("RemoveBunny") && orxInput_HasNewStatus("RemoveBunny"))
-  {
-    s32Delta = -orxConfig_GetS32("Delta");
-  }
+	frameNo++;
+	if (frameNo > REPETITIONS){
+		frameNo = 0;
+		currentMeasure = clock();
+		double renderTime = (currentMeasure - lastMeasure) / 1000.0;
+		lastMeasure = currentMeasure;
+		logfile << n << "\t" << renderTime << endl;
+		n += step;
+		addBunnies(step);
+		if (n > max_val){
+			return orxSTATUS_FAILURE;
+		}
+	}
 
-  // Updates bunny count
-  s32Count = orxConfig_GetS32("Count") + s32Delta;
-  s32Count = orxCLAMP(s32Count, 0, s32MaxBunnyCount);
-  orxConfig_SetS32("Count", s32Count);
-  s32ActiveBunnyCount = s32Count;
-
-  // Screenshot?
-  if(orxInput_IsActive("Screenshot") && orxInput_HasNewStatus("Screenshot"))
-  {
-    // Captures it
-    orxScreenshot_Capture();
-  }
-  // Quitting?
-  if(orxInput_IsActive("Quit"))
-  {
-    // Updates result
-    eResult = orxSTATUS_FAILURE;
-  }
-
-  // Done!
-  return eResult;
+	return orxSTATUS_SUCCESS;
 }
 
 void orxFASTCALL Exit()
@@ -204,31 +88,54 @@ void orxFASTCALL Exit()
 
 int main(int argc, char **argv)
 {
-  // Sets config bootstrap
-  orxConfig_SetBootstrap(Bootstrap);
+	if (argc < 5){
+		// missing arguments?
+		cout << "Missing arguments. We assume some standard values for testing." << endl;
+		test_name = "lines,random,pulsation,bunnies";
+		min_val = 1;
+		max_val = 50000;
+		step = 1;
+	}
+	else {
+		// read the arguments
+		test_name = string(argv[1]);
+		min_val = atoi(argv[2]);
+		max_val = atoi(argv[3]);
+		step = atoi(argv[4]);
+	}
+	// screensize is optional parameter
+	if (argc < 7){
+		SCREEN_X = 800;
+		SCREEN_Y = 600;
+	}
+	else {
+		SCREEN_X = atoi(argv[5]);
+		SCREEN_Y = atoi(argv[6]);
+	}
+	// number of repetitions is another optional parameter
+	if (argc < 8){
+		REPETITIONS = 10;
+	}
+	else {
+		REPETITIONS = atoi(argv[7]);
+	}
 
-  // Executes orx
-  orx_Execute(argc, argv, Init, Run, Exit);
+	n = min_val;	
 
-  // Done!
-  return EXIT_SUCCESS;
+	// prepare logging
+	logfile.open("log/" + test_name + ".log");
+	if (!logfile.is_open()){
+		cout << "Error: logfile could not be opened.";
+		return 1;
+	}
+
+
+	// TODO set screen size according to arguments!!!
+
+	
+
+	// start orx
+	orx_Execute(argc, argv, Init, Run, Exit);
+
+	return 0;
 }
-
-
-#ifdef __orxMSVC__
-
-#include "windows.h"
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-  // Sets config bootstrap
-  orxConfig_SetBootstrap(Bootstrap);
-
-  // Executes orx
-  orx_WinExecute(Init, Run, Exit);
-
-  // Done!
-  return EXIT_SUCCESS;
-}
-
-#endif // __orxMSVC__

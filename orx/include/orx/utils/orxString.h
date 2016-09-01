@@ -1,6 +1,6 @@
 /* Orx - Portable Game Engine
  *
- * Copyright (c) 2008-2015 Orx-Project
+ * Copyright (c) 2008-2016 Orx-Project
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -708,37 +708,67 @@ static orxINLINE orxU32                                   orxString_ExtractBase(
   /* Checks */
   orxASSERT(_zString != orxNULL);
 
-  /* Hexadecimal? */
-  if((_zString[0] == '0')
-  && ((_zString[1] | 0x20) == 'x'))
+  /* Default result and offset: decimal */
+  u32Result = 10;
+  u32Offset = 0;
+
+  /* Depending on first character */
+  switch(_zString[0])
   {
-    /* Updates result and offset */
-    u32Result = 16;
-    u32Offset = 2;
-  }
-  /* Binary? */
-  else if((_zString[0] == '0')
-       && ((_zString[1] | 0x20) == 'b'))
-  {
-    /* Updates result and offset */
-    u32Result = 2;
-    u32Offset = 2;
-  }
-  /* Octal? */
-  else if((_zString[0] == '0')
-       && ((_zString[1]) >= '0')
-       && ((_zString[1]) <= '9'))
-  {
-    /* Updates result and offset */
-    u32Result = 8;
-    u32Offset = 1;
-  }
-  /* Decimal */
-  else
-  {
-    /* Updates result and offset */
-    u32Result = 10;
-    u32Offset = 0;
+    case '0':
+    {
+      /* Depending on second character */
+      switch(_zString[1] | 0x20)
+      {
+        case 'x':
+        {
+          /* Updates result and offset: hexadecimal */
+          u32Result = 16;
+          u32Offset = 2;
+
+          break;
+        }
+
+        case 'b':
+        {
+          /* Updates result and offset: binary */
+          u32Result = 2;
+          u32Offset = 2;
+
+          break;
+        }
+
+        default:
+        {
+          /* Octal? */
+          if((_zString[1] >= '0')
+          && (_zString[1] <= '9'))
+          {
+            /* Updates result and offset: octal */
+            u32Result = 8;
+            u32Offset = 1;
+          }
+
+          break;
+        }
+      }
+
+      break;
+    }
+
+    case '#':
+    {
+      /* Updates result and offset: hexadecimal */
+      u32Result = 16;
+      u32Offset = 1;
+
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
   }
 
   /* Asks for remaining string? */
