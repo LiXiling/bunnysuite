@@ -228,6 +228,9 @@ namespace App.src.model
                 case RenderEnum.Line:
                     bunny = new Line(random);
                     break;
+                case RenderEnum.Point:
+                    bunny = new App.src.model.renderables.Point(random);
+                    break;
                 case RenderEnum.Rectangle:
                     bunny = new App.src.model.renderables.Rectangle(random);
                     break;

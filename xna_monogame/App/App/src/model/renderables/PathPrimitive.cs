@@ -10,8 +10,8 @@ namespace App.src.model.renderables
 {
     public class PathPrimitive : IRenderable
     {
-        private float X;
-        private float Y;
+        public float X;
+        public float Y;
 
         private float SpeedX;
         private float SpeedY;
@@ -90,7 +90,7 @@ namespace App.src.model.renderables
             }
         }
 
-        private Vector2[] makeAbsolute(Vector2[] relCoords)
+        public virtual Vector2[] makeAbsolute(Vector2[] relCoords)
         {
             Vector2[] result = (Vector2[])relCoords.Clone();
             double s = Math.Sin(-Rotation * Math.PI / 180.0);

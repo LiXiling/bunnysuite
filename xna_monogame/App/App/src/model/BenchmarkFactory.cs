@@ -62,6 +62,9 @@ namespace App.src.model
                         bt.addTextureLoader(new MultiTextureLoader());
                         textureAdded = true;
                         break;
+                    case "points":
+                        bt.addRenderState(RenderEnum.Point);
+                        break;
                     case "pulsation":
                         bt.addUpdateModifier(new PulseModifier());
                         break;
