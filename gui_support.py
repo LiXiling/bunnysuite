@@ -21,62 +21,99 @@ except ImportError:
 def set_Tk_var():
     # These are Tk variables used passed to Tkinter and must be
     # defined before the widgets using them are created.
-    global minBunnies
+    global minBunnies, maxBunnies, stepSize, repetitions, animation, scaled
+    global random, rotation, multitexture, texturechange, alpha, hdtexture
+    global resolution, teleport, pulsation, thin, rectangles, circles, triangles
+    global lines, points, texts, bunnies, no_output, minBunniesEntry, maxBunniesEntry
+    global stepSizeEntry, repetitionsEntry, presets, presetsCombobox, tinted, colorchange
     minBunnies = DoubleVar()
-
-    global maxBunnies
     maxBunnies = DoubleVar()
-    maxBunnies.set(20000)
-
-    global stepSize
     stepSize = DoubleVar()
-    stepSize.set(1000)
-    
-    global animation
+    repetitions = DoubleVar()
     animation = StringVar()
-
-    global scaled
     scaled = StringVar()
-
-    global random
     random = StringVar()
-
-    global rotated
-    rotated = StringVar()
-
-    global multitexture
+    rotation = StringVar()
     multitexture = StringVar()
-
-    global texturechange
     texturechange = StringVar()
-
-    global alpha
     alpha = StringVar()
-
-    global hd
-    hd = StringVar()
-
-    global resolution
+    hdtexture = StringVar()
     resolution = StringVar()
-    resolution.set("800x600")
-    
-    global minBunniesEntry
+    teleport = StringVar()
+    pulsation = StringVar()
+    tinted = StringVar()
+    colorchange = StringVar()
+    thin = StringVar()
+    rectangles = StringVar()
+    circles = StringVar()
+    triangles = StringVar()
+    lines = StringVar()
+    points = StringVar()
+    texts = StringVar()
+    bunnies = StringVar()
+    no_output = StringVar()
     minBunniesEntry = StringVar()
-    
-    global maxBunniesEntry
     maxBunniesEntry = StringVar()
-    
-    global stepSizeEntry
     stepSizeEntry = StringVar()
-
-    updateEntries()
-    
-    global presets
+    repetitionsEntry = StringVar()
     presets = StringVar()
-
-    global presetsCombobox
     presetsCombobox = StringVar()
     presetsCombobox.trace('w', lambda name, idx, mode: cmdTogglePresets())
+    
+def init(top, gui, save, deselected):
+    global w, top_level, root, frameworks
+    w = gui
+    top_level = top
+    root = top
+    
+    frameworks = getFrameworks()
+
+    # restore framework selection
+    restoreFrameworks(deselected, filter(lambda f: f not in deselected, frameworks))
+        
+    if save != None:
+        restore(save)
+    else:
+        maxBunnies.set(20000)        
+        stepSize.set(1000)     
+        repetitions.set(10)
+        updateEntries()
+        bunnies.set("bunnies")
+        resolution.set("800x600")
+        
+def destroy_window():
+    # Function which closes the window.
+    global top_level
+    # Bugfix for a tk bug where a script cannot cancel itself:
+    top_level.eval('::ttk::CancelRepeat')
+    top_level.destroy()
+    top_level = None
+
+if __name__ == '__main__':
+    import bunnysuite_gui
+    bunnysuite_gui.vp_start_gui()
+    
+def cmdUpdateBunniesCheckbox():
+    for flavour in getFlavours():
+        if flavour != bunnies and flavour.get() != '':
+            w.checkBunnies.configure(state="normal")
+            return
+    w.checkBunnies.configure(state="disabled")
+    bunnies.set("bunnies")
+    cmdUpdateTextureModifiers()
+
+def cmdUpdateTextureModifiers():
+    state = "disabled" if bunnies.get() == '' else "normal"
+    if state == "disabled":
+        for t in getTextureModifiers():
+            t.set("")
+            
+    # cant get widget from corresponding stringVar :(
+    w.checkAlpha.configure(state=state)
+    w.checkHd.configure(state=state)
+    w.checkThin.configure(state=state)
+    w.checkMultitexture.configure(state=state)
+    w.checkTexturechange.configure(state=state)
     
     
 def cmdChoose():
@@ -108,15 +145,20 @@ def cmdMinBunnies(self):
     updateEntries()
         
 def cmdStepSize(self):
-    stepSizeEntry.set(int(round(stepSize.get())))
+    updateEntries()
+
+def cmdRepetitions(self):
+    updateEntries()
     
 def cmdTogglePresets():
+    # enable or disable presets combobox and save button 
     comboboxState = "normal" if presets.get() == '1' else "disabled"
     buttonState = comboboxState if not presetsCombobox.get() == '' else "disabled"
     w.presetsCombobox.configure(state=comboboxState)
     w.saveButton.configure(state=buttonState)
  
 def cmdSave():
+    # command for save button - generates a save and writes it to presets.csv
     open("presets.csv", "a").close()
     lines = getLinesFromFile("presets.csv")
     f = open("presets.csv", 'w')
@@ -124,34 +166,47 @@ def cmdSave():
     for l in lines: 
         if not l.split(",")[0] == presetsCombobox.get():
             f.write(l+'\n')
-    
-    f.write(presetsCombobox.get()
-            +','+','.join(map(lambda x: x.get(), testList))
-            +','+str(int(minBunnies.get()))
-            +','+str(int(maxBunnies.get()))
-            +','+str(int(stepSize.get()))
-            +','+resolution.get()+'\n')
+
+    f.write(",".join([presetsCombobox.get()] + generateSave())+"\n")
     f.close()
      
 def presetSelection(event):
-    # This method gets evaluated each time a preset is selected in the combobox
-    # The selected preset is read from file and ui values are set respectively
+    # This method gets evaluated each time a preset is selected in the combobox.
+    # The selected preset is read from file and the ui state is set respectively.
     lines = getLinesFromFile("presets.csv")
     for l in lines:
         values = l.split(",") 
         if values[0] == presetsCombobox.get():
-            numTests = len(testList)
-            cvalues = values[1:numTests+1]
-            for i in range(numTests):
-                testList[i].set(cvalues[i])
-            minBunnies.set(values[numTests+1])
-            minBunniesEntry.set(values[numTests+1])
-            maxBunnies.set(values[numTests+2])
-            maxBunniesEntry.set(values[numTests+2])
-            stepSize.set(values[numTests+3])
-            stepSizeEntry.set(values[numTests+3])
-            resolution.set(values[numTests+4])
+            restore(values[1:])
+    
+def generateSave():
+    # save ui state as string
+    save = [t for t in map(lambda x: x.get(), getModifiers())]
+    save.append(minBunniesEntry.get())
+    save.append(maxBunniesEntry.get())
+    save.append(stepSizeEntry.get())
+    save.append(repetitionsEntry.get())
+    save.append(resolution.get())
+    return save
            
+def restore(values):
+    # restore ui state from a qualified save string (as generated by generateSave())
+    modifiers = getModifiers()    
+    modifiersCount = len(modifiers)
+    cvalues = values[:modifiersCount]
+    for i in range(modifiersCount):
+        modifiers[i].set(cvalues[i])
+    minBunnies.set(values[modifiersCount])
+    maxBunnies.set(values[modifiersCount+1])
+    stepSize.set(values[modifiersCount+2])
+    repetitions.set(values[modifiersCount+3])
+    resolution.set(values[modifiersCount+4])
+    
+    updateEntries()
+    cmdUpdateBunniesCheckbox()
+    cmdUpdateTextureModifiers()
+    
+    
 def getLinesFromFile(file):     
     # returns list of the file's lines
     f = open(file, 'r')
@@ -165,68 +220,63 @@ def updatePresets():
     open("presets.csv", "a").close()
     w.presetsCombobox.configure(values = [l.split(",")[0] for l in getLinesFromFile("presets.csv")])
     
-def getTests():
-    tests = ''
-    for i in range(len(testList)):
-        x = testList[i].get()
-        tests = tests + ',' + x if (tests != '' and x != '') else x if x != '' else tests
+def getActiveModifiers():
+    # returns a string of all selected modifier keywords separated by commas
+    modifiers = getModifiers()    
+    activeModifiers = ''
+    for i in range(len(modifiers)):
+        x = modifiers[i].get()
+        activeModifiers = activeModifiers + ',' + x if (activeModifiers != '' and x != '') else x if x != '' else activeModifiers
         
-    if tests == '':
-        tests = 'standard'
-    return tests
+    if activeModifiers == '':
+        activeModifiers = 'standard'
+    return activeModifiers
 
 def updateEntries():
-    maxBunniesEntry.set(int(round(maxBunnies.get())))
-    minBunniesEntry.set(int(round(minBunnies.get())))
-    stepSizeEntry.set(int(round(stepSize.get())))
+    # set values of entries to values of sliders, rounded to next hundreds
+    maxBunniesEntry.set(int(round(maxBunnies.get()/100))*100)
+    minBunniesEntry.set(int(round(minBunnies.get()/100))*100)
+    # if 0, step size is set to 1 to prevent never ending tests
+    stepSizeEntry.set(int(round(stepSize.get()/100))*100 or 1)
+    repetitionsEntry.set(int(round(repetitions.get())) or 1)
 
 
 def validateMinBunnies(newVal, eventType):
-    if eventType == "focusout":
-        newVal = truncateValue(newVal, 0, bunnyScaleCap)
-        minBunnies.set(newVal)
-        if int(newVal) > maxBunnies.get():
-            maxBunnies.set(newVal)
-        updateEntries()
-            
-    elif eventType == "key":
-        try:
-            newVal == '' or int(newVal)
-            minBunnies.set(newVal)
-        except:
-            return False
-    return True
+    return validate(newVal, eventType, minBunnies, minBunniesEntry, 0, 100000)
     
 def validateMaxBunnies(newVal, eventType):
+    return validate(newVal, eventType, maxBunnies, maxBunniesEntry, 0, 100000)
+    
+def validateStepSize(newVal, eventType):
+    return validate(newVal, eventType, stepSize, stepSizeEntry, 1, 10000)
+    
+def validateRepetitions(newVal, eventType):
+    return validate(newVal, eventType, repetitions, repetitionsEntry, 1, 100)
+    
+def validate(newVal, eventType, var, entry, minValue, maxValue):
     if eventType == "focusout":
-        newVal = truncateValue(newVal, 0, bunnyScaleCap)
-        maxBunnies.set(newVal)
-        if int(newVal) < minBunnies.get(): 
-            minBunnies.set(newVal)
-        updateEntries()
+        value = truncateValue(newVal, minValue, maxValue)
+        var.set(value)
+        entry.set(value)
+        if var == maxBunnies and int(value) < minBunnies.get(): 
+            minBunnies.set(value)
+            minBunniesEntry.set(value)
+        elif var == minBunnies and int(value) > maxBunnies.get():
+            maxBunnies.set(value)
+            maxBunniesEntry.set(value)
         
     elif eventType == "key":
         try:
+            # do not allow non integer characters
             newVal == '' or int(newVal)
-            maxBunnies.set(newVal)
+            var.set(newVal)
         except:
             return False
-    return True
-    
-def validateStepSize(newVal, eventType):
-    if eventType == "focusout":
-        value = truncateValue(newVal, 1, stepScaleCap)
-        stepSizeEntry.set(value)
-        stepSize.set(value)
-    elif eventType == "key":
-        try:
-            newVal == '' or int(newVal)
-            stepSize.set(newVal)
-        except:
-            return False
+            
     return True
     
 def truncateValue(value, low, high):
+    # returns value or low/high, if value is out of bounds
     if value == '' or int(value) < low:
         return low
     if int(value) > high:
@@ -242,33 +292,56 @@ def validatePreset(newVal):
         return False
 
 def cmdRun():
+    # command for run button
     import testmanager
+
+    # calculate some parameters for test execution    
     chosenFrameworks = list(w.chosenFrameworksList.get(0, END))
+    deselected = list(w.possibleFrameworksList.get(0, END))
     x, y = resolution.get().split("x")
-    destroy_window()    
+    
+    # save current ui state
+    save = generateSave()
+    
+    # close ui before test execution to not influence the result
+    destroy_window()
+    
+    # run the tests on each framework
     testmanager.run_test(chosenFrameworks,
-                         getTests(), 
-                         int(round(minBunnies.get())), 
-                         int(round(maxBunnies.get())), 
-                         int(round(stepSize.get())),
+                         getActiveModifiers(), 
+                         int(minBunniesEntry.get()), 
+                         int(maxBunniesEntry.get()), 
+                         int(stepSizeEntry.get()),
                          x,
-                         y)
+                         y,
+                         int(repetitionsEntry.get()))
+                         
     # Restart the UI after test execution 
     import bunnysuite_gui
-    bunnysuite_gui.vp_start_gui()
+    bunnysuite_gui.vp_start_gui(save=save, deselected=deselected)
 
-def init(top, gui, *args, **kwargs):
-    global w, top_level, root, testList, frameworks, bunnyScaleCap, stepScaleCap
-    w = gui
-    top_level = top
-    root = top
-    testList = [animation,scaled,random,rotated,multitexture,texturechange,alpha,hd]
-    bunnyScaleCap = 100000
-    stepScaleCap = 10000    
-    frameworks = getFrameworks()
-    for f in frameworks:
-        w.chosenFrameworksList.insert(END, f)
+def getModifiers():
+    # all state vars associated with checkboxes
+    testModifiers = [animation,rotation,random,teleport,scaled,pulsation,tinted,colorchange]
+    return getFlavours() + testModifiers + getTextureModifiers() + [no_output]
+    
+def getFlavours():
+    # all state vars associated with flavour checkboxes
+    return [bunnies,rectangles,circles,triangles,lines,points,texts]
+    
+def getTextureModifiers():
+    # all state vars associated with texture modifying checkboxes
+    return [multitexture,alpha,hdtexture,thin,texturechange]
+    
 
+        
+def restoreFrameworks(deselected, selected):
+    # puts deselected frameworks in the left list box and selected in the right one
+    for d in deselected:
+        w.possibleFrameworksList.insert(END, d)
+    for s in selected:
+        w.chosenFrameworksList.insert(END, s)
+        
 def getFrameworks():
     # Searches for subdirectories containing a 'bin' folder containing App.jar/App.exe
     import os
@@ -281,17 +354,6 @@ def getFrameworks():
                     break
     return frameworks
         
-def destroy_window():
-    # Function which closes the window.
-    global top_level
-    # Bugfix for a tk bug where a script cannot cancel itself:
-    top_level.eval('::ttk::CancelRepeat')
-    top_level.destroy()
-    top_level = None
-
-if __name__ == '__main__':
-    import bunnysuite_gui
-    bunnysuite_gui.vp_start_gui()
 
 
 

@@ -4,13 +4,13 @@ import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 
-def run_test(frameworks, test_name, min_val, max_val, step, res_x=800, res_y=600):
+def run_test(frameworks, test_name, min_val, max_val, step, res_x=800, res_y=600, repetitions = 10):
     print (frameworks, test_name, min_val, max_val, step, res_x, res_y)
     for framework in frameworks:
         try:
-            subprocess.call([framework + "/bin/App.exe", test_name, str(min_val), str(max_val), str(step), str(res_x), str(res_y)], cwd=framework+"/bin")
+            subprocess.call([framework + "/bin/App.exe", test_name, str(min_val), str(max_val), str(step), str(res_x), str(res_y), str(repetitions)], cwd=framework+"/bin")
         except:
-            subprocess.call(["java", "-jar", "App.jar", test_name, str(min_val), str(max_val), str(step), str(res_x), str(res_y)], cwd=framework+"/bin")
+            subprocess.call(["java", "-jar", "App.jar", test_name, str(min_val), str(max_val), str(step), str(res_x), str(res_y), str(repetitions)], cwd=framework+"/bin")
        
     make_diagram(frameworks, test_name)
 
