@@ -1,4 +1,4 @@
-#define TEST "animation,points"
+#define TEST "rotation,pulsation,rectangles,random"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -69,6 +69,8 @@ public:
 	int numVertices;
 	double xVertices[4];
 	double yVertices[4];
+	Sint16 xVerticesAbsolute[4];
+	Sint16 yVerticesAbsolute[4];
 
 	Bunny(){
 		x = 0.0;
@@ -120,17 +122,14 @@ public:
 
 	void rotate(double angle){
 		rotation += angle;
-		if (nature == NATURE_TRIANGLE || nature == NATURE_RECT || nature == NATURE_LINE){
-			rotateVertices(angle);
-		}
 	}
 
-	void rotateVertices(double angle){
-		double s = sin(-angle * M_PI / 180.0);
-		double c = cos(-angle * M_PI / 180.0);
+	void calculateAbsoluteVertices(){
+		double s = sin(-rotation * M_PI / 180.0);
+		double c = cos(-rotation * M_PI / 180.0);
 		for (int i = 0; i < numVertices; ++i){
-			xVertices[i] = xVertices[i] * c + yVertices[i] * s;
-			yVertices[i] = -xVertices[i] * s + yVertices[i] * c;
+			xVerticesAbsolute[i] = int(floor(x + xVertices[i] * scaleX * c + yVertices[i] * scaleY * s));
+			yVerticesAbsolute[i] = int(floor(y - xVertices[i] * scaleX * s + yVertices[i] * scaleY * c));
 		}
 	}
 
@@ -148,10 +147,11 @@ public:
 		}
 		// render triangle
 		else if (nature == NATURE_TRIANGLE) {
+			calculateAbsoluteVertices();
 			trigonRGBA(ren, 
-				int(floor(x + xVertices[0] * scaleX)), int(floor(y + yVertices[0] * scaleY)),
-				int(floor(x + xVertices[1] * scaleX)), int(floor(y + yVertices[1] * scaleY)),
-				int(floor(x + xVertices[2] * scaleX)), int(floor(y + yVertices[2] * scaleY)),
+				xVerticesAbsolute[0], yVerticesAbsolute[0],
+				xVerticesAbsolute[1], yVerticesAbsolute[1],
+				xVerticesAbsolute[2], yVerticesAbsolute[2],
 				color.r, color.g, color.b, color.a);
 		}
 		// render circle
@@ -166,18 +166,15 @@ public:
 				color.r, color.g, color.b, color.a);
 		}
 		else if (nature == NATURE_RECT){
-			Sint16 xp[4], yp[4];
-			for (int i = 0; i < 4; ++i){
-				xp[i] = int(floor(x + xVertices[i] * scaleX));
-				yp[i] = int(floor(y + yVertices[i] * scaleY));
-			}
-			polygonRGBA(ren, xp, yp, 4, color.r, color.g, color.b, color.a);
+			calculateAbsoluteVertices();
+			polygonRGBA(ren, xVerticesAbsolute, yVerticesAbsolute, 4, color.r, color.g, color.b, color.a);
 		}
 		// render line
 		else if (nature == NATURE_LINE){
+			calculateAbsoluteVertices();
 			aalineRGBA(ren, 
-				int(floor(x + xVertices[0] * scaleX)), int(floor(y + yVertices[0] * scaleY)),
-				int(floor(x + xVertices[1] * scaleX)), int(floor(y + yVertices[1] * scaleY)),
+				xVerticesAbsolute[0], yVerticesAbsolute[0],
+				xVerticesAbsolute[1], yVerticesAbsolute[1],
 				color.r, color.g, color.b, color.a);
 		}
 		// render particle
@@ -292,9 +289,9 @@ int main(int argc, char* argv[]){
 		// missing arguments?
 		cout << "Missing arguments. We assume some standard values for testing." << endl;
 		test_name = TEST;
-		min_val = 1000;
+		min_val = 1;
 		max_val = 50000;
-		step = 1000;
+		step = 1;
 	} else {
 		// read the arguments
 		test_name = string(argv[1]);
