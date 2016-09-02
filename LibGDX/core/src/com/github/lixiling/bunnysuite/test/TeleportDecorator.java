@@ -4,25 +4,26 @@ import com.github.lixiling.bunnysuite.BunnymarkUtils;
 import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
 
 /**
- * A decorator for {@link BaseTest} that makes bunnies scaled in x and y
- * direction, each by a random stretch factor betwenn 0.2 and 5.
+ * A decorator for {@link BaseTest} that makes bunnies teleport to a new random
+ * location every frame.
  * 
  * @author Victor Schuemmer
  */
-public final class ScaledDecorator extends AbstractTestDecorator {
+public final class TeleportDecorator extends AbstractTestDecorator {
 
-	public ScaledDecorator(IBunnyTest baseTest) {
+	public TeleportDecorator(IBunnyTest baseTest) {
 		super(baseTest);
 	}
 
 	@Override
 	public void update(AbstractBunny bunny) {
+		bunny.teleport(BunnymarkUtils.getRandomX(), BunnymarkUtils.getRandomY());
 		baseTest.update(bunny);
 	}
 
 	@Override
 	public void setInitialValues(AbstractBunny bunny) {
-		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f, BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f);
+		bunny.teleport(BunnymarkUtils.getRandomX(), BunnymarkUtils.getRandomY());
 		baseTest.setInitialValues(bunny);
 	}
 }

@@ -6,10 +6,13 @@ import java.util.Vector;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.github.lixiling.bunnysuite.test.BunnyTest;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
+import com.github.lixiling.bunnysuite.bunny.Bunny;
+import com.github.lixiling.bunnysuite.test.IBunnyTest;
 
 /**
  * The main application.
@@ -18,9 +21,9 @@ import com.github.lixiling.bunnysuite.test.BunnyTest;
  */
 public class Bunnymark extends ApplicationAdapter {
 
-	private Vector<Bunny> bunnies;
+	private Vector<AbstractBunny> bunnies;
 
-	private BunnyTest test;
+	private IBunnyTest test;
 	private Logger logger;
 
 	private int minBunnies;
@@ -45,33 +48,32 @@ public class Bunnymark extends ApplicationAdapter {
 	 *            the amount of bunnies to be added after each performance
 	 *            measurement
 	 */
-	public Bunnymark(BunnyTest test, String testName, int minBunnies, int maxBunnies, int step) {
+	public Bunnymark(IBunnyTest test, String testName, int minBunnies, int maxBunnies, int step, int framesPerStep) {
 		this.test = test;
+
 		if (step > 0) this.logger = new Logger(testName);
-		// this.logger = new Logger(Long.toString(System.currentTimeMillis()));
-		// logger.addLine(test.getTestDescription());
-		// logger.addLine("");
+		
 		this.minBunnies = minBunnies;
 		this.maxBunnies = maxBunnies;
 		this.step = step;
 
+		this.framesPerStep = framesPerStep;
 		renderedFramesCount = 0;
-		framesPerStep = 10;
 		renderTimes = new float[framesPerStep];
 
-		bunnies = new Vector<Bunny>();
+		bunnies = new Vector<AbstractBunny>();
 	}
 
 	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
 	private BitmapFont font;
-
+	
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
 		font = new BitmapFont();
-		test.initialize();
 		addBunnies(minBunnies);
-		
 	}
 
 	@Override
@@ -106,48 +108,37 @@ public class Bunnymark extends ApplicationAdapter {
 		// manipulate each of the bunnies.
 		updateBunnies();
 
-		// Draw the bunnies.
-		batch.begin();
-		draw();
-
+		if (BunnymarkUtils.drawingEnabled()) {
+			// Draw the bunnies.
+			shapeRenderer.begin(ShapeType.Line);
+			batch.begin();
+			Iterator<AbstractBunny> it = bunnies.iterator();
+			while (it.hasNext()) {
+				it.next().draw(batch, shapeRenderer);			
+			}
+			font.draw(batch, "FPS=" + Gdx.graphics.getFramesPerSecond() + "               COUNT=" + bunnies.size(), 10,
+					20);
+			batch.end();
+			shapeRenderer.end();
+		}
+		
 		// Save the render time for the current frame.
 		renderTimes[renderedFramesCount++] = Gdx.graphics.getDeltaTime();
 
-		font.draw(batch, "FPS=" + Gdx.graphics.getFramesPerSecond() + "               COUNT=" + bunnies.size(), 10,
-				20);
-		batch.end();
 	}
 
 	private void updateBunnies() {
-		Iterator<Bunny> it = bunnies.iterator();
+		Iterator<AbstractBunny> it = bunnies.iterator();
 		while (it.hasNext()) {
-			Bunny bunny = it.next();
-			test.update(bunny);
+			test.update(it.next());
 		}
 	}
 
 	private void addBunnies(int amount) {
 		for (int i = 0; i < amount; i++) {
-			Bunny bunny = new Bunny(BunnymarkUtils.getBunnyTexture(0));
+			AbstractBunny bunny = BunnymarkUtils.createBunny();
 			test.setInitialValues(bunny);
 			bunnies.add(bunny);
 		}
-	}
-
-	private void draw() {
-		Iterator<Bunny> it = bunnies.iterator();
-
-		while (it.hasNext()) {
-			Bunny bunny = it.next();
-			Texture t = bunny.getTexture();
-			
-			// scale down hd textures to be smaller than maxTextureHeight
-			float height = Math.min(BunnymarkUtils.getMaxTextureHeight(), t.getHeight());
-			float width = height/t.getHeight() * t.getWidth();
-			
-			batch.draw(t, bunny.getX(), bunny.getY(), 0, 0, width, height, bunny.getScaleX(),
-					bunny.getScaleY(), bunny.getRotation(), 0, 0, t.getWidth(), t.getHeight(), false, false);
-		}
-	}
-	
+	}	
 }

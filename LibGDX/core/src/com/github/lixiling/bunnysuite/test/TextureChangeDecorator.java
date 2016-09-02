@@ -1,8 +1,8 @@
 package com.github.lixiling.bunnysuite.test;
 
 import com.github.lixiling.bunnysuite.BunnymarkUtils;
-import com.badlogic.gdx.graphics.Texture;
-import com.github.lixiling.bunnysuite.Bunny;
+import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
+import com.github.lixiling.bunnysuite.bunny.Bunny;
 
 /**
  * A decorator for {@link BaseTest} that makes the bunnies randomly change their
@@ -10,35 +10,21 @@ import com.github.lixiling.bunnysuite.Bunny;
  * 
  * @author Victor Schuemmer
  */
-public final class TextureChangeDecorator extends BaseTestDecorator {
+public final class TextureChangeDecorator extends AbstractTestDecorator {
 
-	public TextureChangeDecorator(BunnyTest baseTest) {
+	public TextureChangeDecorator(IBunnyTest baseTest) {
 		super(baseTest);
 	}
 
 	@Override
-	public void update(Bunny bunny) {
-		bunny.setTexture(BunnymarkUtils.getRandomBunnyTexture());
+	public void update(AbstractBunny bunny) {
+		if (bunny instanceof Bunny)
+			((Bunny) bunny).setTexture(BunnymarkUtils.getRandomBunnyTexture());
 		baseTest.update(bunny);
 	}
 
 	@Override
-	public String getTestDescription() {
-		return "Bunnies get a new random texture every frame.\n" + baseTest.getTestDescription();
-	}
-
-	@Override
-	public void setInitialValues(Bunny bunny) {
-		bunny.teleport(BunnymarkUtils.getRandomX(), BunnymarkUtils.getRandomY());
+	public void setInitialValues(AbstractBunny bunny) {
 		baseTest.setInitialValues(bunny);
 	}
-
-	@Override
-	public void initialize() {
-		BunnymarkUtils.addBunnyTexture(new Texture("wabbit_0.png"));
-		BunnymarkUtils.addBunnyTexture(new Texture("wabbit_1.png"));
-		BunnymarkUtils.addBunnyTexture(new Texture("wabbit_2.png"));
-		baseTest.initialize();
-	}
-
 }

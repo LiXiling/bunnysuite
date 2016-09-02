@@ -1,8 +1,8 @@
 package com.github.lixiling.bunnysuite.test;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.github.lixiling.bunnysuite.Bunny;
 import com.github.lixiling.bunnysuite.BunnymarkUtils;
+import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
+import com.github.lixiling.bunnysuite.bunny.Bunny;
 
 /**
  * The most basic test, that does indeed nothing with the bunnies. Add
@@ -10,26 +10,16 @@ import com.github.lixiling.bunnysuite.BunnymarkUtils;
  * 
  * @author Victor Schuemmer
  */
-public class BaseTest implements BunnyTest {
+public class BaseTest implements IBunnyTest {
 
 	@Override
-	public void update(Bunny bunny) {
+	public void update(AbstractBunny bunny) {
 	}
 
 	@Override
-	public String getTestDescription() {
-		return "";
-	}
-
-	@Override
-	public void setInitialValues(Bunny bunny) {
-		bunny.setTexture(BunnymarkUtils.getRandomBunnyTexture());
-	}
-	
-	@Override
-	public void initialize() {
-		if (!BunnymarkUtils.hasTexture())
-			BunnymarkUtils.addBunnyTexture(new Texture("wabbit_0.png"));
+	public void setInitialValues(AbstractBunny bunny) {
+		if (bunny instanceof Bunny)
+			((Bunny) bunny).setTexture(BunnymarkUtils.getRandomBunnyTexture());
 	}
 
 }

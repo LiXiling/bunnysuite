@@ -1,30 +1,23 @@
-package com.github.lixiling.bunnysuite;
+package com.github.lixiling.bunnysuite.bunny;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * A bunny, aka the primary object to render.
+ * The thing used by the tests while rendering. Extend and implement draw() to
+ * create concrete bunnies or other things that jump.
  * 
  * @author Victor Schuemmer
  */
-public class Bunny {
-	private Texture texture;
+public abstract class AbstractBunny {
 
-	/**
-	 * @return the texture of the bunny
-	 */
-	public Texture getTexture() {
-		return texture;
-	}
-
-	/**
-	 * Sets a new texture for the bunny. May actually show a panda, this is not
-	 * checked.
-	 * 
-	 * @param texture
-	 */
-	public void setTexture(Texture texture) {
-		this.texture = texture;
+	public AbstractBunny() {
+		scaleX = 1;
+		scaleY = 1;
+		growth = 0.1f;
+		color = Color.WHITE;
 	}
 
 	private float x;
@@ -45,17 +38,11 @@ public class Bunny {
 		return y;
 	}
 
-	/**
-	 * Instantly moves the bunny to the given position.
-	 * 
-	 * @param x
-	 * @param y
-	 */
 	public void teleport(float x, float y) {
-		if (x < 0 || y < 0)
+		if (x < 0 || y < 0 || x > Gdx.graphics.getWidth() || y > Gdx.graphics.getHeight())
 			return;
 		this.x = x;
-		this.y = y;
+		this.y = Gdx.graphics.getHeight() - y;
 	}
 
 	private float speedX;
@@ -91,7 +78,7 @@ public class Bunny {
 	 * Rotates the bunny by given degrees, relative to its original rotation.
 	 */
 	public void setRotation(float rotation) {
-		this.rotation = rotation;
+		this.rotation = rotation % 360;
 	}
 
 	/**
@@ -99,6 +86,7 @@ public class Bunny {
 	 */
 	public void rotate(float rotation) {
 		this.rotation += rotation;
+		this.rotation %= 360;
 	}
 
 	private float scaleX;
@@ -139,8 +127,6 @@ public class Bunny {
 	 * @param scaleY
 	 */
 	public void setScale(float scaleX, float scaleY) {
-		if (scaleX < 0 || scaleY < 0)
-			return;
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 	}
@@ -169,20 +155,6 @@ public class Bunny {
 	 */
 	public void grow() {
 		setScale(scaleX + growth, scaleY + growth);
-	}
-
-	/**
-	 * Creates a bunny with the given texture (that may actually show a giraffe,
-	 * this is not checked).
-	 * 
-	 * @param texture
-	 *            the bunny texture
-	 */
-	public Bunny(Texture texture) {
-		this.texture = texture;
-		scaleX = 1;
-		scaleY = 1;
-		growth = 0.1f;
 	}
 
 	/**
@@ -226,4 +198,23 @@ public class Bunny {
 			this.y = maxY;
 		}
 	}
+	
+	private Color color;
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	/**
+	 * Draws the bunny on the batch or shape renderer. Assumes that begin() was
+	 * called on both before calling.
+	 * 
+	 * @param batch
+	 * @param shapeRenderer
+	 */
+	public abstract void draw(SpriteBatch batch, ShapeRenderer shapeRenderer);
 }

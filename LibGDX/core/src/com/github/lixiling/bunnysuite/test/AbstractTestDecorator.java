@@ -6,11 +6,11 @@ package com.github.lixiling.bunnysuite.test;
  * 
  * @author Victor Schuemmer
  */
-public abstract class BaseTestDecorator implements BunnyTest {
+public abstract class AbstractTestDecorator implements IBunnyTest {
 
-	protected BunnyTest baseTest;
+	protected IBunnyTest baseTest;
 
-	public BaseTestDecorator(BunnyTest baseTest) {
+	public AbstractTestDecorator(IBunnyTest baseTest) {
 		this.baseTest = baseTest;
 	}
 

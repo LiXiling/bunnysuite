@@ -4,25 +4,28 @@ import com.github.lixiling.bunnysuite.BunnymarkUtils;
 import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
 
 /**
- * A decorator for {@link BaseTest} that makes bunnies scaled in x and y
- * direction, each by a random stretch factor betwenn 0.2 and 5.
+ * A decorator for {@link BaseTest} that makes the bunnies change size
+ * continuously.
  * 
  * @author Victor Schuemmer
  */
-public final class ScaledDecorator extends AbstractTestDecorator {
+public final class PulsationDecorator extends AbstractTestDecorator {
 
-	public ScaledDecorator(IBunnyTest baseTest) {
+	public PulsationDecorator(IBunnyTest baseTest) {
 		super(baseTest);
 	}
 
 	@Override
 	public void update(AbstractBunny bunny) {
+		bunny.grow();
+		if (bunny.getScaleX() >= 5 || bunny.getScaleX() <= 0.2)
+			bunny.setGrowth(-1 * bunny.getGrowth());
 		baseTest.update(bunny);
 	}
 
 	@Override
 	public void setInitialValues(AbstractBunny bunny) {
-		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f, BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f);
+		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f);
 		baseTest.setInitialValues(bunny);
 	}
 }
