@@ -6,13 +6,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using App.src.testImpl;
+using App.src.model.renderables;
+using LilyPath;
 
 namespace App.src.model
 {
     public class BenchmarkTest
     {
         //Bunnies
-        public List<Bunny> bunnies;
+        public List<IRenderable> bunnies;
         public List<Texture2D> bunnyTextures;
 
         //testImpl Interfaces
@@ -23,7 +25,6 @@ namespace App.src.model
         //Misc. Helper
         public Random random;
         public ContentManager content;
-        public SpriteBatch spriteBatch;
         private int frameCount = 0;
 
         //Animation Constants
@@ -37,14 +38,21 @@ namespace App.src.model
         public int minVal;
         public int maxVal;
         public int step;
+        public int avg;
 
-        public BenchmarkTest(int minVal, int maxVal, int step)
+        public bool noOutput = false;
+        private List<RenderEnum> stateList = new List<RenderEnum>();
+        private RenderEnum state = RenderEnum.Bunny;
+
+
+        public BenchmarkTest(int minVal, int maxVal, int step, int avg)
         {
             this.minVal = minVal;
             this.maxVal = maxVal;
             this.step = step;
+            this.avg = avg;
 
-            bunnies = new List<Bunny>();
+            bunnies = new List<IRenderable>();
             bunnyTextures = new List<Texture2D>();
             random = new Random();
         }
@@ -55,8 +63,8 @@ namespace App.src.model
         /// <param name="maxY">max Value in Y Dimension</param>
         public void Initialize(float maxX, float maxY)
         {
-            this.minX = 50;
-            this.minY = 100;
+            this.minX = 0;
+            this.minY = 0;
             this.maxX = maxX;
             this.maxY = maxY;
         }
@@ -68,25 +76,20 @@ namespace App.src.model
         public void LoadContent(ContentManager content, SpriteBatch spriteBatch)
         {
             this.content = content;
-            this.spriteBatch = spriteBatch;
 
             LoadTextures();
 
             AddBunnies(minVal);
         }
 
-        private void LoadTextures(){
+        private void LoadTextures()
+        {
             foreach (ITextureLoader loader in texLoaderList)
             {
                 loader.LoadTexture(this);
             }
 
-        }
-
-        public Texture2D getTexture()
-        {
-            return bunnyTextures.ElementAt(random.Next(bunnyTextures.Count));
-        }
+        }        
 
         public int getBunnyCount()
         {
@@ -100,7 +103,7 @@ namespace App.src.model
         public bool RunTest()
         {
             //Every 10 frames make a new step
-            if (frameCount == 10)
+            if (frameCount == avg)
             {
                 if (bunnies.Count >= maxVal)
                 {
@@ -117,7 +120,7 @@ namespace App.src.model
                 return false;
             }
 
-            foreach (Bunny bunny in bunnies)
+            foreach (IRenderable bunny in bunnies)
             {
                 foreach (IBunnyModifier testProcedure in testProcedureList)
                 {
@@ -127,16 +130,20 @@ namespace App.src.model
             return false;
         }
 
-        /// <summary>
-        /// Called inside a spriteBatch.Begin() Block! Draws all the Bunnies onto the screen
-        /// </summary>
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch)
         {
-            foreach (Bunny bunny in bunnies)
+            if (noOutput || bunnies.Count == 0)
             {
-                spriteBatch.Draw(bunny.texture, new Vector2(bunny.X, bunny.Y), null, Color.White, (float)bunny.Rotation, new Vector2(bunny.originX, bunny.originY), (float)bunny.Scale, SpriteEffects.None, 0f);
+                return;
             }
 
+            int drawCalls = 0;
+
+            foreach (IRenderable bunny in bunnies)
+            {
+                drawCalls++;
+                bunny.Draw(spriteBatch, drawBatch, this);
+            }
         }
 
         /// <summary>
@@ -145,9 +152,11 @@ namespace App.src.model
         /// <param name="count">Amount of Bunnies to be added</param>
         private void AddBunnies(int count)
         {
+
             for (int i = 0; i < count; i++)
             {
-                Bunny bunny = new Bunny(this.getTexture());
+                IRenderable bunny = getNewSpawn();               
+                
                 foreach (IBunnyModifier modifier in modifierList)
                 {
                     modifier.ModifyBunny(bunny, this);
@@ -177,6 +186,65 @@ namespace App.src.model
         public void addUpdateModifier(IBunnyModifier runner)
         {
             testProcedureList.Add(runner);
+        }
+
+        public void addRenderState(RenderEnum newState)
+        {
+            stateList.Add(newState);
+        }
+
+        public Texture2D getRandomTexture()
+        {
+            return getTexture(random.Next(bunnyTextures.Count));
+        }
+
+        public Texture2D getTexture(int index)
+        {
+            return bunnyTextures.ElementAt(index);
+        }
+
+        private IRenderable getNewSpawn()
+        {
+            RenderEnum state;
+            IRenderable bunny;
+
+            if (stateList.Count == 0)
+            {
+                state = RenderEnum.Bunny;
+            }
+            else
+            {
+                state = stateList.ElementAt(random.Next(stateList.Count));
+            }
+
+            switch (state)
+            {
+                case RenderEnum.Bunny:
+                    bunny = new Bunny(random.Next(bunnyTextures.Count), this);
+                    break;
+                case RenderEnum.Circle:
+                    bunny = new Circle(random);
+                    break;
+                case RenderEnum.Line:
+                    bunny = new Line(random);
+                    break;
+                case RenderEnum.Point:
+                    bunny = new App.src.model.renderables.Point(random);
+                    break;
+                case RenderEnum.Rectangle:
+                    bunny = new App.src.model.renderables.Rectangle(random);
+                    break;
+                case RenderEnum.Text:
+                    bunny = new Text(random, content, maxX, maxY);
+                    break;
+                case RenderEnum.Triangle:
+                    bunny = new Triangle(random);
+                    break;
+                default:
+                    bunny = new Bunny(random.Next(bunnyTextures.Count), this);
+                    break;
+            }
+            return bunny;
         }
     }
 }

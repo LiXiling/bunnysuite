@@ -1,6 +1,6 @@
 /* Orx - Portable Game Engine
  *
- * Copyright (c) 2008-2015 Orx-Project
+ * Copyright (c) 2008-2016 Orx-Project
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -47,8 +47,6 @@
 #include <stdlib.h>
 
 #define KZ_CONFIG_ANDROID                        "Android"
-#define KZ_CONFIG_MAX_SURFACE_WIDTH              "MaxSurfaceWidth"
-#define KZ_CONFIG_MAX_SURFACE_HEIGHT             "MaxSurfaceHeight"
 #define KZ_CONFIG_SURFACE_SCALE                  "SurfaceScale"
 #define KZ_CONFIG_ACCELEROMETER_FREQUENCY        "AccelerometerFrequency"
 #define KZ_CONFIG_USE_JOYSTICK                   "UseJoystick"
@@ -175,8 +173,9 @@ void *orxAndroid_GetJNIEnv();
 jobject orxAndroid_GetActivity();
 
 #ifdef __orxANDROID_NATIVE__
-#define          LOOPER_ID_SENSOR        LOOPER_ID_USER
-ANativeActivity* orxAndroid_GetNativeActivity();
+#define              LOOPER_ID_SENSOR        LOOPER_ID_USER
+ANativeActivity*     orxAndroid_GetNativeActivity();
+struct android_app*  orxAndroid_GetAndroidApp();
 #endif /* __orxANDROID_NATIVE__ */
 
 #if defined(__cplusplus)

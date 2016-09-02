@@ -1,4 +1,5 @@
 ﻿using App.src.model;
+using App.src.model.renderables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace App.src.testImpl
 {
     public class RandomPositionModifier: IBunnyModifier
     {
-        public void ModifyBunny(Bunny bunny, BenchmarkTest bt)
+        public void ModifyBunny(IRenderable renderable, BenchmarkTest bt)
         {
-                bunny.teleport(bt.random, bt.maxX, bt.maxY);
+                renderable.Teleport(bt.random, bt.maxX, bt.maxY);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using App.src.testImpl;
+using App.src.model.renderables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,80 +19,107 @@ namespace App.src.model
         /// <param name="maxVal">End Value for the Test</param>
         /// <param name="step">Step increment for the Test</param>
         /// <returns></returns>
-        public BenchmarkTest ConstructBenchmark(String testnameList, int minVal, int maxVal, int step)
+        public BenchmarkTest ConstructBenchmark(String testnameList, int minVal, int maxVal, int step, int avg)
         {
-            BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step);
+            BenchmarkTest bt = new BenchmarkTest(minVal, maxVal, step, avg);
             String[] testnames = testnameList.Split(',');
 
-            Boolean loaderAdded = false;
+            Boolean textureAdded = false;
 
             foreach(String testname in testnames){
 
                 switch (testname)
                 {
-                    case "standard":
-                        bt.addSpawnModifier(new FixedPositionModifier());
-                        bt.addTextureLoader(new StandardTextureLoader());
-                        loaderAdded = true;
+                    case "alpha":
+                        bt.addTextureLoader(new GhostTextureLoader());                        
+                        textureAdded = true;
                         break;
                     case "animation":
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
+                        break;      
+                    case "bunnies":
+                        bt.addRenderState(RenderEnum.Bunny);
                         break;
-                    case "texturechange":
-                        bt.addSpawnModifier(new RandomPositionModifier());
-                        bt.addUpdateModifier(new TexturechangeModifier());
+                    case "circles":
+                        bt.addRenderState(RenderEnum.Circle);
+                        break;
+                    case "colorchange":
+                        bt.addUpdateModifier(new ColorChangeModifier());
+                        break;
+                    case "hdtexture":
+                        bt.addTextureLoader(new HDTextureLoader());                        
+                        textureAdded = true;
+                        break;
+                    case "lines":
+                        bt.addRenderState(RenderEnum.Line);
+                        break;
+                    case "no_output":
+                        bt.noOutput = true;
+                        break;
+                    case "multitexture":
+                        bt.addSpawnModifier(new TexturechangeModifier());
                         bt.addTextureLoader(new MultiTextureLoader());
-                        loaderAdded = true;
+                        textureAdded = true;
+                        break;
+                    case "points":
+                        bt.addRenderState(RenderEnum.Point);
+                        break;
+                    case "pulsation":
+                        bt.addUpdateModifier(new PulseModifier());
+                        break;
+                    case "random":
+                        bt.addSpawnModifier(new RandomPositionModifier());                  
+                        break;
+                    case "rectangles":
+                        bt.addRenderState(RenderEnum.Rectangle);
                         break;
                     case "rotation":
                         bt.addSpawnModifier(new RandomPositionModifier());
                         bt.addUpdateModifier(new RotationModifier());
-                        break;
-                    case "random":
-                        RandomPositionModifier rt = new RandomPositionModifier();
-                        bt.addSpawnModifier(rt);
-                        bt.addUpdateModifier(rt);
-                        break;
+                        break;      
                     case "scaled":
-                        bt.addSpawnModifier(new RandomPositionModifier());
-                        bt.addUpdateModifier(new ScaleModifier());
+                        bt.addSpawnModifier(new ScaleModifier());
                         break;
-                    case "multitexture":
-                        bt.addSpawnModifier(new RandomPositionModifier());
-                        bt.addSpawnModifier(new TexturechangeModifier());
-                        bt.addTextureLoader(new MultiTextureLoader());
-                        loaderAdded = true;
-                        break;
-                    case "star":
-                        bt.addTextureLoader(new StarTextureLoader());
-                        loaderAdded = true;
+                    case "standard":
                         bt.addSpawnModifier(new FixedPositionModifier());
+                        bt.addTextureLoader(new StandardTextureLoader());
+                        textureAdded = true;
+                        break;                    
+                    case "teleport":
+                        bt.addUpdateModifier(new RandomPositionModifier());
                         break;
-                    case "alpha":
-                        bt.addTextureLoader(new GhostTextureLoader());
-                        loaderAdded = true;
-                        bt.addSpawnModifier(new FixedPositionModifier());
+                    case "texts":
+                        bt.addRenderState(RenderEnum.Text);
                         break;
-                    case "hd":
-                        bt.addTextureLoader(new HDTextureLoader());
-                        loaderAdded = true;
-                        bt.addSpawnModifier(new FixedPositionModifier());
+                    case "texturechange":
+                        bt.addUpdateModifier(new TexturechangeModifier());                      
+                        break;
+                    case "thin":
+                        bt.addTextureLoader(new ThinTextureLoader());
+                        textureAdded = true;
+                        break;
+                    case "tinted":
+                        bt.addSpawnModifier(new ColorChangeModifier());
+                        break;
+                    case "triangles":
+                        bt.addRenderState(RenderEnum.Triangle);
                         break;
                     default:
                         bt.addSpawnModifier(new SpeedModifier());
                         bt.addUpdateModifier(new AnimationModifier());
                         bt.addTextureLoader(new StandardTextureLoader());
-                        loaderAdded = true;
+                        textureAdded = true;
                         break;
                     }
             }
 
-            if (!loaderAdded)
+            Console.WriteLine(textureAdded);
+
+            if (!textureAdded)
             {
                 bt.addTextureLoader(new StandardTextureLoader());
             }
-
             return bt;
         }
     }

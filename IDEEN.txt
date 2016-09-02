@@ -1,0 +1,10 @@
+- Ausarbeitung: Zu jedem Framework kurz ein paar implementierungstechnische Besonderheiten
+- Ausarbeitung: Beschreibung der GUI, wie umgesetzt?
+- Balkendiagramm für den Schwellwert, bei dem ein Frame länger dauert als 0.019s
+- Mehr Daten in Logfiles angeben (erste Zeile)
+- Auflösung in Dateinamen von Logfiles integrieren
+
+- NICHT VERGESSEN: Abstract bei der Ausarbeitung!!!
+
+Für Präsentation:
+- evtl. alten BunnyMark zeigen (um zu erklären, warum unseres besser ist)

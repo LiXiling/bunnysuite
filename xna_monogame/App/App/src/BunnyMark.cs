@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using App.src.model;
+using LilyPath;
 
 namespace App
 {
@@ -12,23 +13,26 @@ namespace App
         //Test Parameter
         private String test_name;
         private int max_val;
-        
+
         private BenchmarkTest bt;
 
         //Graphics IO
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        DrawBatch drawBatch;
+
         private Color bgColor;
 
         //Test Values
         private int bunnyCount = 0;
         private bool btFinished = false;
+        private int avg;
 
         //Misc. Helpers
         private Logger logger;
         private DebugText debugText;
 
-        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal, int xRes, int yRes)
+        public BunnyMark(BenchmarkTest bt, String testnameList, int maxVal, int xRes, int yRes, int avg)
         {
             this.Window.Title = "BunnySuite - XNA";
             test_name = testnameList;
@@ -44,7 +48,8 @@ namespace App
 
             this.bt = bt;
 
-            logger = new Logger(test_name);
+            logger = new Logger(test_name, avg);
+            this.avg = avg;
 
             this.IsFixedTimeStep = false;
             //graphics.SynchronizeWithVerticalRetrace = false;
@@ -53,13 +58,15 @@ namespace App
         protected override void Initialize()
         {
             bgColor = new Color(21, 21, 21);
-            bt.Initialize(graphics.PreferredBackBufferWidth - 26, graphics.PreferredBackBufferHeight - 37);
+            bt.Initialize(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            drawBatch = new DrawBatch(GraphicsDevice);
+
             debugText = new DebugText(Content);
 
             bt.LoadContent(Content, spriteBatch);
@@ -81,20 +88,22 @@ namespace App
         protected override void Draw(GameTime gameTime)
         {
             bunnyCount = bt.getBunnyCount();
-
             GraphicsDevice.Clear(bgColor);
-
+            
+            drawBatch.Begin(DrawSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
             spriteBatch.Begin();
-
-            bt.Draw();
+                  
+            bt.Draw(spriteBatch, drawBatch);
             debugText.Draw(spriteBatch, bunnyCount);
-
+            
             spriteBatch.End();
+            drawBatch.End();
+
 
             logger.addLog(gameTime, bunnyCount);
 
             //Exit if enough Bunnies are drawn
-            if (btFinished && bunnyCount == max_val)
+            if (btFinished && bunnyCount >= max_val)
             {
                 logger.write();
                 this.Exit();
@@ -102,7 +111,7 @@ namespace App
             }
 
             base.Draw(gameTime);
-            
+
         }
     }
 }

@@ -8,14 +8,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="App.exe.manifest" size="9517">
+    <dependentAssembly dependencyType="install" codebase="App.exe.manifest" size="9893">
       <assemblyIdentity name="App.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>inS64HMgRkDBX7nHX3LiDPB/z7g=</dsig:DigestValue>
+        <dsig:DigestValue>WP5kRLfb/4NAF64lt1VFnGEUhCA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

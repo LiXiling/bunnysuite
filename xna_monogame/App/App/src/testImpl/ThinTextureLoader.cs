@@ -7,7 +7,7 @@ using System.Text;
 
 namespace App.src.testImpl
 {
-    public class StarTextureLoader : ITextureLoader
+    public class ThinTextureLoader : ITextureLoader
     {
         public void LoadTexture(BenchmarkTest bt)
         {

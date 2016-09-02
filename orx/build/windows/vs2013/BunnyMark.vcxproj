@@ -89,9 +89,9 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\bin\windows\32\</OutDir>
+    <OutDir>..\..\..\bin\</OutDir>
     <IntDir>obj\x32\Release\</IntDir>
-    <TargetName>bunny</TargetName>
+    <TargetName>App</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>false</GenerateManifest>
@@ -251,92 +251,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>orx.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)bunny.exe</OutputFile>
+      <OutputFile>$(OutDir)App.exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\lib\windows\32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <TargetMachine>MachineX86</TargetMachine>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\bunnymark.h" />
-    <ClInclude Include="..\..\..\include\orx\orx.h" />
-    <ClInclude Include="..\..\..\include\orx\orxInclude.h" />
-    <ClInclude Include="..\..\..\include\orx\orxKernel.h" />
-    <ClInclude Include="..\..\..\include\orx\orxPluginAPI.h" />
-    <ClInclude Include="..\..\..\include\orx\orxUtils.h" />
-    <ClInclude Include="..\..\..\include\orx\anim\orxAnim.h" />
-    <ClInclude Include="..\..\..\include\orx\anim\orxAnimPointer.h" />
-    <ClInclude Include="..\..\..\include\orx\anim\orxAnimSet.h" />
-    <ClInclude Include="..\..\..\include\orx\base\orxDecl.h" />
-    <ClInclude Include="..\..\..\include\orx\base\orxModule.h" />
-    <ClInclude Include="..\..\..\include\orx\base\orxType.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxClock.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxCommand.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxConfig.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxConsole.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxEvent.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxLocale.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxResource.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxSystem.h" />
-    <ClInclude Include="..\..\..\include\orx\core\orxThread.h" />
-    <ClInclude Include="..\..\..\include\orx\debug\orxDebug.h" />
-    <ClInclude Include="..\..\..\include\orx\debug\orxFPS.h" />
-    <ClInclude Include="..\..\..\include\orx\debug\orxProfiler.h" />
-    <ClInclude Include="..\..\..\include\orx\display\orxDisplay.h" />
-    <ClInclude Include="..\..\..\include\orx\display\orxFont.h" />
-    <ClInclude Include="..\..\..\include\orx\display\orxGraphic.h" />
-    <ClInclude Include="..\..\..\include\orx\display\orxScreenshot.h" />
-    <ClInclude Include="..\..\..\include\orx\display\orxText.h" />
-    <ClInclude Include="..\..\..\include\orx\display\orxTexture.h" />
-    <ClInclude Include="..\..\..\include\orx\io\orxFile.h" />
-    <ClInclude Include="..\..\..\include\orx\io\orxInput.h" />
-    <ClInclude Include="..\..\..\include\orx\io\orxJoystick.h" />
-    <ClInclude Include="..\..\..\include\orx\io\orxKeyboard.h" />
-    <ClInclude Include="..\..\..\include\orx\io\orxMouse.h" />
-    <ClInclude Include="..\..\..\include\orx\main\orxAndroid.h" />
-    <ClInclude Include="..\..\..\include\orx\main\orxParam.h" />
-    <ClInclude Include="..\..\..\include\orx\math\orxAABox.h" />
-    <ClInclude Include="..\..\..\include\orx\math\orxMath.h" />
-    <ClInclude Include="..\..\..\include\orx\math\orxOBox.h" />
-    <ClInclude Include="..\..\..\include\orx\math\orxVector.h" />
-    <ClInclude Include="..\..\..\include\orx\memory\orxBank.h" />
-    <ClInclude Include="..\..\..\include\orx\memory\orxMemory.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxFrame.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxFX.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxFXPointer.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxObject.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxSpawner.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxStructure.h" />
-    <ClInclude Include="..\..\..\include\orx\object\orxTimeLine.h" />
-    <ClInclude Include="..\..\..\include\orx\physics\orxBody.h" />
-    <ClInclude Include="..\..\..\include\orx\physics\orxPhysics.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\orxPlugin.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\orxPluginCore.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\orxPluginType.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\orxPluginUser.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_CoreDefine.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_CoreID.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_Display.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_Joystick.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_Keyboard.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_Mouse.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_Physics.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_Render.h" />
-    <ClInclude Include="..\..\..\include\orx\plugin\define\orxPlugin_SoundSystem.h" />
-    <ClInclude Include="..\..\..\include\orx\render\orxCamera.h" />
-    <ClInclude Include="..\..\..\include\orx\render\orxRender.h" />
-    <ClInclude Include="..\..\..\include\orx\render\orxShader.h" />
-    <ClInclude Include="..\..\..\include\orx\render\orxShaderPointer.h" />
-    <ClInclude Include="..\..\..\include\orx\render\orxViewport.h" />
-    <ClInclude Include="..\..\..\include\orx\sound\orxSound.h" />
-    <ClInclude Include="..\..\..\include\orx\sound\orxSoundPointer.h" />
-    <ClInclude Include="..\..\..\include\orx\sound\orxSoundSystem.h" />
-    <ClInclude Include="..\..\..\include\orx\utils\orxHashTable.h" />
-    <ClInclude Include="..\..\..\include\orx\utils\orxLinkList.h" />
-    <ClInclude Include="..\..\..\include\orx\utils\orxString.h" />
-    <ClInclude Include="..\..\..\include\orx\utils\orxTree.h" />
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\bunnymark.cpp">
     </ClCompile>

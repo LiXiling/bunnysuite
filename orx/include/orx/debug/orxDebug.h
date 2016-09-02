@@ -1,6 +1,6 @@
 /* Orx - Portable Game Engine
  *
- * Copyright (c) 2008-2015 Orx-Project
+ * Copyright (c) 2008-2016 Orx-Project
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -230,19 +230,19 @@
 
   /* Assert */
   #if defined(__orxGCC__) || defined(__orxLLVM__)
-    #define orxASSERT(TEST, ...)                                                                  \
-      if(!(TEST))                                                                                 \
-      {                                                                                           \
+    #define orxASSERT(TEST, ...)                                                        \
+      if(!(TEST))                                                                       \
+      {                                                                                 \
         orxDEBUG_PRINT(orxDEBUG_LEVEL_ASSERT, "[ASSERT] : <" #TEST ">", ##__VA_ARGS__); \
-        orxBREAK();                                                                               \
+        orxBREAK();                                                                     \
       }
   #else /* __orxGCC__ || __orxLLVM__ */
     #ifdef __orxMSVC__
-      #define orxASSERT(TEST, ...)                                                                \
-        if(!(TEST))                                                                               \
-        {                                                                                         \
+      #define orxASSERT(TEST, ...)                                                      \
+        if(!(TEST))                                                                     \
+        {                                                                               \
           orxDEBUG_PRINT(orxDEBUG_LEVEL_ASSERT, "[ASSERT] : <" #TEST ">", __VA_ARGS__); \
-          orxBREAK();                                                                             \
+          orxBREAK();                                                                   \
         }
     #endif /* __orxMSVC__ */
   #endif /* __orcGCC__ || __orxLLVM__ */
