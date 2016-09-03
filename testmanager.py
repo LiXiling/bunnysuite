@@ -35,8 +35,8 @@ def make_bar_diagram(frameworks, test_name):
         
 def get_threshold_value_from_data(x,y):
     for i in range(0,len(y)):
-        if y[i] > 0.019:
-            return x[i]
+        if y[i] > 0.019 and y[i-1] > 0.019:
+            return x[i-1]
     return x[-1]
         
 def make_detail_diagram(frameworks, test_name):
