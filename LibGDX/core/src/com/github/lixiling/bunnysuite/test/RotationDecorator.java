@@ -1,7 +1,7 @@
 package com.github.lixiling.bunnysuite.test;
 
 import com.github.lixiling.bunnysuite.BunnymarkUtils;
-import com.github.lixiling.bunnysuite.Bunny;
+import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
 
 /**
  * A decorator for {@link BaseTest} that makes bunnies rotate 1 degree every
@@ -9,32 +9,21 @@ import com.github.lixiling.bunnysuite.Bunny;
  * 
  * @author Victor Schuemmer
  */
-public class RotationDecorator extends BaseTestDecorator {
+public final class RotationDecorator extends AbstractTestDecorator {
 
-	public RotationDecorator(BunnyTest baseTest) {
+	public RotationDecorator(IBunnyTest baseTest) {
 		super(baseTest);
 	}
 
 	@Override
-	public void update(Bunny bunny) {
+	public void update(AbstractBunny bunny) {
 		bunny.rotate(1);
 		baseTest.update(bunny);
 	}
 
 	@Override
-	public String getTestDescription() {
-		return "Bunnies are rotated by 1 degree every frame.\n" + baseTest.getTestDescription();
-	}
-
-	@Override
-	public void setInitialValues(Bunny bunny) {
+	public void setInitialValues(AbstractBunny bunny) {
 		bunny.setRotation(BunnymarkUtils.nextRandomFloat() * 360);
 		baseTest.setInitialValues(bunny);
 	}
-
-	@Override
-	public void initialize() {
-		baseTest.initialize();
-	}
-
 }

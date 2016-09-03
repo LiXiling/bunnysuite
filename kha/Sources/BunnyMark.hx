@@ -8,38 +8,64 @@ import kha.Scaler;
 import kha.Scheduler;
 import kha.System;
 
-class BunnyMark {
+class Bunnymark {
 	
 	private static var bgColor = Color.fromValue(0x000000);
 	private var backbuffer: Image;
-	private static inline var screenWidth = 1024;
-	private static inline var screenHeight = 768;
-	private var bunnyTexture : Image;
 	
 	private var initialized = false;
 	
-	private var bunny : Bunny;
+	private var bunnies : Array<Bunny.AbstractBunny>;
 	
+	private var test : IBunnyTest;
+	private var minBunnies : Int;
+	private var maxBunnies : Int;
+	private var step : Int;
 	
-	public function new() {
+	private var renderedFramesCount : Int;
+	private var framesPerStep : Int;
+	private var renderTimes : Array<Float>;
+	
+	private var logger : Logger;
+	
+	private var currentTime : Float;
+	private var lastTime : Float;
+	
+	public function new(test : IBunnyTest, testName : String, minBunnies : Int, maxBunnies : Int, step : Int, framesPerStep : Int) {
 		//Register Render & Update in GameLoop
 		System.notifyOnRender(render);
 		Scheduler.addTimeTask(update, 0, 1 / 60);
+
+		if (step > 0) {
+			logger = new Logger(testName);
+		}
 		
-		//Load Assets with Callback
-		Assets.loadEverything(loadingFinished);
+		this.test = test;
+		this.minBunnies = minBunnies;
+		this.maxBunnies = maxBunnies;
+		this.step = step;
 		
+		renderedFramesCount = 0;
+		this.framesPerStep = framesPerStep;
+		renderTimes = new Array<Float>();
+		
+		currentTime = 0;
+		lastTime = 0;
+		
+		bunnies = new Array<Bunny.AbstractBunny>();
+			
+		// Load Assets with Callback
+		Assets.loadEverything(loadingFinished);	
+		
+		// add initial bunnies	
+		addBunnies(minBunnies);
 	}
 
 	function loadingFinished() : Void {
 		initialized = true;
-		
 		//create a rendering Buffer
-		backbuffer = Image.createRenderTarget(screenWidth, screenHeight);
-		
-		bunnyTexture = Assets.images.wabbit_alpha0;
-		
-		
+		backbuffer = Image.createRenderTarget(BunnymarkUtils.getWidth(), BunnymarkUtils.getHeight());
+		backbuffer.g2.font = Assets.fonts.arimo;	
 	}
 
 	function update(): Void {
@@ -47,10 +73,10 @@ class BunnyMark {
 		if (!initialized) {
       		return;
     	}
-					
-		bunny = new Bunny(Std.int(screenWidth / 2) - Std.int(bunnyTexture.width / 2), 
-      						Std.int(screenHeight / 2) - Std.int(bunnyTexture.height / 2), 
-      						bunnyTexture);
+		
+		for (bunny in bunnies) {
+			test.update(bunny);
+		}
 	}
 
 	function render(framebuffer: Framebuffer): Void {
@@ -58,17 +84,56 @@ class BunnyMark {
 		if (!initialized) {
       		return;
     	}	
-		var g = backbuffer.g2;
+
+		if (bunnies.length > maxBunnies) {
+			//if (logger != null) logger.write();
+			System.requestShutdown();
+		}
+
+		if (renderedFramesCount >= framesPerStep) {
+			renderedFramesCount = 0;
+
+			// Per step, 10 frames are rendered and the average render time per
+			// frame is logged alongside the number of rendered bunnies.
+			var avgRenderTime = 0.0;
+			for (t in renderTimes)
+				avgRenderTime += t;		
+			avgRenderTime /= framesPerStep;
+
+			if (logger != null) logger.addLog(bunnies.length, avgRenderTime);
+
+			// add some more bunnies.
+			addBunnies(step);
+		}
 		
-		// clear our backbuffer using graphics2
-    	g.begin(bgColor);
-		bunny.render(g);
-    	g.end();
+		if (!BunnymarkUtils.drawingDisabled()) {	
+			var g = backbuffer.g2;
+			
+			// clear our backbuffer using graphics2
+			g.begin(bgColor);
+			for (bunny in bunnies) {
+				bunny.render(g);
+			}
+			g.end();
+		}
 		
+		currentTime = Scheduler.time();
+		renderTimes[renderedFramesCount++] = currentTime - lastTime;
+		lastTime = currentTime;
 		
-		// draw our backbuffer onto the active framebuffer
-    	framebuffer.g2.begin();
-    	Scaler.scale(backbuffer, framebuffer, System.screenRotation);
-    	framebuffer.g2.end();	
+		if (!BunnymarkUtils.drawingDisabled()) {	
+			// draw our backbuffer onto the active framebuffer
+			framebuffer.g2.begin();
+			Scaler.scale(backbuffer, framebuffer, System.screenRotation);
+			framebuffer.g2.end();
+		}	
+	}
+	
+	private function addBunnies(amount : Int) {
+		for (i in 0...amount) {
+			var bunny = BunnymarkUtils.createBunny();
+			test.setInitialValues(bunny);
+			bunnies.push(bunny);
+		}
 	}
 }

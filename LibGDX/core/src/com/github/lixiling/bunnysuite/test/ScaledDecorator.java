@@ -1,43 +1,28 @@
 package com.github.lixiling.bunnysuite.test;
 
 import com.github.lixiling.bunnysuite.BunnymarkUtils;
-import com.github.lixiling.bunnysuite.Bunny;
+import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
 
 /**
- * A decorator for {@link BaseTest} that makes the bunnies change size in a
- * pulsing fashion.
+ * A decorator for {@link BaseTest} that makes bunnies scaled in x and y
+ * direction, each by a random stretch factor betwenn 0.2 and 5.
  * 
  * @author Victor Schuemmer
  */
-public final class ScaledDecorator extends BaseTestDecorator {
+public final class ScaledDecorator extends AbstractTestDecorator {
 
-	public ScaledDecorator(BunnyTest baseTest) {
+	public ScaledDecorator(IBunnyTest baseTest) {
 		super(baseTest);
 	}
 
 	@Override
-	public void update(Bunny bunny) {
-		bunny.grow();
-		if (bunny.getScaleX() >= 5 || bunny.getScaleX() <= 0.2)
-			bunny.setGrowth(-1 * bunny.getGrowth());
+	public void update(AbstractBunny bunny) {
 		baseTest.update(bunny);
 	}
 
 	@Override
-	public String getTestDescription() {
-		return "Random scale and position.\n" + baseTest.getTestDescription();
-	}
-
-	@Override
-	public void setInitialValues(Bunny bunny) {
-		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 5);
-		bunny.teleport(BunnymarkUtils.getRandomX(), BunnymarkUtils.getRandomY());
+	public void setInitialValues(AbstractBunny bunny) {
+		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f, BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f);
 		baseTest.setInitialValues(bunny);
 	}
-
-	@Override
-	public void initialize() {
-		baseTest.initialize();
-	}
-
 }

@@ -117,8 +117,9 @@
     <Compile Include="src\model\renderables\IRenderable.cs" />
     <Compile Include="src\model\renderables\Line.cs" />
     <Compile Include="src\model\renderables\PathPrimitive.cs" />
+    <Compile Include="src\model\renderables\Point.cs" />
     <Compile Include="src\model\renderables\Rectangle.cs" />
-    <Compile Include="src\model\renderables\RenderEnum.cs" />
+    <Compile Include="src\model\RenderEnum.cs" />
     <Compile Include="src\model\renderables\Text.cs" />
     <Compile Include="src\model\renderables\Triangle.cs" />
     <Compile Include="src\output\Logger.cs" />

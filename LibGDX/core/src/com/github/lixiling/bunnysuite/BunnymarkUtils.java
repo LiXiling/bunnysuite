@@ -2,25 +2,77 @@ package com.github.lixiling.bunnysuite;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
+import com.github.lixiling.bunnysuite.bunny.Bunny;
+import com.github.lixiling.bunnysuite.bunny.BunnyFlavour;
+import com.github.lixiling.bunnysuite.bunny.Circle;
+import com.github.lixiling.bunnysuite.bunny.Line;
+import com.github.lixiling.bunnysuite.bunny.Point;
+import com.github.lixiling.bunnysuite.bunny.Rectangle;
+import com.github.lixiling.bunnysuite.bunny.Text;
+import com.github.lixiling.bunnysuite.bunny.Triangle;
 
+/**
+ * "Static" utility class that handles various resources and provides static
+ * utility methods.
+ * 
+ * @author Victor Schuemmer
+ */
 public class BunnymarkUtils {
 
+	// Private constructor prevents instantiation, as this class only provides
+	// static methods.
 	private BunnymarkUtils() {
+	}
+
+	private static Vector<Runnable> initializers = new Vector<Runnable>();
+
+	/**
+	 * Adds an initializer which will be called before the first bunny is
+	 * created. Used to add bunny textures.
+	 * 
+	 * @param initializer
+	 */
+	public static void addInitializer(Runnable initializer) {
+		initializers.add(initializer);
+	}
+
+	private static boolean initialized = false;
+
+	private static void initialize() {
+		if (initialized)
+			return;
+
+		for (Runnable i : initializers) {
+			i.run();
+		}
+		if (bunnyTextures.isEmpty())
+			addBunnyTexture(new Texture("wabbit_0.png"));
+		if (bunnyFlavours.isEmpty())
+			addBunnyFlavour(BunnyFlavour.BUNNY);
+		font = new BitmapFont();
+		initialized = true;
 	}
 
 	private static ArrayList<Texture> bunnyTextures = new ArrayList<Texture>();
 
+	/**
+	 * Adds a new bunny texture that will randomly be used for bunnies of type
+	 * BUNNY.
+	 * 
+	 * @param bunnyTexture
+	 */
 	public static void addBunnyTexture(Texture bunnyTexture) {
-		if (!BunnymarkUtils.bunnyTextures.contains(bunnyTexture))
-			BunnymarkUtils.bunnyTextures.add(bunnyTexture);
+		if (!bunnyTextures.contains(bunnyTexture))
+			bunnyTextures.add(bunnyTexture);
 	}
-	
-	public static boolean hasTexture() {
-		return BunnymarkUtils.bunnyTextures.size() != 0;
-	}
-	
+
 	/**
 	 * @param i
 	 * @return A bunny texture. For different values of i the same texture may
@@ -28,6 +80,8 @@ public class BunnymarkUtils {
 	 *         same texture.
 	 */
 	public static Texture getBunnyTexture(int i) {
+		if (!initialized)
+			initialize();
 		if (i < 0)
 			i *= -1;
 		return bunnyTextures.get(i % bunnyTextures.size());
@@ -39,43 +93,18 @@ public class BunnymarkUtils {
 	 * @return a random bunny texture
 	 */
 	public static Texture getRandomBunnyTexture() {
+		if (!initialized)
+			initialize();
 		return bunnyTextures.get(random.nextInt(bunnyTextures.size()));
 	}
 
 	private static float maxTextureHeight = 37.0f;
-	
+
+	/**
+	 * @return the height in pixels large textures should be scaled down to.
+	 */
 	public static float getMaxTextureHeight() {
 		return maxTextureHeight;
-	}
-	
-	private static int screenWidth = 640;
-	private static int screenHeight = 480;	
-
-	/**
-	 * Set the screen dimension the bunnymark assumes.
-	 * 
-	 * @param screenWidth
-	 * @param screenHeight
-	 */
-	public static void setScreenDimensions(int screenWidth, int screenHeight) {
-		BunnymarkUtils.screenWidth = screenWidth;
-		BunnymarkUtils.screenHeight = screenHeight;
-	}
-
-	/**
-	 * @return the screen width the bunnymark assumes, which may not be the
-	 *         actual window width.
-	 */
-	public static int getScreenWidth() {
-		return screenWidth;
-	}
-
-	/**
-	 * @return the screen height the bunnymark assumes, which may not be the
-	 *         actual window height.
-	 */
-	public static int getScreenHeight() {
-		return screenHeight;
 	}
 
 	private static Random random = new Random();
@@ -106,13 +135,71 @@ public class BunnymarkUtils {
 	 * @return a random float between 0 and the screen width.
 	 */
 	public static float getRandomX() {
-		return random.nextFloat() * screenWidth;
+		return random.nextFloat() * Gdx.graphics.getWidth();
 	}
 
 	/**
 	 * @return a random float between 0 and the screen height.
 	 */
 	public static float getRandomY() {
-		return random.nextFloat() * screenHeight;
+		return random.nextFloat() * Gdx.graphics.getHeight();
+	}
+
+	private static boolean enableDrawing = true;
+
+	/**
+	 * Enables or disables if bunnies should be drawn. Note that this does not
+	 * enforce drawing to be disabled.
+	 * 
+	 * @param enable
+	 */
+	public static void enableDrawing(boolean enable) {
+		enableDrawing = enable;
+	}
+
+	/**
+	 * @return true iff bunnies should be drawn
+	 */
+	public static boolean drawingEnabled() {
+		return enableDrawing;
+	}
+
+	private static Vector<BunnyFlavour> bunnyFlavours = new Vector<BunnyFlavour>();
+	private static BitmapFont font;
+
+	/**
+	 * Adds a new type of Bunny to randomly use in tests.
+	 * 
+	 * @param bunnyFlavour
+	 */
+	public static void addBunnyFlavour(BunnyFlavour bunnyFlavour) {
+		if (!bunnyFlavours.contains(bunnyFlavour))
+			bunnyFlavours.add(bunnyFlavour);
+	}
+
+	public static Color randomColor() {
+		return new Color(nextRandomFloat(), nextRandomFloat(), nextRandomFloat(), 1);
+	}
+	public static AbstractBunny createBunny() {
+		if (!initialized)
+			initialize();
+		switch (bunnyFlavours.get(nextRandomInt(bunnyFlavours.size()))) {
+		case RECTANGLE:
+			return new Rectangle(26, 37, randomColor());
+		case CIRCLE:
+			return new Circle(20, randomColor());
+		case TEXT:
+			return new Text("Hello World!", font, randomColor());
+		case LINE:
+			return new Line(26, 37, randomColor());
+		case POINT:
+			return new Point(randomColor());
+		case TRIANGLE:
+			return new Triangle(0, 37, 26, 37, 13, 0, randomColor());
+		case BUNNY:
+			return new Bunny(getRandomBunnyTexture());
+		default:
+			return null;
+		}
 	}
 }

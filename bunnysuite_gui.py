@@ -18,14 +18,14 @@ except ImportError:
 
 import gui_support, tooltip
 
-def vp_start_gui():
+def vp_start_gui(save=None, deselected=[]):
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = Tk()
     root.resizable(0,0)
     gui_support.set_Tk_var()
     top = Bunnysuite (root)
-    gui_support.init(root, top)
+    gui_support.init(root, top, save=save, deselected=deselected)
     root.mainloop()
 
 w = None
@@ -62,7 +62,7 @@ class Bunnysuite:
         self.style.map('.',background=
             [('selected', _compcolor), ('active',_ana2color)])
 
-        top.geometry("306x600+451+38")
+        top.geometry("450x690+755+34")
         top.title("Bunnysuite 1.0")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
@@ -72,32 +72,30 @@ class Bunnysuite:
         ### Framework selection ###
 
         self.frameworksFrame = ttk.Frame(top)
-        self.frameworksFrame.place(relx=0.07, rely=0.04, relheight=0.23
-                , relwidth=0.86)
+        self.frameworksFrame.place(relx=0.04, rely=0.03, relheight=0.2
+                , relwidth=0.92)
         self.frameworksFrame.configure(relief=GROOVE,
                                        borderwidth="2",
-                                       width=265)
+                                       width=405)
 
         self.frameworksLabel = ttk.Label(self.frameworksFrame)
-        self.frameworksLabel.place(relx=0.04, rely=0.05, height=19, width=86)
+        self.frameworksLabel.place(relx=0.02, rely=0.05, height=19, width=86)
         self.frameworksLabel.configure(background=_bgcolor,
                                        foreground="#000000",
                                        relief=FLAT,
-                                       text='''Frameworks''',
-                                       width=86)
+                                       text='''Frameworks''')
 
         self.possibleFrameworksLabel = ttk.Label(self.frameworksFrame)
-        self.possibleFrameworksLabel.place(relx=0.04, rely=0.2, height=19
+        self.possibleFrameworksLabel.place(relx=0.02, rely=0.2, height=19
                 , width=56)
         self.possibleFrameworksLabel.configure(background=_bgcolor,
                                                foreground="#000000",
                                                relief=FLAT,
-                                               text='''possible''',
-                                               width=56)
+                                               text='''possible''')
                                                
         self.possibleFrameworksList = ScrolledListBox(self.frameworksFrame)
-        self.possibleFrameworksList.place(relx=0.04, rely=0.34, relheight=0.56
-                , relwidth=0.38)
+        self.possibleFrameworksList.place(relx=0.02, rely=0.37, relheight=0.56
+                , relwidth=0.4)
         self.possibleFrameworksList.configure(background="white",
                                               disabledforeground="#a3a3a3",
                                               font="TkFixedFont",
@@ -110,17 +108,16 @@ class Bunnysuite:
                                               width=10)
 
         self.chosenFrameworksLabel = ttk.Label(self.frameworksFrame)
-        self.chosenFrameworksLabel.place(relx=0.57, rely=0.2, height=19
+        self.chosenFrameworksLabel.place(relx=0.59, rely=0.22, height=19
                 , width=56)
         self.chosenFrameworksLabel.configure(background=_bgcolor,
                                              foreground="#000000",
                                              relief=FLAT,
-                                             text='''chosen''',
-                                             width=56)
+                                             text='''chosen''')
 
         self.chosenFrameworksList = ScrolledListBox(self.frameworksFrame)
-        self.chosenFrameworksList.place(relx=0.57, rely=0.34, relheight=0.56
-                , relwidth=0.38)
+        self.chosenFrameworksList.place(relx=0.57, rely=0.37, relheight=0.56
+                , relwidth=0.4)
         self.chosenFrameworksList.configure(background="white",
                                             disabledforeground="#a3a3a3",
                                             font="TkFixedFont",
@@ -133,31 +130,29 @@ class Bunnysuite:
                                             width=10)
 
         self.chooseButton = ttk.Button(self.frameworksFrame)
-        self.chooseButton.place(relx=0.45, rely=0.41, height=25, width=23)
+        self.chooseButton.place(relx=0.46, rely=0.44, height=25, width=24)
         self.chooseButton.configure(command=gui_support.cmdChoose,
-                                    text='''>''',
-                                    width=26)
+                                    text='''>''')
         tooltip.createToolTip(self.chooseButton, "include selected frameworks in the test")
 
         self.unchooseButton = ttk.Button(self.frameworksFrame)
-        self.unchooseButton.place(relx=0.45, rely=0.64, height=25, width=23)
+        self.unchooseButton.place(relx=0.46, rely=0.67, height=25, width=24)
         self.unchooseButton.configure(command=gui_support.cmdUnchoose,
-                                      text='''<''',
-                                      width=26)
+                                      text='''<''')
         tooltip.createToolTip(self.unchooseButton, "exclude selected frameworks from the test")
 
                                              
         ### Modifier selection ###
                                              
         self.modifierFrame = ttk.Frame(top)
-        self.modifierFrame.place(relx=0.07, rely=0.29, relheight=0.21
-                , relwidth=0.86)
+        self.modifierFrame.place(relx=0.04, rely=0.25, relheight=0.3
+                , relwidth=0.92)
         self.modifierFrame.configure(borderwidth="2",
                                      relief=GROOVE,
-                                     width=265)
+                                     width=425)
 
         self.modifiersLabel = ttk.Label(self.modifierFrame)
-        self.modifiersLabel.place(relx=0.04, rely=0.08, height=19, width=79)
+        self.modifiersLabel.place(relx=0.34, rely=0.03, height=19, width=79)
         self.modifiersLabel.configure(background=_bgcolor,
                                       foreground="#000000",
                                       relief=FLAT,
@@ -166,61 +161,61 @@ class Bunnysuite:
         self.style.map('TCheckbutton',background=
             [('selected', _bgcolor), ('active',_ana2color)])
         self.checkAnimation = ttk.Checkbutton(self.modifierFrame)
-        self.checkAnimation.place(relx=0.04, rely=0.24, relwidth=0.33
+        self.checkAnimation.place(relx=0.34, rely=0.15, relwidth=0.21
                 , relheight=0.0, height=21)
         self.checkAnimation.configure(variable=gui_support.animation,
                                       onvalue="animation",
                                       offvalue="",
                                       text='''animation''')
-        tooltip.createToolTip(self.checkAnimation, "Bunnies are drawn at the upper left corner. Each bunny is initialized with a random speed value in X and Y direction. Once a bunny reaches the border of the frame, its direction is reversed. It is also affected by gravity. Both X and Y speed have a max value. With each frame the position of each bunny is updated according to its speed. This gives the illusion of a jumping animation.")
+        tooltip.createToolTip(self.checkAnimation, "Each bunny is initialized with a random speed value in X and Y direction. Once a bunny reaches the border of the screen, its direction is reversed. It is also affected by gravity. Both X and Y speed have a max value. With each frame the position of each bunny is updated according to its speed. This gives the illusion of a jumping animation.")
 
         self.checkScaled = ttk.Checkbutton(self.modifierFrame)
-        self.checkScaled.place(relx=0.04, rely=0.4, relwidth=0.29, relheight=0.0
+        self.checkScaled.place(relx=0.34, rely=0.55, relwidth=0.19, relheight=0.0
                 , height=21)
         self.checkScaled.configure(variable=gui_support.scaled,
                                    onvalue="scaled",
                                    offvalue="",
                                    text='''scaled''')
-        tooltip.createToolTip(self.checkScaled, "Bunnies are drawn at a random fixed position. With each frame, the scale of each bunny is changed (initial growth +0.1). Once the scale >=5 or <=0.2, the growth rate is multiplied by -1.")
-
+        tooltip.createToolTip(self.checkScaled, "Bunnies are initialized with scaled width and height, each by a random value between 0.2 and 5.")
+        
         self.checkRandom = ttk.Checkbutton(self.modifierFrame)
-        self.checkRandom.place(relx=0.04, rely=0.72, relwidth=0.32, relheight=0.0
+        self.checkRandom.place(relx=0.34, rely=0.35, relwidth=0.21, relheight=0.0
                 , height=21)
         self.checkRandom.configure(variable=gui_support.random,
                                    onvalue="random",
                                    offvalue="",
                                    text='''random''')
-        tooltip.createToolTip(self.checkRandom, "Bunnies are drawn each frame at a new, random position.")
+        tooltip.createToolTip(self.checkRandom, "Bunnies are initialized with a random position.")
 
-        self.checkRotated = ttk.Checkbutton(self.modifierFrame)
-        self.checkRotated.place(relx=0.04, rely=0.56, relwidth=0.31
+        self.checkRotation = ttk.Checkbutton(self.modifierFrame)
+        self.checkRotation.place(relx=0.34, rely=0.25, relwidth=0.2
                 , relheight=0.0, height=21)
-        self.checkRotated.configure(variable=gui_support.rotated,
-                                    onvalue="rotated",
+        self.checkRotation.configure(variable=gui_support.rotation,
+                                    onvalue="rotation",
                                     offvalue="",
-                                    text='''rotated''')
-        tooltip.createToolTip(self.checkRotated, "Bunnies rotate clockwise by 1 degree each frame.")
+                                    text='''rotation''')
+        tooltip.createToolTip(self.checkRotation, "Bunnies rotate clockwise by 1 degree each frame.")
 
         self.checkMultitexture = ttk.Checkbutton(self.modifierFrame)
-        self.checkMultitexture.place(relx=0.49, rely=0.24, relwidth=0.37
-                , relheight=0.0, height=21)
+        self.checkMultitexture.place(relx=0.66, rely=0.15, relwidth=0.24,
+                                     relheight=0.0, height=21)
         self.checkMultitexture.configure(variable=gui_support.multitexture,
                                          onvalue="multitexture",
                                          offvalue="",
                                          text='''multitexture''')
-        tooltip.createToolTip(self.checkMultitexture, "Bunnies are drawn at a random fixed position. Each bunny has a fixed texture, chosen randomly from all available textures.")
+        tooltip.createToolTip(self.checkMultitexture, "Adds two different colored bunnies to the texture pool.")
 
         self.checkTexturechange = ttk.Checkbutton(self.modifierFrame)
-        self.checkTexturechange.place(relx=0.49, rely=0.4, relwidth=0.41
+        self.checkTexturechange.place(relx=0.66, rely=0.55, relwidth=0.26
                 , relheight=0.0, height=21)
         self.checkTexturechange.configure(variable=gui_support.texturechange,
                                           onvalue="texturechange",
                                           offvalue="",
                                           text='''texturechange''')
-        tooltip.createToolTip(self.checkTexturechange, "Bunnies are drawn at a random fixed position. With each frame each bunny changes its texture randomly to one of the available textures.")                                 
+        tooltip.createToolTip(self.checkTexturechange, "With each frame each bunny changes its texture randomly to one of the available textures.")                                 
 
         self.checkAlpha = ttk.Checkbutton(self.modifierFrame)
-        self.checkAlpha.place(relx=0.49, rely=0.56, relwidth=0.31, relheight=0.0
+        self.checkAlpha.place(relx=0.66, rely=0.25, relwidth=0.2, relheight=0.0
                 , height=21)
         self.checkAlpha.configure(variable=gui_support.alpha,
                                   onvalue="alpha",
@@ -229,26 +224,170 @@ class Bunnysuite:
         tooltip.createToolTip(self.checkAlpha, "Adds texture with lots of alpha values to the texture pool.")
 
         self.checkHd = ttk.Checkbutton(self.modifierFrame)
-        self.checkHd.place(relx=0.49, rely=0.72, relwidth=0.22, relheight=0.0
+        self.checkHd.place(relx=0.66, rely=0.35, relwidth=0.2, relheight=0.0
                 , height=21)
-        self.checkHd.configure(variable=gui_support.hd,
-                               onvalue="hd",
+        self.checkHd.configure(variable=gui_support.hdtexture,
+                               onvalue="hdtexture",
                                offvalue="",
-                               text='''hd''')
+                               text='''hdtexture''')
         tooltip.createToolTip(self.checkHd, "Adds high resolution texture to the texture pool. The texture is downscaled before rendering.")
 
+
+        self.checkTeleport = ttk.Checkbutton(self.modifierFrame)
+        self.checkTeleport.place(relx=0.34, rely=0.45, relwidth=0.2
+                , relheight=0.0, height=21)
+        self.checkTeleport.configure(variable=gui_support.teleport)
+        self.checkTeleport.configure(onvalue="teleport",
+                                     offvalue="",
+                                     text='''teleport''')
+        tooltip.createToolTip(self.checkTeleport, "Bunnies are drawn each frame at a new, random position.")
+
+        self.checkPulsation = ttk.Checkbutton(self.modifierFrame)
+        self.checkPulsation.place(relx=0.34, rely=0.65, relwidth=0.2
+                , relheight=0.0, height=21)
+        self.checkPulsation.configure(variable=gui_support.pulsation,
+                                      onvalue="pulsation",
+                                      offvalue="",
+                                      text='''pulsation''')
+        tooltip.createToolTip(self.checkPulsation, "With each frame, the scale of each bunny is changed (initial growth +0.1). Once the scale >=5 or <=0.2, the growth rate is multiplied by -1.")
+
+                                      
+        self.checkTinted = ttk.Checkbutton(self.modifierFrame)
+        self.checkTinted.place(relx=0.34, rely=0.75, relwidth=0.16, relheight=0.0
+                , height=21)
+        self.checkTinted.configure(variable=gui_support.tinted,
+                                   onvalue="tinted",
+                                   offvalue="",
+                                   text='''tinted''',
+                                   width=64)
+        tooltip.createToolTip(self.checkTinted, "Each bunny is initialized with its texture tinted in a random non transparent color.") 
+              
+        self.checkColorchange = ttk.Checkbutton(self.modifierFrame)
+        self.checkColorchange.place(relx=0.34, rely=0.85, relwidth=0.25
+                , relheight=0.0, height=21)
+        self.checkColorchange.configure(variable=gui_support.colorchange,
+                                        onvalue="colorchange",
+                                        offvalue="",
+                                        text='''colorchange''',
+                                        width=101)
+        tooltip.createToolTip(self.checkColorchange, "Each frame each bunny is tinted in a new random color.") 
+       
+
+        self.checkThin = ttk.Checkbutton(self.modifierFrame)
+        self.checkThin.place(relx=0.66, rely=0.45, relwidth=0.16, relheight=0.0
+                , height=21)
+        self.checkThin.configure(variable=gui_support.thin,
+                                 onvalue="thin",
+                                 offvalue="",
+                                 text='''thin''')
+        tooltip.createToolTip(self.checkThin, "Adds an alternative bunny texture to the texture pool.")
+
+        self.checkBunnies = ttk.Checkbutton(self.modifierFrame)
+        self.checkBunnies.place(relx=0.02, rely=0.15, relwidth=0.21
+                , relheight=0.0, height=21)
+        self.checkBunnies.configure(state=DISABLED,
+                                    variable=gui_support.bunnies,
+                                    command=gui_support.cmdUpdateTextureModifiers,
+                                    onvalue="bunnies",
+                                    offvalue="",
+                                    text='''bunnies''')
+        tooltip.createToolTip(self.checkBunnies, "Draws bunnies.")
+
+        self.checkRectangles = ttk.Checkbutton(self.modifierFrame)
+        self.checkRectangles.place(relx=0.02, rely=0.25, relwidth=0.24
+                , relheight=0.0, height=21)
+        self.checkRectangles.configure(variable=gui_support.rectangles,
+                                       command=gui_support.cmdUpdateBunniesCheckbox,
+                                       onvalue="rectangles",
+                                       offvalue="",
+                                       text='''rectangles''')
+        tooltip.createToolTip(self.checkRectangles, "Draws rectangles of size 26 * 37.")
+
+        self.checkCircles = ttk.Checkbutton(self.modifierFrame)
+        self.checkCircles.place(relx=0.02, rely=0.35, relwidth=0.19
+                , relheight=0.0, height=21)
+        self.checkCircles.configure(variable=gui_support.circles,
+                                    command=gui_support.cmdUpdateBunniesCheckbox,
+                                    onvalue="circles",
+                                    offvalue="",
+                                    text='''circles''')
+        tooltip.createToolTip(self.checkCircles, "Draws circles of random color with radius 13. Not affected by rotation (duh).")
+
+        self.checkTriangles = ttk.Checkbutton(self.modifierFrame)
+        self.checkTriangles.place(relx=0.02, rely=0.45, relwidth=0.21
+                , relheight=0.0, height=21)
+        self.checkTriangles.configure(variable=gui_support.triangles,                                      
+                                      command=gui_support.cmdUpdateBunniesCheckbox,
+                                      onvalue="triangles",
+                                      offvalue="",
+                                      text='''triangles''')
+        tooltip.createToolTip(self.checkTriangles, "Draws triangles of random color.")
+
+        self.checkLines = ttk.Checkbutton(self.modifierFrame)
+        self.checkLines.place(relx=0.02, rely=0.55, relwidth=0.16, relheight=0.0
+                , height=21)
+        self.checkLines.configure(variable=gui_support.lines,
+                                  command=gui_support.cmdUpdateBunniesCheckbox,
+                                  onvalue="lines",
+                                  offvalue="",
+                                  text='''lines''')
+        tooltip.createToolTip(self.checkLines, "Draws lines of random color.")
+
+        self.checkPoints = ttk.Checkbutton(self.modifierFrame)
+        self.checkPoints.place(relx=0.02, rely=0.65, relwidth=0.21
+                , relheight=0.0, height=21)
+        self.checkPoints.configure(variable=gui_support.points,
+                                      command=gui_support.cmdUpdateBunniesCheckbox,
+                                      onvalue="points",
+                                      offvalue="",
+                                      text='''points''')
+        tooltip.createToolTip(self.checkPoints, "Draws points (single pixels) of random color. Not affected by rotation and scale (duh).")
+
+        self.checkTexts = ttk.Checkbutton(self.modifierFrame)
+        self.checkTexts.place(relx=0.02, rely=0.75, relwidth=0.16, relheight=0.0
+                , height=21)
+        self.checkTexts.configure(variable=gui_support.texts,
+                                  command=gui_support.cmdUpdateBunniesCheckbox,
+                                  onvalue="texts",
+                                  offvalue="",
+                                  text='''texts''')
+        tooltip.createToolTip(self.checkTexts, "Draws 'Hello World!'. Not affected by rotation and scale.")
+
+        self.textureLabel = ttk.Label(self.modifierFrame)
+        self.textureLabel.place(relx=0.66, rely=0.03, height=19, width=116)
+        self.textureLabel.configure(background=_bgcolor,
+                                    foreground="#000000",
+                                    relief=FLAT,
+                                    text='''Texture modifiers''')
+
+        self.flavoursLabel = ttk.Label(self.modifierFrame)
+        self.flavoursLabel.place(relx=0.02, rely=0.03, height=19, width=116)
+        self.flavoursLabel.configure(background=_bgcolor,
+                                     foreground="#000000",
+                                     relief=FLAT,
+                                     text='''Flavour modifiers''')
+
+        self.checkNoOutput = ttk.Checkbutton(self.modifierFrame)
+        self.checkNoOutput.place(relx=0.66, rely=0.85, relwidth=0.26
+                , relheight=0.0, height=21)
+        self.checkNoOutput.configure(variable=gui_support.no_output,
+                                          onvalue="no_output",
+                                          offvalue="",
+                                          text='''no_output''')
+        tooltip.createToolTip(self.checkNoOutput, "Disables drawing. All calculations are still done, allowing to estimate the influence of the CPU on the result.")
+                                          
 
         ### Arguments selection ###
 
         self.argumentsFrame = ttk.Frame(top)
-        self.argumentsFrame.place(relx=0.07, rely=0.52, relheight=0.24
-                , relwidth=0.86)
+        self.argumentsFrame.place(relx=0.04, rely=0.57, relheight=0.25
+                , relwidth=0.92)
         self.argumentsFrame.configure(borderwidth="2",
                                       relief=GROOVE,
-                                      width=265)
+                                      width=425)
         
         self.minBunniesLabel = ttk.Label(self.argumentsFrame)
-        self.minBunniesLabel.place(relx=0.04, rely=0.07, height=19, width=90)
+        self.minBunniesLabel.place(relx=0.02, rely=0.06, height=19, width=90)
         self.minBunniesLabel.configure(background=_bgcolor,
                                        foreground="#000000",
                                        relief=FLAT,
@@ -256,23 +395,24 @@ class Bunnysuite:
         tooltip.createToolTip(self.minBunniesLabel, "the amount of bunnies the test starts with")
         
         self.minBunniesScale = ttk.Scale(self.argumentsFrame)
-        self.minBunniesScale.place(relx=0.38, rely=0.07, relwidth=0.38
+        self.minBunniesScale.place(relx=0.29, rely=0.06, relwidth=0.38
                 , relheight=0.0, height=26)
         self.minBunniesScale.configure(command=gui_support.cmdMinBunnies,
                                        variable=gui_support.minBunnies,
-                                       to="100000")
+                                       to="100000",
+                                       length="150")
         
         self.minBunniesEntry = ttk.Entry(self.argumentsFrame)
-        self.minBunniesEntry.place(relx=0.79, rely=0.07, relheight=0.14
-                , relwidth=0.17)
+        self.minBunniesEntry.place(relx=0.76, rely=0.07, relheight=0.14
+                , relwidth=0.21)
         self.minBunniesEntry.configure(textvariable=gui_support.minBunniesEntry,
                                        validate="all",
                                        validatecommand=(root.register(gui_support.validateMinBunnies), '%P', '%V'),
-                                       width=46,
-                                       cursor="heart")
+                                       width=86,
+                                       cursor="xterm")
         
         self.maxBunniesLabel = ttk.Label(self.argumentsFrame)
-        self.maxBunniesLabel.place(relx=0.04, rely=0.28, height=19, width=86)
+        self.maxBunniesLabel.place(relx=0.02, rely=0.23, height=19, width=86)
         self.maxBunniesLabel.configure(background=_bgcolor,
                                        foreground="#000000",
                                        relief=FLAT,
@@ -280,24 +420,25 @@ class Bunnysuite:
         tooltip.createToolTip(self.maxBunniesLabel, "the amount of bunnies at which the test terminates")
 
         self.maxBunniesScale = ttk.Scale(self.argumentsFrame)
-        self.maxBunniesScale.place(relx=0.38, rely=0.28, relwidth=0.38
+        self.maxBunniesScale.place(relx=0.29, rely=0.23, relwidth=0.38
                 , relheight=0.0, height=26)
         self.maxBunniesScale.configure(command=gui_support.cmdMaxBunnies,
                                        variable=gui_support.maxBunnies,
                                        to="100000",
-                                       value="20000")
+                                       value="20000",
+                                       length="150")
         
         self.maxBunniesEntry = ttk.Entry(self.argumentsFrame)
-        self.maxBunniesEntry.place(relx=0.79, rely=0.28, relheight=0.14
-                , relwidth=0.17)
+        self.maxBunniesEntry.place(relx=0.76, rely=0.24, relheight=0.14
+                , relwidth=0.21)
         self.maxBunniesEntry.configure(textvariable=gui_support.maxBunniesEntry,
                                        validate="all",
                                        validatecommand=(root.register(gui_support.validateMaxBunnies), '%P', '%V'),
-                                       width=46,
-                                       cursor="heart")
+                                       width=86,
+                                       cursor="xterm")
 
         self.stepSizeLabel = ttk.Label(self.argumentsFrame)
-        self.stepSizeLabel.place(relx=0.04, rely=0.48, height=19, width=56)
+        self.stepSizeLabel.place(relx=0.02, rely=0.4, height=19, width=56)
         self.stepSizeLabel.configure(background=_bgcolor,
                                      foreground="#000000",
                                      relief=FLAT,
@@ -305,25 +446,53 @@ class Bunnysuite:
         tooltip.createToolTip(self.stepSizeLabel, "the amount of bunnies that is added each step")
         
         self.stepSizeScale = ttk.Scale(self.argumentsFrame)
-        self.stepSizeScale.place(relx=0.38, rely=0.48, relwidth=0.38
+        self.stepSizeScale.place(relx=0.29, rely=0.4, relwidth=0.38
                 , relheight=0.0, height=26)
         self.stepSizeScale.configure(command=gui_support.cmdStepSize,
                                      variable=gui_support.stepSize,
                                      from_="1",
                                      to="10000",
-                                     value="1000")
+                                     value="1000",
+                                     length="150")
         
         self.stepSizeEntry = ttk.Entry(self.argumentsFrame)
-        self.stepSizeEntry.place(relx=0.79, rely=0.48, relheight=0.14
-                , relwidth=0.17)
+        self.stepSizeEntry.place(relx=0.76, rely=0.41, relheight=0.14
+                , relwidth=0.21)
         self.stepSizeEntry.configure(textvariable=gui_support.stepSizeEntry,
                                      validate="all",
                                      validatecommand=(root.register(gui_support.validateStepSize), '%P', '%V'),
-                                     width=46,
-                                     cursor="heart")
+                                     width=86,
+                                     cursor="xterm")
+                                     
+        self.repetitionsLabel = ttk.Label(self.argumentsFrame)
+        self.repetitionsLabel.place(relx=0.02, rely=0.57, height=19, width=60)
+        self.repetitionsLabel.configure(background=_bgcolor,
+                                        foreground="#000000",
+                                        relief=FLAT,
+                                        text='''repetitions''')
+        tooltip.createToolTip(self.maxBunniesLabel, "the amount of times each step is repeated before new bunnies are added (the render time is still measured for each frame and averaged at the end of the step)")
+
+        self.repetitionsScale = ttk.Scale(self.argumentsFrame)
+        self.repetitionsScale.place(relx=0.29, rely=0.57, relwidth=0.38
+                , relheight=0.0, height=26)
+        self.repetitionsScale.configure(command=gui_support.cmdRepetitions,
+                                        variable=gui_support.repetitions,
+                                        from_="1",                                        
+                                        to="100",
+                                        value="10",
+                                        length="150")
+
+        self.repetitionsEntry = ttk.Entry(self.argumentsFrame)
+        self.repetitionsEntry.place(relx=0.76, rely=0.58, relheight=0.12
+                , relwidth=0.21)
+        self.repetitionsEntry.configure(textvariable=gui_support.repetitionsEntry,
+                                        validate="all",
+                                        validatecommand=(root.register(gui_support.validateRepetitions), '%P', '%V'),
+                                        width=86,
+                                        cursor="xterm")
 
         self.resolutionLabel = ttk.Label(self.argumentsFrame)
-        self.resolutionLabel.place(relx=0.04, rely=0.76, height=19, width=77)
+        self.resolutionLabel.place(relx=0.02, rely=0.8, height=19, width=77)
         self.resolutionLabel.configure(background=_bgcolor,
                                        foreground="#000000",
                                        relief=FLAT,
@@ -331,10 +500,9 @@ class Bunnysuite:
                                        width=77)
 
         self.resCombobox = ttk.Combobox(self.argumentsFrame)
-        self.resCombobox.place(relx=0.38, rely=0.76, relheight=0.14
-                , relwidth=0.58)
+        self.resCombobox.place(relx=0.29, rely=0.8, relheight=0.14
+                , relwidth=0.68)
         self.resCombobox.configure(textvariable=gui_support.resolution,
-                                   width=153,
                                    background="#000000",
                                    state="readonly",
                                    values=["640x480","800x600","1280x720","1680x1050","1920x1080"])
@@ -343,22 +511,22 @@ class Bunnysuite:
         ### Presets selection ###
 
         self.presetsFrame = ttk.Frame(top)
-        self.presetsFrame.place(relx=0.07, rely=0.78, relheight=0.13
-                , relwidth=0.86)
+        self.presetsFrame.place(relx=0.04, rely=0.84, relheight=0.08
+                , relwidth=0.92)
         self.presetsFrame.configure(relief=GROOVE,
                                     borderwidth="2",
-                                    width=265)
+                                    width=425)
 
         self.presetsCheckbox = ttk.Checkbutton(self.presetsFrame)
-        self.presetsCheckbox.place(relx=0.04, rely=0.13, relwidth=0.35
+        self.presetsCheckbox.place(relx=0.02, rely=0.31, relwidth=0.2
                 , relheight=0.0, height=21)
         self.presetsCheckbox.configure(variable=gui_support.presets,
                                        command=gui_support.cmdTogglePresets,
                                        text='''Use presets''')
 
         self.presetsCombobox = ttk.Combobox(self.presetsFrame)
-        self.presetsCombobox.place(relx=0.04, rely=0.53, relheight=0.33
-                , relwidth=0.58)
+        self.presetsCombobox.place(relx=0.29, rely=0.30, relheight=0.40
+                , relwidth=0.38)
         self.presetsCombobox.configure(state=DISABLED,
                                        textvariable=gui_support.presetsCombobox,
                                        width=153,
@@ -368,7 +536,7 @@ class Bunnysuite:
         self.presetsCombobox.bind("<<ComboboxSelected>>", gui_support.presetSelection)
 
         self.saveButton = ttk.Button(self.presetsFrame)
-        self.saveButton.place(relx=0.68, rely=0.53, height=25, width=76)
+        self.saveButton.place(relx=0.76, rely=0.27, height=25, width=86)
         self.saveButton.configure(command=gui_support.cmdSave,
                                   text='''Save''',
                                   state=DISABLED)
@@ -376,7 +544,7 @@ class Bunnysuite:
                                              
                                              
         self.runButton = ttk.Button(top)
-        self.runButton.place(relx=0.33, rely=0.93, height=25, width=116)
+        self.runButton.place(relx=0.38, rely=0.94, height=25, width=116)
         self.runButton.configure(command=gui_support.cmdRun,
                                  text='''Run''')
                                  
