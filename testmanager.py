@@ -15,14 +15,14 @@ def run_test(frameworks, test_name, min_val, max_val, step, res_x=800, res_y=600
     make_detail_diagram(frameworks, test_name)
     
 def make_bar_diagram(frameworks, test_name):
-    thresholds = {}
+    thresholds = []
     for framework in frameworks:
         (x, y) = get_data_from_log(framework, test_name)
-        thresholds[framework] = get_threshold_value_from_data(x,y)
-    max_threshold = max(thresholds.values())
+        thresholds.append(get_threshold_value_from_data(x,y))
+    max_threshold = max(thresholds)
     width = 0.35
     i = np.arange(len(frameworks))
-    plt.bar(i, thresholds.values(), width, color='y')
+    plt.bar(i, thresholds, width, color='y')
     plt.title("Threshold values of the test: " + test_name)
     plt.xlabel("Frameworks")
     plt.xticks(i + width/2.0, frameworks)
@@ -34,10 +34,12 @@ def make_bar_diagram(frameworks, test_name):
     plt.show()
         
 def get_threshold_value_from_data(x,y):
-    for i in range(0,len(y)):
-        if y[i] > 0.019 and y[i-1] > 0.019:
-            return x[i-1]
-    return x[-1]
+    if len(y) == 0:
+        return 0
+    for i in reversed(range(0,len(y))):
+        if y[i] < 0.02:
+            return x[i]
+    return x[0]
         
 def make_detail_diagram(frameworks, test_name):
     for framework in frameworks:
