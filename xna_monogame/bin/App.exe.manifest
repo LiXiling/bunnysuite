@@ -75,7 +75,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Aobl/IHTw4vTXlbz7OWEyEaJDdg=</dsig:DigestValue>
+        <dsig:DigestValue>waFXceuE0YdxQamoEMAfkmRFZQo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -88,13 +88,13 @@
       <dsig:DigestValue>xmmgEEp7m6SY5Ee63bDnysk3bpk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\effects.xnb" size="1866">
+  <file name="Data\effects.xnb" size="1864">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>Pb9BGInjt+js+kl25BCIxSENlfE=</dsig:DigestValue>
+      <dsig:DigestValue>Xp+kVgFDbnJkEJflLlK+pCT2bHE=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Data\fill.xnb" size="214">

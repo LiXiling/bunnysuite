@@ -15,8 +15,8 @@ namespace App.src.model.renderables
         private static SpriteFont spriteFont;
         private String textString = "Hello World!";
 
-        private float X = 0;
-        private float Y = 0;
+        private float X = 200;
+        private float Y = 200;
 
         private float maxX;
         private float maxY;
@@ -61,13 +61,14 @@ namespace App.src.model.renderables
 
         public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
+            Vector2 pos = new Vector2(this.X,this.Y);
             spriteBatch.DrawString(
                 spriteFont,
                 textString,
-                new Vector2(maxX,maxY),
+                pos,
                 color,
                 Rotation,
-                new Vector2(this.X, this.Y),
+                new Vector2(0,0),
                 initScale * Scale,
                 SpriteEffects.None,
                 0f
@@ -85,6 +86,7 @@ namespace App.src.model.renderables
 
         public void Jump(Random random, float gravity, float minX, float minY, float maxX, float maxY)
         {
+
             this.X += this.SpeedX;
             this.Y += this.SpeedY;
             this.SpeedY += gravity;
