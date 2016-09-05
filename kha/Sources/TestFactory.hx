@@ -19,6 +19,10 @@ class TestFactory {
 					test = new Decorators.ScaledDecorator(test);
 				case "pulsation":
 					test = new Decorators.PulsationDecorator(test);
+				case "tinted":
+					test = new Decorators.TintedDecorator(test);
+				case "colorchange":
+					test = new Decorators.ColorChangeDecorator(test);
 				case "texturechange":
 				 	test = new Decorators.TextureChangeDecorator(test);
 				case "multitexture":
@@ -55,8 +59,8 @@ class TestFactory {
 					BunnymarkUtils.addBunnyFlavour(TEXT);	
 				case "lines":	
 					BunnymarkUtils.addBunnyFlavour(LINE);	
-				case "particles":	
-					BunnymarkUtils.addBunnyFlavour(PARTICLE);
+				case "points":	
+					BunnymarkUtils.addBunnyFlavour(POINT);
 				case "bunnies":
 					BunnymarkUtils.addBunnyFlavour(BUNNY);	
 				default:

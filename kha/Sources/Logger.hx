@@ -1,5 +1,5 @@
-//import sys.io.File;
-//import sys.FileSystem;
+import sys.io.File;
+import sys.FileSystem;
 
 class Logger {
 	private var filename : String;
@@ -14,7 +14,7 @@ class Logger {
 		lines.push(n + "\t" + drawTime);
 	}
 	
-	/*
+	
 	public function write() {
 		var path = sys.FileSystem.absolutePath("./log");
 		if (!sys.FileSystem.exists(path)) sys.FileSystem.createDirectory(path);
@@ -24,5 +24,5 @@ class Logger {
 		}		
 		out.close();
 	}
-	*/
+	
 }

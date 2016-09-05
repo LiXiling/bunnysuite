@@ -52,6 +52,12 @@ class BunnymarkUtils {
 		return drawingEnabled == false;
 	}
 	
+	private static var maxTextureHeight = 37;
+	
+	public static function getMaxTextureHeight() {
+		return maxTextureHeight;
+	}
+	
 	private static var width = 800;
 	private static var height = 600;
 	
@@ -92,8 +98,8 @@ class BunnymarkUtils {
 				return new Bunny.Circle(13, randomColor());
 			case RECTANGLE:
 				return new Bunny.Rectangle(26, 37, randomColor());
-			case PARTICLE:
-				return new Bunny.Particle(randomColor());
+			case POINT:
+				return new Bunny.Point(randomColor());
 			case TRIANGLE:
 				return new Bunny.Triangle(0, 37, 26, 37, 13, 0, randomColor());
 			case LINE:

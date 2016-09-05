@@ -14,7 +14,7 @@ enum BunnyFlavour {
 	CIRCLE;
 	TRIANGLE;
 	LINE;
-	PARTICLE;
+	POINT;
 }
 
 class AbstractBunny {
@@ -101,6 +101,7 @@ class AbstractBunny {
 	this.scaleY = 1;
 	this.growth = 0.1;
 	this.rotation = 0;
+	this.color = Color.White;
   }
   
   public function jump(gravity: Float, minX: Float, minY: Float, maxX: Float, maxY: Float) : Void {
@@ -128,6 +129,16 @@ class AbstractBunny {
 	  }
   }
 
+  private var color : Color;
+  
+  public function setColor(color : Color) {
+	  this.color = color;
+  }
+  
+  public function getColor() {
+	  return color;
+  }
+  
   public function render(g : Graphics) {};
   
   public function setTexture(t : Image) {
@@ -148,15 +159,19 @@ class Bunny extends AbstractBunny {
 	}
 	
 	public override function render(g: Graphics) {
-		g.rotate(rotation, x + texture.realWidth / 2, y + texture.realHeight / 2);
-		g.drawScaledImage(texture, x, y, scaleX * texture.realWidth, scaleY * texture.realHeight);
-		g.rotate(-rotation, x +  texture.realWidth / 2, y + texture.realHeight / 2);
+		var downScaleFactor = Math.min(BunnymarkUtils.getMaxTextureHeight(), texture.realHeight) / texture.realHeight;
+
+		var dx = downScaleFactor * scaleX * texture.realWidth;
+		var dy = downScaleFactor * scaleY * texture.realHeight;
+		g.color = color;
+		g.rotate(rotation, x + dx / 2, y + dy / 2);
+		g.drawScaledImage(texture, x, y, dx, dy);
+		g.rotate(-rotation, x + dx / 2, y + dy / 2);
 	}
 }
 
 class Circle extends AbstractBunny {
 	private var radius : Int;
-	private var color : Color;
 	
 	public function new(radius : Int, color : Color) {
 		super();
@@ -170,15 +185,13 @@ class Circle extends AbstractBunny {
 	
 	public override function render(g : Graphics) {
 		g.color = color;
-		g.drawCircle(x, y, radius);
-		g.color = Color.White;
+		g.drawCircle(x, y, radius * scaleX);
 	}
 }
 
 class Rectangle extends AbstractBunny {
 	private var width : Int;
 	private var height : Int;
-	private var color : Color;
 	
 	public function new(width : Int, height : Int, color : Color) {
 		super();
@@ -188,17 +201,18 @@ class Rectangle extends AbstractBunny {
 	}
 	
 	public override function render(g : Graphics) {
+		var dx = width * scaleX;
+		var dy = height * scaleY;
+		
 		g.color = color;
 		g.rotate(rotation, x + height/2, y + width/2);
-		g.drawRect(x, y, width * scaleX, height * scaleY);
+		g.drawRect(x - dx / 2, y - dy / 2, dx, dy);
 		g.rotate(-rotation, x + height/2, y + width/2);
-		g.color = Color.White;
 	}
 }
 
 class Text extends AbstractBunny {
 	private var text : String;
-	private var color : Color;
 	
 	public function new(text : String, color : Color) {
 		super();
@@ -212,7 +226,6 @@ class Text extends AbstractBunny {
 		g.rotate(rotation, x, y);
 		g.drawString(text, x, y);
 		g.rotate(-rotation, x, y);
-		g.color = Color.White;
 	}
 }
 
@@ -223,7 +236,6 @@ class Triangle extends AbstractBunny {
 	private var y2 : Int;
 	private var x3 : Int;
 	private var y3 : Int;
-	private var color : Color;
 	
 	public function new(x1 : Int, y1 : Int, x2 : Int, y2 : Int, x3 : Int, y3 : Int, color : Color) {
 		super();
@@ -237,19 +249,20 @@ class Triangle extends AbstractBunny {
 	}
 	
 	public override function render(g : Graphics) {
+		var centerX = ((x1 + x2 + x3) * getScaleX() / 3.0) + x;
+		var centerY = ((y1 + y2 + y3) * getScaleY() / 3.0) + y;
 		g.color = color;
-		g.rotate(rotation,(x1 + x2 + x3) / 3.0, (y1 + y2 + y3) / 3.0);
+		g.rotate(rotation, centerX, centerY);
 		g.drawPolygon(x,y, [
 			new kha.math.Vector2(x1*getScaleX(),y1*getScaleY()), 
 			new kha.math.Vector2(x2*getScaleX(),y2*getScaleY()), 
 			new kha.math.Vector2(x3*getScaleX(),y3*getScaleY())]);
-		g.rotate(-rotation,(x1 + x2 + x3) / 3.0, (y1 + y2 + y3) / 3.0);
+		g.rotate(-rotation, centerX, centerY);
 		g.color = Color.White;
 	}
 }
 
-class Particle extends AbstractBunny {
-	private var color : Color;
+class Point extends AbstractBunny {
 	
 	public function new(color : Color) {
 		super();
@@ -259,13 +272,11 @@ class Particle extends AbstractBunny {
 	public override function render(g : Graphics) {
 		g.color = color;
 		// graphics2.Graphics does not seem to support setPixel()
-		g.drawLine(x,y,x+1,y,color);
-		g.color = Color.White;
+		g.drawLine(x,y,x+1,y);
 	}
 }
 
 class Line extends AbstractBunny {
-	private var color : Color;
 	private var deltaX : Int;
 	private var deltaY : Int;
 	
@@ -277,10 +288,11 @@ class Line extends AbstractBunny {
 	}
 	
 	public override function render(g : Graphics) {
+		var dx = (scaleX * deltaX) / 2.0;
+		var dy = (scaleY * deltaY) / 2.0;
 		g.color = color;
 		g.rotate(rotation, x, y);
-		g.drawLine(x, y, x + scaleX * deltaX, y + scaleY * deltaY);
+		g.drawLine(x - dx, y - dy, x + dx, y + dy);
 		g.rotate(-rotation, x, y);
-		g.color = Color.White;
 	}
 }

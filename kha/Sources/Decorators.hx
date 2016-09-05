@@ -40,8 +40,6 @@ class PulsationDecorator extends AbstractTestDecorator {
 	}
 	
 	public override function setInitialValues(bunny: Bunny.AbstractBunny) {
-		var scale = Math.random() * 5;
-		bunny.setScale(scale, scale);
 		baseTest.setInitialValues(bunny);
 	}
 }
@@ -123,6 +121,37 @@ class TextureChangeDecorator extends AbstractTestDecorator {
 	}
 	
 	public override function setInitialValues(bunny: Bunny.AbstractBunny) {
+		baseTest.setInitialValues(bunny);
+	}
+}
+
+class TintedDecorator extends AbstractTestDecorator {
+	public function new(baseTest: IBunnyTest) {
+		super(baseTest);
+	}
+	
+	public override function update(bunny: Bunny.AbstractBunny) {
+		baseTest.update(bunny);
+	}
+	
+	public override function setInitialValues(bunny: Bunny.AbstractBunny) {
+		bunny.setColor(BunnymarkUtils.randomColor());
+		baseTest.setInitialValues(bunny);
+	}
+}
+
+class ColorChangeDecorator extends AbstractTestDecorator {
+	public function new(baseTest: IBunnyTest) {
+		super(baseTest);
+	}
+	
+	public override function update(bunny: Bunny.AbstractBunny) {
+		bunny.setColor(BunnymarkUtils.randomColor());
+		baseTest.update(bunny);
+	}
+	
+	public override function setInitialValues(bunny: Bunny.AbstractBunny) {
+		bunny.setColor(BunnymarkUtils.randomColor());
 		baseTest.setInitialValues(bunny);
 	}
 }

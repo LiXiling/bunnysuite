@@ -56,9 +56,6 @@ class Bunnymark {
 			
 		// Load Assets with Callback
 		Assets.loadEverything(loadingFinished);	
-		
-		// add initial bunnies	
-		addBunnies(minBunnies);
 	}
 
 	function loadingFinished() : Void {
@@ -66,6 +63,9 @@ class Bunnymark {
 		//create a rendering Buffer
 		backbuffer = Image.createRenderTarget(BunnymarkUtils.getWidth(), BunnymarkUtils.getHeight());
 		backbuffer.g2.font = Assets.fonts.arimo;	
+		
+		// add initial bunnies	
+		addBunnies(minBunnies);
 	}
 
 	function update(): Void {
@@ -86,7 +86,7 @@ class Bunnymark {
     	}	
 
 		if (bunnies.length > maxBunnies) {
-			//if (logger != null) logger.write();
+			if (logger != null) logger.write();
 			System.requestShutdown();
 		}
 
