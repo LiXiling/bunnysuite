@@ -1,4 +1,4 @@
-#define TEST "rotation,pulsation,rectangles,random"
+#define TEST "animation"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -73,8 +73,8 @@ public:
 	Sint16 yVerticesAbsolute[4];
 
 	Bunny(){
-		x = 0.0;
-		y = 0.0;
+		x = 13.0;
+		y = 19.0;
 		scaleX = 1.0;
 		scaleY = 1.0;
 		pulsationX = 0.1;
@@ -82,10 +82,7 @@ public:
 		speedX = 0.0;
 		speedY = 0.0;
 		rotation = 0.0;
-		texture = rand() % numTextures;
-		SDL_QueryTexture(bunnyTexture[texture], NULL, NULL, &textureRect.w, &textureRect.h);
-		textureRect.w = int(floor((textureRect.w * 37.0 / textureRect.h)));
-		textureRect.h = 37;
+		setTexture(rand() % numTextures);
 		nature = (natures.size() == 0) ? NATURE_BUNNY : natures.at(rand() % natures.size());
 		if (nature == NATURE_TRIANGLE){
 			numVertices = 3;
@@ -118,6 +115,13 @@ public:
 		color.r = rand() % 256;
 		color.g = rand() % 256;
 		color.b = rand() % 256;
+	}
+
+	void setTexture(int i){
+		texture = i;
+		SDL_QueryTexture(bunnyTexture[texture], NULL, NULL, &textureRect.w, &textureRect.h);
+		textureRect.w = int(floor((textureRect.w * 37.0 / textureRect.h)));
+		textureRect.h = 37;
 	}
 
 	void rotate(double angle){
@@ -251,9 +255,7 @@ void updateBunnies(){
 		}
 		if (test_name.find("texturechange") != string::npos){
 			// set random texture
-			bunnies[i].texture = rand() % numTextures;
-			SDL_QueryTexture(bunnyTexture[bunnies[i].texture], NULL, NULL, 
-				&bunnies[i].textureRect.w, &bunnies[i].textureRect.h);
+			bunnies[i].setTexture(rand() % numTextures);
 		}
 		if (test_name.find("colorchange") != string::npos){
 			bunnies[i].color.r = rand() % 256;
