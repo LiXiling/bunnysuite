@@ -1,6 +1,5 @@
 package com.github.lixiling.bunnysuite.test;
 
-import com.github.lixiling.bunnysuite.BunnymarkUtils;
 import com.github.lixiling.bunnysuite.bunny.AbstractBunny;
 
 /**
@@ -25,7 +24,6 @@ public final class PulsationDecorator extends AbstractTestDecorator {
 
 	@Override
 	public void setInitialValues(AbstractBunny bunny) {
-		bunny.setScale(BunnymarkUtils.nextRandomFloat() * 4.8f + 0.2f);
 		baseTest.setInitialValues(bunny);
 	}
 }
