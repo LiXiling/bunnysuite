@@ -1,10 +1,14 @@
-- Ausarbeitung: Zu jedem Framework kurz ein paar implementierungstechnische Besonderheiten
-- Ausarbeitung: Beschreibung der GUI, wie umgesetzt?
-- Balkendiagramm für den Schwellwert, bei dem ein Frame länger dauert als 0.019s
 - Mehr Daten in Logfiles angeben (erste Zeile)
-- Auflösung in Dateinamen von Logfiles integrieren
-
-- NICHT VERGESSEN: Abstract bei der Ausarbeitung!!!
+- Auflösung in Dateinamen von Logfiles integrieren 
 
 Für Präsentation:
 - evtl. alten BunnyMark zeigen (um zu erklären, warum unseres besser ist)
+
+Ausarbeitung:
+* Abstract bei der Ausarbeitung!!!
+* Minimaltestsystem etc 3 Tabellen statt 1
+* Beschreibung der GUI, wie umgesetzt?
+* Zu jedem Framework kurz ein paar implementierungstechnische Besonderheiten
+
+* Kapitel wo wir mehr begründen wollen: 
+4.2
