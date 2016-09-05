@@ -21,10 +21,10 @@ namespace App
             {
                 // missing arguments?
                 Console.WriteLine("Missing arguments. We assume some standard values for testing.");
-                testnameList = "points,rotation,scaled,animation";
-                min_val = 500;
+                testnameList = "texts,animation,rotation";
+                min_val = 1;
                 max_val = 20000;
-                step = 100;
+                step = 00;
                 xRes = 800;
                 yRes = 600;
             }

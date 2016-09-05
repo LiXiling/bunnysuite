@@ -9,7 +9,7 @@ Supported Frameworks at the moment:
 * sdl
 * xna
 * libGDX
-* (kha, koming soon)
+* kha
 
 For supported Tests and their definition, please refer to the wiki
 
@@ -18,13 +18,17 @@ The result of each test can be found at `<framework>\bin\log\<testname>.log`
 The chart visualization can be found at `results\<testname>.png`
 
 
-To conduct tests manually:
-Compile an executable for the desired frameworks. The path should be `<framework>\bin\App.exe`
+For new frameworks, compile an executable for the desired framework. The path should be `<framework>\bin\App.exe` (`<framework>\bin\App.jar` for Java-based frameworks). If this structure is followed, the framework will automatically be detected and offered by the GUI.
 
-In the Python-File `test-manager.py` add these frameworks to the list of frameworks:
+
+To conduct tests manually without GUI, either use the CLI of the `App.exe` files:
+`App.exe animation,rotation,pulsation 0 10000 500` (for more options, refer to the wiki)
+
+Or use the `run_test.py` Python file:
+Add your frameworks to the list of frameworks:
 
 ```python
-frameworks = ['sdl','xna_monogame','LibGDX']
+frameworks = ['kha','sdl','xna_monogame','LibGDX']
 ```
 To costumize tests, edit or add lines like:
 

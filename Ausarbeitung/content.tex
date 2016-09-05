@@ -61,7 +61,7 @@ Dies ist aber nicht immer möglich, vor allem bei Spielen, die nur auf Konsolen 
 Dies sind auch erste Ansätze für die Sektion \nameref{sec:bottlenecks}.
 
 \section{Benchmarking}
-Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen:\\ %Quelle: http://www.uni-leipzig.de/~emkf/Referate/G%C3%BCtekriterien%20PPT.pdf
+Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen\footnote{Siehe: \url{http://www.uni-leipzig.de/~emkf/Referate/G\%C3\%BCtekriterien\%20PPT.pdf}}:\\
 \begin{description}
 \item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, aber für vor allem bei technischen Entwicklern, unsere Zielgruppe, nicht beliebt. Ein arbiträres Punktesystem würde die Messwerte nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
 
@@ -156,6 +156,8 @@ Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
 \end{description}
 
 \section{Implementierungsdetails bei den einzelnen Frameworks}
+\subsection{Kha}
+
 \subsection{SDL}
 SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeräte) über OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen für C\# oder Python zur Verfügung. Für das BunnySuite-Projekt wurde SDL mit C++ verwendet. Beispiele für Spiele, die SDL einsetzen sind \emph{Angry Birds}, \emph{Dont't Starve} oder aber auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstützten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.
 
@@ -177,11 +179,11 @@ Dazu referenzieren wir folgende 3 Computersysteme:
 \begin{table}
     \begin{tabular}{ | l | c | c | c |}
     \hline \\
-    			& Minimalsystem						& Mediumsystem					& Maximalsystem
-    Modellname 	& Dell XPS L322X 					&								& Custom-PC 							\\ \hline
-    CPU 		& Intel Core i5-3317U @ 4 x 1.7 GHz &								& Intel Xeon E3-1231 v3 @ 4 x 3.4 GHz 	\\ \hline
-    GPU 		& Intel HD Graphics 4000 			&								& NVidia Geforce GTX 780				\\ \hline
-    RAM 		& 4096 MB 							&								& 16384 MB 								\\ \hline
+    			& Minimalsystem						& Mediumsystem					& Maximalsystem							\\ \hline
+    Modellname 	& Dell XPS L322X 					& Acer Aspire E1-531			& Custom-PC 							\\ \hline
+    CPU 		& Intel Core i5-3317U @ 4 x 1.7 GHz & Intel Pentium 2020M (2,4 GHz) & Intel Xeon E3-1231 v3 @ 4 x 3.4 GHz 	\\ \hline
+    GPU 		& Intel HD Graphics 4000 			& Intel HD Graphics				& NVidia Geforce GTX 780				\\ \hline
+    RAM 		& 4096 MB 							& 4096 MB						& 16384 MB 								\\ \hline
     \end{tabular}
     \caption{Spezifikationen des Minimaltestsystems}
    	\label{tab:allspecs}
