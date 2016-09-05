@@ -105,11 +105,12 @@ namespace App.src.model
             //Every 10 frames make a new step
             if (frameCount == avg)
             {
-                if (bunnies.Count >= maxVal)
+                AddBunnies(step);
+                if (bunnies.Count > maxVal)
                 {
                     return true;
                 }
-                AddBunnies(step);
+                
                 frameCount = 0;
             }
             frameCount++;

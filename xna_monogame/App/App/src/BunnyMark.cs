@@ -79,6 +79,8 @@ namespace App
 
         protected override void Update(GameTime gameTime)
         {
+            logger.addLog(gameTime, bunnyCount);
+            
             btFinished = bt.RunTest();
 
             debugText.Update(gameTime);
@@ -97,10 +99,7 @@ namespace App
             debugText.Draw(spriteBatch, bunnyCount);
             
             spriteBatch.End();
-            drawBatch.End();
-
-
-            logger.addLog(gameTime, bunnyCount);
+            drawBatch.End();            
 
             //Exit if enough Bunnies are drawn
             if (btFinished && bunnyCount >= max_val)
