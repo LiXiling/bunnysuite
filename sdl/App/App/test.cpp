@@ -334,9 +334,9 @@ int main(int argc, char* argv[]){
 	
 	// load textures depending on flags
 	if (test_name.find("multitexture") != string::npos){
-		addTexture("wabbit_alpha0", ren);
-		addTexture("wabbit_alpha1", ren);
-		addTexture("wabbit_alpha2", ren);
+		addTexture("wabbit_0", ren);
+		addTexture("wabbit_1", ren);
+		addTexture("wabbit_2", ren);
 	}
 	if (test_name.find("alpha") != string::npos){
 		addTexture("wabbit_ghost", ren);
