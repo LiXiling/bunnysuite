@@ -349,7 +349,7 @@ int main(int argc, char* argv[]){
 	}
 	// default case
 	if (numTextures == 0){
-		addTexture("wabbit_alpha0", ren);
+		addTexture("wabbit_0", ren);
 	}
 	// tinted?
 	if (test_name.find("tinted") != string::npos || test_name.find("colorchange") != string::npos){
