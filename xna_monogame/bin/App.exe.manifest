@@ -75,7 +75,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>REvhsLjSKUJU5AaW0Y1yhQ0NDIA=</dsig:DigestValue>
+        <dsig:DigestValue>/BkQ5DKOxhk+XYYFXKQy9ylhjRU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -106,7 +106,7 @@
       <dsig:DigestValue>pt/eiHlWRA1eDXDQoxCiv9lT5vA=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_alpha0.xnb" size="400">
+  <file name="Data\wabbit_0.xnb" size="400">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
@@ -115,7 +115,7 @@
       <dsig:DigestValue>/z0vH1KzfN/Luvq/TDNSZzGXNxI=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_alpha1.xnb" size="404">
+  <file name="Data\wabbit_1.xnb" size="404">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
@@ -124,7 +124,7 @@
       <dsig:DigestValue>oscYksFixpW+ScrZghjLhBRKfgo=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_alpha2.xnb" size="402">
+  <file name="Data\wabbit_2.xnb" size="402">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
@@ -133,22 +133,22 @@
       <dsig:DigestValue>y9TaKI9U1JUtlxWbdKyxxm2rCQw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_ghost.xnb" size="432">
+  <file name="Data\wabbit_ghost.xnb" size="408">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>pYyLF/GXEjLo5aCrtTBJBBxTXrk=</dsig:DigestValue>
+      <dsig:DigestValue>E/4E7qMjtpM2CnUIdQDWcZ8+2tQ=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_hd.xnb" size="119614">
+  <file name="Data\wabbit_hd.xnb" size="106670">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>14ELeBWESjST/FTv8Q7F2UC1u2w=</dsig:DigestValue>
+      <dsig:DigestValue>F6I6lUBIHMghSaWpIGBgkTYJ86E=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Data\wabbit_star.xnb" size="494">
@@ -160,13 +160,13 @@
       <dsig:DigestValue>i6/baj7Tv9mcKWVFQqXg6jYDhkk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Data\wabbit_y.xnb" size="506">
+  <file name="Data\wabbit_y.xnb" size="504">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>U/CYoZ7E8EXpaC5oeLa13FoKn88=</dsig:DigestValue>
+      <dsig:DigestValue>/fqmhIx5vuVbpqEzGxjucbDXPSQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Game.ico" size="4286">

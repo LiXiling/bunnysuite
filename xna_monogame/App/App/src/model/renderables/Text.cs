@@ -62,6 +62,12 @@ namespace App.src.model.renderables
         public void Draw(SpriteBatch spriteBatch, DrawBatch drawBatch, BenchmarkTest bt)
         {
             Vector2 pos = new Vector2(this.X,this.Y);
+
+
+            ///FOR COMPABILITY REASONS WITH SDL MOST TEXT TRANSFORMATIONS ARE DEACTIVATED FOR RELEASE
+            spriteBatch.DrawString(spriteFont, textString, pos, color);
+
+            /*
             spriteBatch.DrawString(
                 spriteFont,
                 textString,
@@ -73,6 +79,7 @@ namespace App.src.model.renderables
                 SpriteEffects.None,
                 0f
            );
+           */
         }
         public void Grow()
         {
