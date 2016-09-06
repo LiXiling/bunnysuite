@@ -20,6 +20,7 @@ public class Text extends AbstractBunny {
 	}
 
 	private BitmapFont font;
+
 	public Text(String text, BitmapFont font, Color color) {
 		this.text = text;
 		this.font = font;
@@ -33,7 +34,10 @@ public class Text extends AbstractBunny {
 	}
 
 	public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
-		font.getData().setScale(getScaleX(), getScaleY());
+		// The following line would scale the text. This is disabled to prevent
+		// unfair disadvantage against other frameworks, where this could not be
+		// implemented.
+		// font.getData().setScale(getScaleX(), getScaleY());
 		font.setColor(getColor());
 		font.draw(batch, text, getX(), getY());
 	}
