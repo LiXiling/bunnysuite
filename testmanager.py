@@ -26,7 +26,7 @@ def make_bar_diagram(frameworks, test_name, name_prefix):
     width = 0.35
     i = np.arange(len(frameworks))
     plt.bar(i, thresholds, width, color='y')
-    plt.title("Threshold values of the test: " + test_name)
+    plt.title("Threshold values")
     plt.xlabel("Frameworks")
     plt.xticks(i + width/2.0, frameworks)
     plt.ylabel("# objects when framerate drops under 56 fps")
@@ -48,7 +48,7 @@ def make_detail_diagram(frameworks, test_name, name_prefix):
     for framework in frameworks:
         (x, y) = get_data_from_log(framework, test_name)
         plt.plot(x, y, label=framework)
-    plt.title("Results of the test: " + test_name)
+    plt.title("Rendering times")
     plt.xlabel("#")
     plt.ylabel("Average rendering time in seconds")
     plt.grid(True)
