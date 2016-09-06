@@ -15,7 +15,10 @@ class ToolTip(object):
         self.x = self.y = 0
 
     def showtip(self, text):
-        
+                
+        if self.tipwindow or not text:
+            return
+            
         # modification for wraparound
         words = text.split(" ")
         idx = 0
@@ -28,10 +31,7 @@ class ToolTip(object):
             else:
                 self.text += ' '
         self.text = self.text.strip()
-        
-        if self.tipwindow or not self.text:
-            return
-            
+
         x, y, cx, cy = self.widget.bbox("insert")
         x = x + self.widget.winfo_rootx() + 27
         y = y + cy + self.widget.winfo_rooty() +27

@@ -17,6 +17,8 @@ try:
 except ImportError:
     import tkinter.ttk as ttk
     py3 = 1
+    
+import testmanager
 
 def set_Tk_var():
     # These are Tk variables used passed to Tkinter and must be
@@ -66,7 +68,7 @@ def init(top, gui, save, deselected):
     top_level = top
     root = top
     
-    frameworks = getFrameworks()
+    frameworks = testmanager.find_frameworks()
 
     # restore framework selection
     restoreFrameworks(deselected, filter(lambda f: f not in deselected, frameworks))
@@ -293,8 +295,6 @@ def validatePreset(newVal):
 
 def cmdRun():
     # command for run button
-    import testmanager
-
     # calculate some parameters for test execution    
     chosenFrameworks = list(w.chosenFrameworksList.get(0, END))
     deselected = list(w.possibleFrameworksList.get(0, END))
@@ -332,8 +332,6 @@ def getFlavours():
 def getTextureModifiers():
     # all state vars associated with texture modifying checkboxes
     return [multitexture,alpha,hdtexture,thin,texturechange]
-    
-
         
 def restoreFrameworks(deselected, selected):
     # puts deselected frameworks in the left list box and selected in the right one
@@ -342,19 +340,3 @@ def restoreFrameworks(deselected, selected):
     for s in selected:
         w.chosenFrameworksList.insert(END, s)
         
-def getFrameworks():
-    # Searches for subdirectories containing a 'bin' folder containing App.jar/App.exe
-    import os
-    frameworks = []    
-    for directory in next(os.walk('.'))[1]:
-        if 'bin' in next(os.walk(directory))[1]:
-            for fname in os.listdir(directory+'/bin'):
-                if fname == 'App.exe' or fname == 'App.jar':
-                    frameworks.append(directory)
-                    break
-    return frameworks
-        
-
-
-
-
