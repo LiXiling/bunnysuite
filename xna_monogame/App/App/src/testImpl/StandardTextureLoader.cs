@@ -11,7 +11,7 @@ namespace App.src.testImpl
     {
         public void LoadTexture(BenchmarkTest bt)
         {
-            bt.bunnyTextures.Add(bt.content.Load<Texture2D>(@"wabbit_alpha" + 0));
+            bt.bunnyTextures.Add(bt.content.Load<Texture2D>(@"wabbit_" + 0));
         }
     }
 }
