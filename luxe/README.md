@@ -1,2 +1,0 @@
-# Luxe
-Performance benchmark
