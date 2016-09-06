@@ -63,6 +63,7 @@ class Bunnymark {
 		//create a rendering Buffer
 		backbuffer = Image.createRenderTarget(BunnymarkUtils.getWidth(), BunnymarkUtils.getHeight());
 		backbuffer.g2.font = Assets.fonts.arimo;	
+		backbuffer.g2.fontSize = 20;
 		
 		// add initial bunnies	
 		addBunnies(minBunnies);

@@ -221,11 +221,13 @@ class Text extends AbstractBunny {
 	}
 	
 	public override function render(g : Graphics) {
-		g.fontSize = Math.round(20 * scaleX);
 		g.color = color;
-		g.rotate(rotation, x, y);
+		// Rotation and scaling are disabled to prevent unfair disadvantage
+		// against frameworks where this could not be implemented.
+		//g.fontSize = Math.round(20 * scaleX);
+		//g.rotate(rotation, x, y);
 		g.drawString(text, x, y);
-		g.rotate(-rotation, x, y);
+		//g.rotate(-rotation, x, y);
 	}
 }
 

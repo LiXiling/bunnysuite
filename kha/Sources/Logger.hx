@@ -1,6 +1,3 @@
-import sys.io.File;
-import sys.FileSystem;
-
 class Logger {
 	private var filename : String;
 	private var lines : Array<String>;
@@ -13,7 +10,6 @@ class Logger {
 	public function addLog(n : Int, drawTime : Float) {
 		lines.push(n + "\t" + drawTime);
 	}
-	
 	
 	public function write() {
 		var path = sys.FileSystem.absolutePath("./log");
