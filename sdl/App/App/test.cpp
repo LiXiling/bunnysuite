@@ -1,4 +1,4 @@
-#define TEST "animation"
+#define TEST "bunnies"
 
 #include "SDL.h"
 #include "SDL_image.h"

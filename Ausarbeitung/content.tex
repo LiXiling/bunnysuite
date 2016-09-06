@@ -1,12 +1,12 @@
 \begin{abstract}
-TODO
+Im Rahmen des Serious Games Praktikums wurde \textit{BunnySuite} entwickelt, ein Benchmark-Framework für 2D-Grafik-Bibliotheken. Es besteht aus einer grafischen Benutzeroberfläche sowie den Implementierungen für die vier Bibliotheken Kha, LibGDX, SDL und XNA/Monogame. Die Tests werden in der GUI definiert und anschließend vollautomatisch durchgeführt. Die Ergebnisse werden grafisch in Diagrammen aufbereitet. Die Testergebnisse zeigen, dass die Leistungsfähigkeit der getesteten Bibliotheken in verschiedenen Bereichen sehr unterschiedlich sind. Dadurch, dass \textit{BunnySuite} diese Unterschiede transparent macht, können Entwickler leichter die für ihren Zweck beste Bibliothek finden. Außerdem helfen die Ergebnisse den Entwicklern der Bibliotheken bei der Optimierung der Performance.
 \end{abstract}
 
 \chapter{Einleitung}
-Moderne Computerspiele setzen meistens auf eine graphische Darstellung ihrer Spielwelt. Dabei geht vor allem in den letzten Jahren der Trend  verstärkt in die Richtung fotorealistischen 3D-Renderings und weg von der simpleren 2D Darstellung.
+Moderne Computerspiele setzen meistens auf eine graphische Darstellung ihrer Spielwelt. Dabei geht, vor allem in den letzten Jahren, der Trend verstärkt in die Richtung fotorealistischer 3D-Renderings und weg von der simpleren 2D-Darstellung.
 Dabei ist schnelles 2D-Rendering immer noch eine nichttriviale Aufgabe für GPUs. Für viele Anwendungen sind die verfügbaren Bibliotheken im Allgemeinen immer noch viel zu langsam. Um das zu verbessern, haben wir mit \textit{BunnySuite} ein Framework entwickelt, mit dem gängige 2D-Grafik-Bibliotheken einem automatisierten Stresstest ausgesetzt werden können.\\
 Mit dem \textit{BunnyMark}\footnote{https://github.com/openfl/openfl-samples/tree/master/demos/BunnyMark} gab es bereits eine Metrik zum Vergleich von Bibliotheken. Jedoch wurde hier nur die Anzahl der gerenderten Objekte (in diesem Fall Häschen, deshalb der Name) gemessen, bei denen noch 60 fps erreicht werden. Diese Zahl war nur schwer zu interpretieren und musste für ein ausführlicheres Ranking durch aussagekräftigere Metriken, bspw. \textit{Renderzeit pro Frame bei X Objekten} ersetzt werden. Auch findet diese Messung bei BunnyMark zu Demozwecken nur interaktiv statt: Häschen werden per Mausklick zur Szene hinzugefügt. Im von uns entwickelten BunnySuite-Framework können solche Messungen automatisiert erfolgen. Die Tests für mehrere Frameworks werden automatisch nacheinander gestartet und das Ergebnis wird in einem Diagramm zusammengefasst. Das Framework ist leicht erweiterbar, so dass man es mit wenig Aufwand an neue Bibliotheken anpassen kann.\\
-Das vollautomatisierte Test-Framework soll Entscheidern der Spieleentwicklung die Möglichkeit eines Rankings bieten, um die richtige Bibliothek für ihre Anforderungen zu finden. Des Weiteren sollen Entwickler von Bibliotheken das Framework nutzen können, um ihre eigene Engine zu testen und zu optimieren. Die Leistungen der Bibliotheken können so transparent verglichen werden, was den Wettbewerb zwischen den Bibliotheken stimulieren und Anreize setzen soll, stärker an der Performanz zu arbeiten.
+Das vollautomatisierte Test-Framework soll Entscheidern bei der Spieleentwicklung die Möglichkeit eines Rankings bieten, um die richtige Bibliothek für ihre Anforderungen zu finden. Desweiteren sollen Entwickler von Bibliotheken das Framework nutzen können, um ihre eigene Bibliothek zu testen und zu optimieren. Die Leistungen der Bibliotheken können so transparent verglichen werden, was den Wettbewerb zwischen ihnen stimulieren und Anreize setzen soll, stärker an der Performanz zu arbeiten.
 
 \chapter{Zeitplan und Aufgabenverteilung}
 Das Team hat sich darauf geeinigt, dass jeder Entwickler sich auf eine Bibliothek konzentriert. In regelmäßigen Meetings werden Konzepte diskutiert und Designentscheidungen getroffen. Auf diese Weise soll in allem Frameworks eine vergleichbare Implementierung erreicht werden.\\
@@ -25,7 +25,7 @@ Game-Frameworks sollen die Entwickler beim Implementieren der Game-Loop unterst�
 Die Game-Frameworks unterstützen die Entwickler, indem sie verschiedene Funktionalitäten bereits für die jeweilige Zielplatform optimiert zur Verfügung stellen. Dazu gehören:
 
 \begin{itemize}
-\item Einfacher Zugriff auf Eingabegeräte. Das können einfach Maus und Tastatur sein, aber auch platform spezifische Gamepads oder auch Touch- und Gestensteuerung, vor allem für VR.\\
+\item Einfacher Zugriff auf Eingabegeräte. Das können einfach Maus und Tastatur sein, aber auch plattformspezifische Gamepads oder auch Touch- und Gestensteuerung, vor allem für VR.\\
 \item optimierte Klassen für Assets. Dazu gehören Audiodateien, die gestreamt werden, oder auch Texturen, die möglichst effizient für den Grafikspeicher komprimiert werden.\\
 \item optimierte Renderfunktionen, die direkt Grafikschnittstellen wie OpenGL, Direct3D oder Vulkan ansprechen. Diese können auch bereits Transformationen wie Drehungen oder Einfärbungen anbieten. Diese können direkt 3D-Meshes, Bilder/Texturen, Text oder auch Primitive wie Dreiecke oder Rechtecke darstellen.\\
 \end{itemize}
@@ -48,11 +48,11 @@ Diese Problematik hat konkrete Auswirkungen auf den Ablauf von Videospielen. Hie
 Beim Speedrunning versucht der Spieler, so schnell wie möglich die Zielbedingung zu erfüllen. Das sind, je nach Spiel und Kategorie, das einsammeln aller Collectibles im Spiel, das Besiegen des Endgegners oder aber "nur" das Erreichen der Credits nach dem Spiel. Aus mehreren Gründen sind diese Spieler an einer guten Perfomanz des Spieles interessiert:
 
 \begin{itemize}
-\item Die Rekorde im selben Run (selbes Spiel, selbe Kategorie) sind oft nur Sekundenbruchteile schneller als die zweitschnellesten Ergebnisse.
+\item Die Rekorde im selben Run (selbes Spiel, selbe Kategorie) sind oft nur Sekundenbruchteile schneller als die zweitschnellsten Ergebnisse.
 \item Zum Erreichen des Zieles dürfen, abhängig von der Kategorie, auch Spielfehler ausgenutzt werden, oder sogar durch Speichermanipulation und gezielten Over/Underflows das Spiel umgeschrieben werden. Hierfür sind oft pixelgenaue Positionierung in der Spielwelt und auf den Frame perfekte Benutzereingaben notwendig, um diese "Glitches" gezielt ausführen zu können.
 \end{itemize}
 
-Jeglicher Performance-Einbruch des Spieles erschwert die Jagd auf den nächsten Weltrekord. Die einfachste Lösung dieses Problems ist es, das Spiel auf immer stärkeren Rechnern zu starten. Das ist auch einer der Gründe, weshalb Spieler ohne Speedrunning Hintergrund sich nicht solche Gedanken machen müssen. Fehlende Optimierung des Spiels wird durch mehr Rechenleistung ausgeglichen.
+Jeglicher Performance-Einbruch des Spieles erschwert die Jagd auf den nächsten Weltrekord. Die einfachste Lösung dieses Problems ist es, das Spiel auf immer stärkeren Rechnern zu starten. Fehlende Optimierung des Spiels wird durch mehr Rechenleistung ausgeglichen.
 Dies ist aber nicht immer möglich, vor allem bei Spielen, die nur auf Konsolen laufen. Hier muss der Speedrunner die fehlende Optimierung selber ausgleichen. Zum Beispiel:
 \begin{itemize}
 \item Betrachten des leeren Himmels: Es werden keine Objekte auf dem Bildschirm dargestellt - \emph{Daggerfall, PC Speedrun}
@@ -61,18 +61,17 @@ Dies ist aber nicht immer möglich, vor allem bei Spielen, die nur auf Konsolen 
 Dies sind auch erste Ansätze für die Sektion \nameref{sec:bottlenecks}.
 
 \section{Benchmarking}
-Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die Renderzeit pro Frame bei X Objekten als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen\footnote{Siehe: \url{http://www.uni-leipzig.de/~emkf/Referate/G\%C3\%BCtekriterien\%20PPT.pdf}}:\\
+Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die \textit{Renderzeit pro Frame bei X Objekten} als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen\footnote{Siehe: \url{http://www.uni-leipzig.de/~emkf/Referate/G\%C3\%BCtekriterien\%20PPT.pdf}}:\\
 \begin{description}
-\item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, aber für vor allem bei technischen Entwicklern, unsere Zielgruppe, nicht beliebt. Ein arbiträres Punktesystem würde die Messwerte nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
+\item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, nicht jedoch bei technischen Entwicklern, unserer Zielgruppe. Ein arbiträres Punktesystem würde die Messwerte nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
 
-\item[Objektivität] ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}). Damit soll die Implementierung in den einzelnen Frameworks möglichst gleich sein. Somit sollen die verschiedenen Messwerte auf dem selben Computer nur auf die Effizienz der verwendeten Bibliothek zurückzuführen sein, und nicht auf die Implementierung der Tests durch den verantwortlichen Entwickler.\\
-Der Bunnymark soll speziell die Grafikleistung der verschiedenen Frameworks bewerten. Daher muss gewährleistet sein, dass das Testergebnis nicht maßgeblich von Berechnungen auf der CPU beeinflusst wird. Das Messergebnis darf daher beim Ausführen der Tests ohne Draw()-Call, somit nur auf der Update()-Phase der Gameloop beruhend, keinen schlechteren Messwert als 16,67ms bzw. 60 Frames per Second erreichen (für die Spezifikationen des Testsystems siehe \ref{tab:specs}. Plattformübergreifend können (und werden) die Ergebnisse abweichen, da die Performanz sehr stark abhängig von der jeweiligen Hardware ist.\\
+\item[Objektivität] ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}). Die Implementierung in den einzelnen Frameworks soll möglichst gleich sein. Somit sind die verschiedenen Messwerte auf dem selben Computer nur auf die Effizienz der verwendeten Bibliothek zurückzuführen und nicht auf die Implementierung der Tests durch den verantwortlichen Entwickler.\\
+Der Bunnymark soll speziell die Grafikleistung der verschiedenen Frameworks bewerten. Daher muss gewährleistet sein, dass das Testergebnis nicht maßgeblich von Berechnungen auf der CPU beeinflusst wird. Das Messergebnis darf daher beim Ausführen der Tests ohne Draw()-Call, d.h. nur auf der Update()-Phase der Gameloop beruhend, keinen schlechteren Messwert als 16,67ms bzw. 60 Frames per Second erreichen (für die Spezifikationen des Testsystems siehe \ref{tab:specs}. Plattformübergreifend können (und werden) die Ergebnisse abweichen, da die Performanz sehr stark abhängig von der jeweiligen Hardware ist.\\
 Zusätzlich liegen die Benchmark-Implementierungen kompiliert als binäre Executable-Datei vor. Einige Gameframeworks bieten als Zielplattform auch HTML5 an. Hier wäre jedoch nochmal der zusätzliche Umweg über den Browser nötig. Somit würde die Effizienz des Browsers maßgeblich die Messergebnisse beeinflussen.\\
 
-\item[Reliabilität] Als Maßnahme für hohe Reliabilität werden alle Messungen standardmäßig jeweils zehn mal durchgeführt und anschließend der Durchschnitt gebildet. Durch diese Berechnung von Durchschnittswerten für die einzelnen Testszenen dauert der gesamte Test zwar länger, aber es werden punktuelle Performance-Änderungen durch Hintergrundprozesse negiert. Dieser Wert kann optional per Parameter eingestellt werden.\\
-% Falls es noch eine ausführliche Testreihe zur Reliabilität geben sollte, muss das hier noch eingefügt werden.
+\item[Reliabilität] Als Maßnahme für hohe Reliabilität werden alle Messungen standardmäßig jeweils zehn mal durchgeführt und anschließend der Durchschnitt gebildet. Dadurch dauert der gesamte Test zwar länger, aber es werden punktuelle Performance-Änderungen durch Hintergrundprozesse ausgeglichen. Die Anzahl der Wiederholungen kann optional per Parameter eingestellt werden.\\
 \end{description}
-Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 600 px, kann aber per Parameter angepasst werden
+Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 600 px, kann aber per Parameter angepasst werden.
 
 \begin{table}
     \begin{tabular}{ | l | c |}
@@ -109,9 +108,9 @@ Eine detaillierte Begründung findet sich in der Auflistung aller Testmodifier i
 
 \chapter{Umsetzung und Tests}
 \section{Entwicklungsablauf}
-Im Laufe der Entwicklung wurde der Aufbau des Benchmarks geändert. Der erste Entwurf sah die Modellierung von 3-4 großen Tests vor. So gab es einen Test, der unserem jetzigen Modifier \emph{animation} entspricht und einen Test, der verschieden Texturierte Bunnies an zufällige Positionen zeichnet (in der finalen Form eine Kombination aus den Modifern \emph{multitexture} und \emph{random}). \\
+Im Laufe der Entwicklung wurde der Aufbau des Frameworks geändert. Der erste Entwurf sah die Modellierung von 3-4 großen Tests vor. So gab es einen Test, der unserem jetzigen Modifier \emph{animation} entspricht und einen Test, der verschieden texturierte Bunnies an zufällige Positionen zeichnet (in der finalen Form eine Kombination aus den Modifiern \emph{multitexture} und \emph{random}). \\
 Dies machte das Implementieren von neuen Tests schwierig und die Kombination von bestehenden Tests unmöglich.\\
-Da wir nicht alle Szenarien, die für Spiele-Entwickler interessant sein könnten, vordefinieren können, wählten wir einen modularen Ansatz. Dieser schien uns insbesondere aus Anwendersicht vorteilhaft, da hier jeder sich schnell für sich interessante Tests definieren können sollte. Alle Abläufe wurden auf eine Kombination von Elementaren Operationen runtergebrochen. Diese finden sich in den Testmodifiern wieder.\\
+Da wir nicht alle Szenarien, die für Spiele-Entwickler interessant sein könnten, vordefinieren konnten, wählten wir einen modularen Ansatz. Dieser schien uns insbesondere aus Anwendersicht vorteilhaft, da man sich somit schnell die für sich selbst interessanten Benchmarks definieren kann. Alle Abläufe wurden auf eine Kombination von elementaren Operationen runtergebrochen. Diese finden sich in den Testmodifiern wieder.\\
 
 
 \section{Ablauf der Tests}
@@ -126,7 +125,7 @@ Der Ablauf eines Tests im \textit{BunnySuite}-Frameworks ist in Abbildung \ref{d
 \includegraphics[width=0.8\textwidth]{Architecture}
 \label{dia:architecture}
 \end{figure}
-\\
+~\\
 Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
 \begin{description}
 \item[test\_name] Ein String aus den Einzusetzenden Testmodifiern (siehe \ref{sec:tests}). Die Namen der Modifier sind per Komma getrennt.
@@ -146,8 +145,8 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 \begin{itemize}
 \item[animation]
 \begin{description}
-\item[Beschreibung:] n Objekte werden in die linke obere Ecke gezeichnet und mitzufälliger Geschwindigkeit in X und Y Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. \\
-\item[Begründung:] Dies ist der Testfall des ursprüngliches Bunnymarks. Dieser Testmodifier simuliert die konstante Bewegung eines Objektes über den Bildschirm und stellt damit typische Situationen in Spielen nach.
+\item[Beschreibung:] n Objekte werden in die linke obere Ecke gezeichnet und mit zufälliger Geschwindigkeit in X und Y Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. \\
+\item[Begründung:] Dies ist der Testfall des ursprüngliches \textit{BunnyMark}. Dieser Testmodifier simuliert die konstante Bewegung eines Objektes über den Bildschirm und stellt damit typische Situationen in Spielen nach.
 \end{description}
 
 \item[alpha]
@@ -164,7 +163,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \item[circles]
 \begin{description}
-\item[Beschreibung:] Anstelle von texturierten Bunnies, wird das Primitv "Kreis" mit Radius 13px und zufälliger Farbe gezeichnet. \\
+\item[Beschreibung:] Anstelle von texturierten Bunnies wird ein Kreis mit einem Radius von 13 Pixeln und zufälliger Farbe gezeichnet. \\
 \item[Begründung:] Mit diesem Testmodifier soll das Framework auf die korrekte und effiziente Berechnung und Darstellung von Kreisen getestet werden. Für die Darstellung ist die Annäherung von ganzahligen Pixeln an den Kreis besonders von Bedeutung.
 \end{description} 
 
@@ -176,31 +175,31 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \item[hdtexture]
 \begin{description}
-\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur wabbit\_hd zum Texturenpool hinzugefügt. Diese Textur ist sehr hoch aufgelöst. Die Bunnies werden daher am Anfang auf die Höhe von 37px runterskaliert. \\
+\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_hd" zum Texturenpool hinzugefügt. Diese Textur ist sehr hoch aufgelöst und wird daher am Anfang auf die Höhe von 37px runterskaliert. \\
 \item[Begründung:] Mit diesem Testmodifier wird das Framework auf den effizienten Umgang mit sehr hochauflösenden Texturen geprüft. Es müssen große Dateien effizient gespeichert und gelesen werden, zusätzlich muss die GPU die große Menge an Pixelinformationen korrekt auswerten. Auch die optische Veränderung der Textur durch die jeweilige Implementierung der Skalierung im Framework ist zu beachten. Die Tests in Kapitel \ref{ch:results} zeigen nochmal die zusätzliche Belastung in diesem Fall.
 \end{description} 
  
 \item[lines]
 \begin{description}
-\item[Beschreibung:] Anstelle von texturierten Bunnies, wird das Primitv "Linie" mit den Endunkten (0,0) und (26,37) sowie mit zufälliger Farbe gezeichnet. \\
+\item[Beschreibung:] Anstelle von texturierten Bunnies werden Linien mit den Endunkten (0,0) und (26,37) sowie mit zufälliger Farbe gezeichnet. \\
 \item[Begründung:] Mit diesem Modifier soll das Framework auf den korrekten und effizienten Umgang mit Linien geprüft werden. Zu beachten sind hier das Auftreten von Treppeneffekten bei diagonalen Linien (Aliasing). Linien sind für Spiele von besonderer Bedeutung, bspw. Sichtlinien oder das schnelle Zeichnen von Plattformen.
 \end{description}
 
 \item[multitexture] 
 \begin{description}
-\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen werden die Texturen wabbit\_1 und wabbit\_2 zum Texturenpool hinzugefügt. \\
+\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen werden die Texturen "wabbit\_1" und "wabbit\_2" zum Texturenpool hinzugefügt. \\
 \item[Begründung:] Dieser Modifier erhöht schnell die Anzahl der zur Verfügung stehenden Texturen im Texturenpool. Hierbei soll das Framework in seinem Speichermanagement getestet und der Realfall von Spielen mit einer großen Anzahl von verschiedenartigen Render-Objekten angenähert werden.
 \end{description}
 
 \item[no\_output]
 \begin{description}
 \item[Beschreibung:] Es findet keine Ausgabe an den Bildschirm statt. Sämtliche Zustandsberechnungen aus der Update-Phase werden entsprechend der restlichen Testparameter normal ausgeführt. \\
-\item[Begründung:] Dieser Modifier soll Entwicklern bei der Implementierung von den Tests in neuen Frameworks unterstützen. Damit kann überprüft werden, dass die Tests nicht zu CPU intensiv in der Update-Phase berechnet werden. Dies ist notwending, da die BunnySuite zur Überprüfung von Grafik-Frameworks gedacht ist.
+\item[Begründung:] Dieser Modifier soll Entwicklern bei der Implementierung von den Tests in neuen Frameworks unterstützen. Damit kann überprüft werden, dass die Tests nicht zu CPU-intensiv in der Update-Phase berechnet werden. Dies ist notwending, da \textit{BunnySuite} zur Überprüfung von Grafik-Frameworks gedacht ist.
 \end{description}
 
 \item[points]
 \begin{description}
-\item[Beschreibung:] Anstelle von Bunnies, werden Punkte in zufälliger Farbe gezeichnet. \\
+\item[Beschreibung:] Anstelle von Bunnies werden Punkte in zufälliger Farbe gezeichnet. \\
 \item[Begründung:] Mit diesem Testmodifier soll das Framework auf das gezielte Malen einzelner Pixel geprüft werden. Dies ist beispielsweise für Partikeleffekte wichtig.
 \end{description}
 
@@ -213,7 +212,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 \item[scaled]
 \begin{description}
 \item[Beschreibung:] Die Objekte werden am Anfang mit einem zufälligen Faktor zwischen 0.2 und 5.0 skaliert. Die X- und Y-Achse werden dabei unabhängig voneinander skaliert. \\
-\item[Begründung:] Mit diesem Testmodifier erscheinen Objekte mit stark unterschiedlichen Größen, und sogar Größenverhältnissen. Auch wird das Framework darauf geprüft, wie gut es Objekte nur in einer Dimension skalieren kann
+\item[Begründung:] Mit diesem Testmodifier erscheinen Objekte mit stark unterschiedlichen Größen (und sogar Größenverhältnissen). Auch wird das Framework darauf geprüft, wie gut es Objekte nur in einer Dimension skalieren kann.
 \end{description}
 
 \item[random] 
@@ -224,7 +223,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \item[rectangles] 
 \begin{description}
-\item[Beschreibung:] Anstelle von texturierten Bunnies, wird das Primitv "Rechteck" mit den Eckunkten (0,0) und (26,37) sowie mit zufälliger Farbe gezeichnet. \\
+\item[Beschreibung:] Anstelle von texturierten Bunnies werden Rechtecke mit den Eckunkten (0,0) und (26,37) sowie mit zufälliger Farbe gezeichnet. \\
 \item[Begründung:] Mit diesem Testmodifer soll das Framework auf die korrekte und effiziente Darstellung von Rechtecken getestet werden. Diese Primitive können gut für Boxen oder Blöcke verwendet werden.
 \end{description}
 
@@ -236,7 +235,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \item[texts]
 \begin{description}
-\item[Beschreibung:] Anstelle von texturierten Bunnies, wird der Text "Hello World!" gerendert. \\
+\item[Beschreibung:] Anstelle von texturierten Bunnies wird der Text "Hello World!" gerendert. \\
 \item[Begründung:] Mit diesem Testmodifier auf das korrekte und effiziente Textrendering überprüft. Dies ist wichtig für die Darstellung von Text für den Spieler, bspw. im UI.
 \end{description}
 
@@ -248,7 +247,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \item[thin] 
 \begin{description}
-\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur wabbit\_y zum Texturenpool hinzugefügt, die nicht einer Rechteck-Annäherung entspricht und damit viel Voll-Transparenz aufweist. \\
+\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_y" zum Texturenpool hinzugefügt, die nicht einer Rechteck-Annäherung entspricht und damit viel Voll-Transparenz aufweist. \\
 \item[Begründung:] Diese Textur ist nur schlecht durch ein Rechteck angenähert. In einer effizienten Implementierung des Renderings sollten die volltransparenten Bereiche der Textur übersprungen werden. Diese Effizienz wird hierbei überprüft.
 \end{description}
 
@@ -260,8 +259,8 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \item[triangles] 
 \begin{description}
-\item[Beschreibung:] Anstelle von texturierten Bunnies, wird das Primitv "Dreieck" mit den Eckunkten (0,37), (26,37), und (13,0) sowie mit zufälliger Farbe gezeichnet. \\
-\item[Begründung:] Dreiecke sind in der Spielegrafik von besonderer Bedeutung. 3D Objekte und komplizierte 2D-Formen werden durch von Dreiecken beschriebenen Polygonen  angenähert. Die Effizienz im Umgang mit Dreiecken wird von diesem Testmodifier geprüft.
+\item[Beschreibung:] Anstelle von texturierten Bunnies werden Dreiecke mit den Eckunkten (0,37), (26,37), und (13,0) sowie mit zufälliger Farbe gezeichnet. \\
+\item[Begründung:] Dreiecke sind in der Spielegrafik von besonderer Bedeutung. 3D Objekte und komplizierte 2D-Formen werden durch von Dreiecken beschriebenen Polygonen angenähert. Die Effizienz im Umgang mit Dreiecken wird von diesem Testmodifier geprüft.
 \end{description}
 \end{itemize}
 
@@ -275,7 +274,7 @@ SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-leve
 XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und läuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame läuft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele für Spiele, die auf Monogame basieren sind \emph{Fez} oder \emph{Transistor}.
 
 \subsection{LibGDX}
-LibGDX ist ein auf Java basierendes open-source Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Änderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele für Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}.
+LibGDX ist ein auf Java basierendes quelloffenes Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Änderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele für Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}.
 
 \section{User Interface}
 \subsection{GUI}
