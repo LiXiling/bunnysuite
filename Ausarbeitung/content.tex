@@ -263,13 +263,14 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \section{Implementierungsdetails bei den einzelnen Frameworks}
 \subsection{Kha}
-Kha ist ein open-source Framework entwickert von Robert Konrad. Es basiert auf Haxe und lässt sich auf eine Vielzahl von Plattformen und sogar eigene Engines portieren. Für den BunnySuite wurden die Tests in der eigenen IDE Kode entwickelt und anschließend für die Zielplattform Windows in Visual Studio kompiliert. Mit Kha wurden, unter anderem,  \emph{Spiral Ride} oder \emph{Dungeons Deep} realisiert.
+Kha ist ein open-source Framework, entwickelt von Robert Konrad. Es basiert auf Haxe und lässt sich auf eine Vielzahl von Plattformen und Engines portieren. Für den BunnySuite wurden die Tests in der eigenen IDE \textit{Kode} entwickelt und anschließend für die Zielplattform Windows in Visual Studio kompiliert. Mit Kha wurden unter anderem \emph{Spiral Ride} oder \emph{Dungeons Deep} realisiert.
 
 \subsection{SDL}
-SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeräte) über OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen für C\# oder Python zur Verfügung. Für das BunnySuite-Projekt wurde SDL mit C++ verwendet. Beispiele für Spiele, die SDL einsetzen sind \emph{Angry Birds}, \emph{Dont't Starve} oder aber auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstützten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.
+SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeräte) über OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen für C\# oder Python zur Verfügung. Für das BunnySuite-Projekt wurde SDL 2 mit C++ verwendet. Beispiele für Spiele, die SDL einsetzen, sind \emph{Angry Birds}, \emph{Dont't Starve} und auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstützten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.\\
+SDL ist im Vergleich zu den anderen Bibliotheken sehr low-level und stellt nur sehr grundlegende Funktionalitäten bereit. Um die Primitiven zu implementieren, wurde zusätzlich die Bibliothek \textit{SDL2\_gfx}\footnote{\url{http://www.ferzkopp.net/Software/SDL2\_gfx/Docs/html/index.html}} von Andreas Schiffler verwendet.
 
 \subsection{XNA/Monogame}
-XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und läuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame läuft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele für Spiele, die auf Monogame basieren sind \emph{Fez} oder \emph{Transistor}.
+XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und läuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame läuft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele für Spiele, die auf Monogame basieren, sind \emph{Fez} oder \emph{Transistor}.
 
 \subsection{LibGDX}
 LibGDX ist ein auf Java basierendes quelloffenes Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Änderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele für Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}.
@@ -285,7 +286,7 @@ Um das Starten von Benchmarks und die Auswahl der Testmodifier möglichst einfac
 \begin{figure}[h]
 \caption{Screenshot der BunnySuite-GUI}
 \centering
-\includegraphics[width=0.4\textwidth]{gui}
+\includegraphics[width=0.5\textwidth]{gui}
 \label{dia:gui}
 \end{figure}
 
@@ -314,53 +315,52 @@ Dazu referenzieren wir folgende 3 Computersysteme:
 Diese Messung fand auf dem Maximalsystem mit folgenden Parametern statt:
 \begin{description}
 \item[modifiers:] bunnies, random, pulsation
-\item[frameworks:] kha, LibGDX, sdl, xna_monogame
+\item[frameworks:] kha, LibGDX, sdl, xna\_monogame
 \item[minBunnies:] 0
 \item[maxBunnies:] 100000
 \item[stepSize:] 1000
 \item[repetitions:] 10
 \item[resolution:] 1280x720
 \end{description}
-Es wurden somit alle 10 Frames 1000 neue Bunnies gezeichnet mit Standardtextur an eine zufällige Position. Zusätzlich werden alle Bunnies mit jedem Frame skaliert.
+Es wurden somit alle 10 Frames 1000 neue Bunnies mit Standardtextur an eine zufällige Position gezeichnet. Zusätzlich wurden alle Bunnies mit jedem Frame neu skaliert.
 \begin{figure}[h]
-\caption{Ergebniss Diagramm der XNA Forced VSync Messung}
+\caption{Ergebnis Diagramm der XNA Forced VSync Messung}
 \centering
-\includegraphics[width=0.4\textwidth]{xna_forced}
+\includegraphics[width=0.8\textwidth]{xna_forced}
 \label{dia:xna_forced}
 \end{figure}
-Man sieht, dass XNA bei diesem Test bei 62000 Bunnies in der Renderzeit plötzlich einen Sprung von 0,016s = 60fps zu 0,033s = 30fps vollzieht. SDL und LibGDX zeigen hier einen linearen Anstieg, wie er erwartet wird. Kha macht um die 72000 Bunnies auch einen Sprung von 0,016s zu 0,025s = 40fps, und osziliert anschließend um diesen Wert. Hier könnte Textur-Caching eine Rolle spielen, die genauer betrachtet werden sollte. \\
+Man sieht, dass XNA bei 62000 Bunnies in der Renderzeit plötzlich einen Sprung von 0,016s = 60fps zu 0,033s = 30fps vollzieht. SDL und LibGDX zeigen hier einen linearen Anstieg, so wie es erwartet wird. Kha macht um die 72000 Bunnies auch einen Sprung von 0,016s zu 0,025s = 40fps, und oszilliert anschließend um diesen Wert. Hier könnte Textur-Caching eine Rolle spielen. \\
 Das abnormale Verhalten von XNA ist hier von besonderem Interesse. Mit diesem Testsetup lässt sich das Verhalten von XNA zuverlässig reproduzieren, tritt aber in anderen Setups nicht mehr auf. Stattdessen kommt es auch hier zu einem linearen Anstieg der Renderzeit:
 
 \begin{figure}[h]
-\caption{Ergebniss Diagramm: Normales XNA Verhalten}
+\caption{Ergebnis Diagramm: Normales XNA Verhalten}
 \centering
-\includegraphics[width=0.4\textwidth]{xna_normal}
+\includegraphics[width=0.8\textwidth]{xna_normal}
 \label{dia:xna_normal}
 \end{figure}
 
-Da die Renderzeiten hier genau auf die übliche Bildwiederholungsrate von 60Hz passt, liegt die Vermutung nahe, dass es sich hier um aktiviertes VSync handelt um Tearing zu verhindern. Dies tritt auf, wenn eine Ausgabe auf den Bildschirm erfolgen soll, die genau mit der Refresh-Phase VBlank des Monitors zusammenfällt. Um dies zu verhindern, wird die Ausgabe mit diesen Phasen synchronisiert. Diese Option ist aber bei der Implementierung der Tests im Framework explizit deaktiviert worden. Ebenso spricht das normale Verhalten in anderen Tests gegen diese These. \\
+Da die Renderzeiten hier genau auf die übliche Bildwiederholungsrate von 60Hz passt, liegt die Vermutung nahe, dass es sich hier um aktiviertes VSync handelt, um Tearing zu verhindern. Dies tritt auf, wenn eine Ausgabe auf den Bildschirm erfolgen soll, die genau mit der Refresh-Phase VBlank des Monitors zusammenfällt. Um dies zu verhindern, wird die Ausgabe mit diesen Phasen synchronisiert. Diese Option ist aber bei der Implementierung der Tests im Framework explizit deaktiviert worden. Ebenso spricht das normale Verhalten in anderen Tests gegen diese These. \\
 Eine abschließende Erklärung konnte nicht gefunden werden. 
 
 \section{SDL Primitive}
 Diese Messung fand auf dem Maximalsystem mit folgenden Parametern statt:
 \begin{description}
 \item[modifiers:] rectangles, circles, triangles, lines, points, rotation, random, pulsation
-\item[frameworks:] kha, LibGDX, sdl, xna_monogame
+\item[frameworks:] kha, LibGDX, sdl, xna\_monogame
 \item[minBunnies:] 0
 \item[maxBunnies:] 50000
 \item[stepSize:] 1000
 \item[repetitions:] 10
 \item[resolution:] 1280x720
 \end{description}
-Es wurden somit all 10 Frames 1000 zufällige Objekte der Primitive Dreieck, Rechteck, Kreis, Linie und Punkt der Darstellung an eine zufällige Position hinzugefügt. Jedes Objekt ändert mit jedem Frame seine Skalierung.
+Es wurden somit alle 10 Frames 1000 zufällige Objekte der Primitive Dreieck, Rechteck, Kreis, Linie und Punkt an eine zufällige Screen-Position hinzugefügt. Jedes Objekt ändert mit jedem Frame seine Skalierung.
 \begin{figure}[h]
 \caption{Ergebniss Diagramm der Primitiven Messung}
 \centering
-\includegraphics[width=0.4\textwidth]{sdl_primitives}
+\includegraphics[width=0.8\textwidth]{sdl_primitives}
 \label{dia:sdl_primitives}
 \end{figure}
-Bei der Darstellung und Skalierung von Primitiven scheint SDL massive Probleme zu haben. Während die anderen Frameworks weit unter 1s Renderzeit bleiben, erreicht SDL bei 26000 Objekten eine Renderzeit von 1s, und erreicht gegen Ende 1,8s Renderzeit. Das ist 9 mal so lange, wie das nächst-langsamste Framework. SDL erreicht nie den Idealwert von 0,016s = 60fps Renderzeit und schon nach 2 Schritten, also bei 2000 Objekten, wird eine Renderzeit von 0,1s = 10fps erreicht.\\
-Es ist zu hoffen, dass SDL nicht selber solch massiven Probleme bei der Darstellung von Primitiven hat. Womöglich ist dieses Framework nicht so high-level, dass von Haus aus Optimierungen mitgeliefert werden. Eventuell ist hier der Entwickler selber gefragt, seinen Code ausreichend zu optimieren. Es wurde nicht überprüft, ob diese Optimierungsmöglichkeiten tatsächlich bestehen. Selbst wenn, würden sie nicht mit in dieses Framework aufgenommen werden, da hier ein objektiver Vergleich der Frameworks und ihrer Klassen stark erschwert werden würde.
+Bei der Darstellung und Skalierung von Primitiven hat SDL massive Probleme. Während die anderen Frameworks weit unter 1s Renderzeit bleiben, erreicht SDL bei 26000 Objekten eine Renderzeit von 1s, und erreicht gegen Ende 1,8s Renderzeit. Das ist 9 mal so lange wie das nächstlangsame Framework. SDL erreicht nie den Idealwert von 0,016s = 60fps Renderzeit und schon bei 2000 Objekten wird eine Renderzeit von 0,1s = 10fps erreicht. Die Ergebnisse zeigen, dass \textit{SDL2\_gfx} noch nicht besonders gut optimiert ist.\\
 
 \chapter{Zusammenfassung und Ausblick}
 Im Rahmen des Serious Games Praktikums wurde \textit{BunnySuite} entwickelt, ein Benchmark-Framework für 2D-Grafik-Libraries. 
