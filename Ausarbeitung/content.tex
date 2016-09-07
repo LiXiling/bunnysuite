@@ -43,9 +43,8 @@ Ebenso entfällt bei der Darstellung eine komplexe Berechnung der Überlagerung 
 \item Spieler Objekt rendern\\
 \item Benutzeroberfläche rendern\\
 \end{enumerate}
-Diese Besonderheiten vereinfachen die Berechnung im 2D-Darstellungsfall. Dadurch ist dieser Fall aber nicht so gut optimiert, wie die 3D-Anwendung, und es werden regelmäßig Grenzen ausgereizt.
-
-\subsection{Praktische Auswirkungen}
+Diese Besonderheiten vereinfachen die Berechnung im 2D-Darstellungsfall. Dadurch ist dieser Fall aber nicht so gut optimiert, wie die 3D-Anwendung, und es werden regelmäßig Grenzen ausgereizt.\\
+\\
 Diese Problematik hat konkrete Auswirkungen auf den Ablauf von Videospielen. Hier das Beispiel des Speedrunnings:
 
 Beim Speedrunning versucht der Spieler, so schnell wie möglich die Zielbedingung zu erfüllen. Das sind, je nach Spiel und Kategorie, das einsammeln aller Collectibles im Spiel, das Besiegen des Endgegners oder aber "nur" das Erreichen der Credits nach dem Spiel. Aus mehreren Gründen sind diese Spieler an einer guten Perfomanz des Spieles interessiert:
@@ -358,9 +357,11 @@ Es wurden somit alle 10 Frames 1000 zufällige Objekte der Primitive Dreieck, Re
 \includegraphics[width=0.8\textwidth]{sdl_primitives}
 \label{dia:sdl_primitives}
 \end{figure}
-Bei der Darstellung und Skalierung von Primitiven hat SDL massive Probleme. Während die anderen Frameworks weit unter 1s Renderzeit bleiben, erreicht SDL bei 26000 Objekten eine Renderzeit von 1s, und erreicht gegen Ende 1,8s Renderzeit. Das ist 9 mal so lange wie das nächstlangsame Framework. SDL erreicht nie den Idealwert von 0,016s = 60fps Renderzeit und schon bei 2000 Objekten wird eine Renderzeit von 0,1s = 10fps erreicht. Die Ergebnisse zeigen, dass \textit{SDL2\_gfx} noch nicht besonders gut optimiert ist.\\
+Bei der Darstellung und Skalierung von Primitiven hat SDL massive Probleme. Während die anderen Frameworks weit unter 1s Renderzeit bleiben, erreicht SDL bei 26000 Objekten eine Renderzeit von 1s, und erreicht gegen Ende 1,8s Renderzeit. Das ist 9 mal so lange wie das nächstlangsame Framework. SDL erreicht nie den Idealwert von 0,016s = 60fps Renderzeit und schon bei 2000 Objekten wird eine Renderzeit von 0,1s = 10fps erreicht. Die Ergebnisse zeigen, dass \textit{SDL2\_gfx}, das für das Rendering von Primitiven eingesetzt wurde, noch nicht besonders gut optimiert ist.\\
 
 \chapter{Zusammenfassung und Ausblick}
-Im Rahmen des Serious Games Praktikums wurde \textit{BunnySuite} entwickelt, ein Benchmark-Framework für 2D-Grafik-Libraries. 
+Im Rahmen des Serious Games Praktikums wurde \textit{BunnySuite} entwickelt, ein Benchmark-Framework für 2D-Grafik-Libraries. Im Vergleich zu BunnyMark sind die Messungen von BunnySuite vollautomatisch und ohne Benutzerinteraktion durchführbar, außerdem sind die Testergebnisse detaillierter und werden dem Benutzer systematischer präsentiert. Es wurde eine Vielzahl von Testfällen (Rotation, Skalierung, Primitive, etc.) identifiziert, welche im Framework als Test-Modifier frei kombinierbar sind. Für die vier Bibliotheken Kha, LibGDX, SDL und XNA/Monogame wurden Implementierungen entwickelt. Bei der Entwicklung wurde vor allem auf eine hohe Vergleichbarkeit geachtet. Deshalb wurde der Effekt von allen Test-Modifiern genau definiert.\\
+In dieser Ausarbeitung wurden außerdem einige Tests analysiert, die mit BunnySuite durchgeführt wurden. Dabei hat sich gezeigt, dass BunnySuite-Tests aufgrund ihrer Modularität gut dazu geeignet sind, Schwachstellen von Bibliotheken gezielt offenzulegen. 
 \\
-Als Future Work kann die BunnySuite noch um weitere Frameworks erweitert werden. Insbesondere Frameworks für 2D-Grafik im Browser sollten auch im Browser ausgeführt werden. Hierbei existiert das Problem, dass man aus einem Browser heraus keine Logfiles anlegen kann, da ein Zugriff auf das lokale Dateisystem aus Sicherheitsgründen nicht möglich ist. Das könnte mit einem Automatisierungs-Tool wie Selenium\footnote{\url{http://www.seleniumhq.org/}} gelöst werden.
+Als Future Work kann BunnySuite noch um weitere Frameworks erweitert werden. Insbesondere Frameworks für 2D-Grafik im Browser sollten auch im Browser ausgeführt werden. Hierbei existiert das Problem, dass man aus einem Browser heraus keine Logfiles anlegen kann, da ein Zugriff auf das lokale Dateisystem aus Sicherheitsgründen nicht möglich ist. Das könnte mit einem Automatisierungs-Tool wie Selenium\footnote{\url{http://www.seleniumhq.org/}} gelöst werden.\\
+Außerdem können die Implementierungen für die vier Bibliotheken, insbesondere die für SDL, noch auf Optimierungspotential untersucht werden.
