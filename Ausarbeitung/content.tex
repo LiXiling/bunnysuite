@@ -69,24 +69,12 @@ Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark voll
 \item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, nicht jedoch bei technischen Entwicklern, unserer Zielgruppe. Ein arbiträres Punktesystem würde die Messwerte nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
 
 \item[Objektivität] ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}). Die Implementierung in den einzelnen Frameworks soll möglichst gleich sein. Somit sind die verschiedenen Messwerte auf dem selben Computer nur auf die Effizienz der verwendeten Bibliothek zurückzuführen und nicht auf die Implementierung der Tests durch den verantwortlichen Entwickler.\\
-Der Bunnymark soll speziell die Grafikleistung der verschiedenen Frameworks bewerten. Daher muss gewährleistet sein, dass das Testergebnis nicht maßgeblich von Berechnungen auf der CPU beeinflusst wird. Das Messergebnis darf daher beim Ausführen der Tests ohne Draw()-Call, d.h. nur auf der Update()-Phase der Gameloop beruhend, keinen schlechteren Messwert als 16,67ms bzw. 60 Frames per Second erreichen (für die Spezifikationen des minimalen Testsystems siehe Tabelle \ref{tab:specs}). Plattformübergreifend können (und werden) die Ergebnisse abweichen, da die Performanz sehr stark abhängig von der jeweiligen Hardware ist.\\
+Die BunnySuite soll speziell die Grafikleistung der verschiedenen Frameworks bewerten. Daher muss gewährleistet sein, dass das Testergebnis nicht maßgeblich von Berechnungen auf der CPU beeinflusst wird. Um die korrekte Implementierung der Tests zu überprüfen, kann eine Testreihe ohne graphische Ausgabe, also nur mit den CPU-Berechnungen der Update()-Phase ausgeführt werden.
 Zusätzlich liegen die Benchmark-Implementierungen kompiliert als binäre Executable-Datei vor. Einige Gameframeworks bieten als Zielplattform auch HTML5 an. Hier wäre jedoch nochmal der zusätzliche Umweg über den Browser nötig. Somit würde die Effizienz des Browsers maßgeblich die Messergebnisse beeinflussen.\\
 
 \item[Reliabilität] Als Maßnahme für hohe Reliabilität werden alle Messungen standardmäßig jeweils zehn mal durchgeführt und anschließend der Durchschnitt gebildet. Dadurch dauert der gesamte Test zwar länger, aber es werden punktuelle Performance-Änderungen durch Hintergrundprozesse ausgeglichen. Die Anzahl der Wiederholungen kann optional per Parameter eingestellt werden.\\
 \end{description}
 Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 600 px, kann aber per Parameter angepasst werden.
-
-\begin{table}
-    \begin{tabular}{ | l | c |}
-    \hline \\
-    Modellname & Dell XPS L322X \\ \hline
-    CPU & Intel Core i5-3317U @ 4 x 1.7 GHz \\ \hline
-    GPU & Intel HD Graphics 4000 \\ \hline
-    RAM & 4096 MB \\ \hline
-    \end{tabular}
-    \caption{Spezifikationen des Minimaltestsystems}
-   	\label{tab:specs}
-\end{table}
 
 \chapter{Konzept und Design}
 \label{ch:konzept}
@@ -269,6 +257,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \section{Implementierungsdetails bei den einzelnen Frameworks}
 \subsection{Kha}
+Kha ist ein open-source Framework entwickert von Robert Konrad. Es basiert auf Haxe und lässt sich auf eine Vielzahl von Plattformen und sogar eigene Engines portieren. Für den BunnySuite wurden die Tests in der eigenen IDE Kode entwickelt und anschließend für die Zielplattform Windows in Visual Studio kompiliert. Mit Kha wurden, unter anderem,  \emph{Spiral Ride} oder \emph{Dungeons Deep} realisiert.
 
 \subsection{SDL}
 SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeräte) über OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen für C\# oder Python zur Verfügung. Für das BunnySuite-Projekt wurde SDL mit C++ verwendet. Beispiele für Spiele, die SDL einsetzen sind \emph{Angry Birds}, \emph{Dont't Starve} oder aber auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstützten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.

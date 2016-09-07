@@ -4,3 +4,4 @@ sdl/App/App/Debug/
 sdl/App/App.sdf
 *.pdb
 build
+*.pyc
