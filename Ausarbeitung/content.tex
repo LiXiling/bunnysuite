@@ -296,23 +296,23 @@ Tests können auch ohne GUI direkt gestartet werden. Dazu muss man die zu testen
 \chapter{Ergebnisse der Messungen}
 \label{ch:results}
 In diesem Kapitel stellen wir ein paar interessante Ergebnisse von Messungen vor, die wir mit den Frameworks durchgeführt haben.\\
-Dazu nutzen wir die 3 Computersysteme in der Tabelle \ref{tab:allspecs}.
+Dazu nutzen wir die beiden Computersysteme, deren Eckdaten in Tabelle \ref{tab:allspecs} zu finden sind. Bei System 1 handelt es sich um ein günstiges Notebook, während System 2 ein typischer Gamer-PC ist.
 
 \begin{table}
-    \begin{tabular}{ | l | c | c | c |}
+    \begin{tabular}{ | l | c | c |}
     \hline \\
-    			& Minimalsystem						& Mediumsystem					& Maximalsystem							\\ \hline
-    Modellname 	& Dell XPS L322X 					& Acer Aspire E1-531			& Custom-PC 							\\ \hline
-    CPU 		& Intel Core i5-3317U @ 4 x 1.7 GHz & Intel Pentium 2020M (2,4 GHz) & Intel Xeon E3-1231 v3 @ 4 x 3.4 GHz 	\\ \hline
-    GPU 		& Intel HD Graphics 4000 			& Intel HD Graphics				& NVidia Geforce GTX 780				\\ \hline
-    RAM 		& 4096 MB 							& 4096 MB						& 16384 MB 								\\ \hline
+    			& System 1						& System 2      						\\ \hline
+    Modellname 	& Acer Aspire E1-531			& Custom-PC 							\\ \hline
+    CPU 		& Intel Pentium 2020M (2,4 GHz) & Intel Xeon E3-1231 v3 @ 4 x 3.4 GHz 	\\ \hline
+    GPU 		& Intel HD Graphics				& NVidia Geforce GTX 780				\\ \hline
+    RAM 		& 4096 MB						& 16384 MB 								\\ \hline
     \end{tabular}
-    \caption{Spezifikationen des Minimaltestsystems}
+    \caption{Spezifikationen der beiden Testrechner}
    	\label{tab:allspecs}
 \end{table}
 
 \section{XNA Forced VSync?}
-Diese Messung fand auf dem Maximalsystem mit folgenden Parametern statt:
+Diese Messung fand auf System 2 mit folgenden Parametern statt:
 \begin{description}
 \item[modifiers:] bunnies, random, pulsation
 \item[frameworks:] kha, LibGDX, sdl, xna\_monogame
@@ -322,28 +322,26 @@ Diese Messung fand auf dem Maximalsystem mit folgenden Parametern statt:
 \item[repetitions:] 10
 \item[resolution:] 1280x720
 \end{description}
-Es wurden somit alle 10 Frames 1000 neue Bunnies mit Standardtextur an eine zufällige Position gezeichnet. Zusätzlich wurden alle Bunnies mit jedem Frame neu skaliert.
-\begin{figure}[h]
+Es wurden somit alle 10 Frames 1000 neue Bunnies mit Standardtextur an eine zufällige Position gezeichnet. Zusätzlich wurden alle Bunnies mit jedem Frame neu skaliert.\\ 
+\begin{figure}
 \caption{Ergebnis Diagramm der XNA Forced VSync Messung}
 \centering
 \includegraphics[width=0.8\textwidth]{xna_forced}
 \label{dia:xna_forced}
 \end{figure}
-Man sieht, dass XNA bei 62000 Bunnies in der Renderzeit plötzlich einen Sprung von 0,016s = 60fps zu 0,033s = 30fps vollzieht. SDL und LibGDX zeigen hier einen linearen Anstieg, so wie es erwartet wird. Kha macht um die 72000 Bunnies auch einen Sprung von 0,016s zu 0,025s = 40fps, und oszilliert anschließend um diesen Wert. Hier könnte Textur-Caching eine Rolle spielen. \\
-Das abnormale Verhalten von XNA ist hier von besonderem Interesse. Mit diesem Testsetup lässt sich das Verhalten von XNA zuverlässig reproduzieren, tritt aber in anderen Setups nicht mehr auf. Stattdessen kommt es auch hier zu einem linearen Anstieg der Renderzeit:
-
-\begin{figure}[h]
+Diagramm \ref{dia:xna_forced} zeigt die Ergebnisse. Man sieht, dass XNA bei 62000 Bunnies in der Renderzeit plötzlich einen Sprung von 0,016s = 60fps zu 0,033s = 30fps vollzieht. SDL und LibGDX zeigen hier einen linearen Anstieg, so wie es erwartet wird. Kha macht um die 72000 Bunnies auch einen Sprung von 0,016s zu 0,025s = 40fps, und oszilliert anschließend um diesen Wert. Hier könnte Textur-Caching eine Rolle spielen. \\
+Das abnormale Verhalten von XNA ist hier von besonderem Interesse. Mit diesem Testsetup lässt sich das Verhalten von XNA zuverlässig reproduzieren, tritt aber in anderen Setups nicht mehr auf. Stattdessen kommt es auch hier zu einem linearen Anstieg der Renderzeit (siehe Diagramm \ref{dia:xna_normal}).
+\begin{figure}
 \caption{Ergebnis Diagramm: Normales XNA Verhalten}
 \centering
 \includegraphics[width=0.8\textwidth]{xna_normal}
 \label{dia:xna_normal}
 \end{figure}
-
 Da die Renderzeiten hier genau auf die übliche Bildwiederholungsrate von 60Hz passt, liegt die Vermutung nahe, dass es sich hier um aktiviertes VSync handelt, um Tearing zu verhindern. Dies tritt auf, wenn eine Ausgabe auf den Bildschirm erfolgen soll, die genau mit der Refresh-Phase VBlank des Monitors zusammenfällt. Um dies zu verhindern, wird die Ausgabe mit diesen Phasen synchronisiert. Diese Option ist aber bei der Implementierung der Tests im Framework explizit deaktiviert worden. Ebenso spricht das normale Verhalten in anderen Tests gegen diese These. \\
 Eine abschließende Erklärung konnte nicht gefunden werden. 
 
 \section{SDL Primitive}
-Diese Messung fand auf dem Maximalsystem mit folgenden Parametern statt:
+Diese Messung fand auf System 2 mit folgenden Parametern statt:
 \begin{description}
 \item[modifiers:] rectangles, circles, triangles, lines, points, rotation, random, pulsation
 \item[frameworks:] kha, LibGDX, sdl, xna\_monogame
@@ -353,8 +351,8 @@ Diese Messung fand auf dem Maximalsystem mit folgenden Parametern statt:
 \item[repetitions:] 10
 \item[resolution:] 1280x720
 \end{description}
-Es wurden somit alle 10 Frames 1000 zufällige Objekte der Primitive Dreieck, Rechteck, Kreis, Linie und Punkt an eine zufällige Screen-Position hinzugefügt. Jedes Objekt ändert mit jedem Frame seine Skalierung.
-\begin{figure}[h]
+Es wurden somit alle 10 Frames 1000 zufällige Objekte der Primitive Dreieck, Rechteck, Kreis, Linie und Punkt an eine zufällige Screen-Position hinzugefügt. Jedes Objekt ändert mit jedem Frame seine Skalierung. Die Ergebnisse werden in Diagramm \ref{dia:sdl_primitives} dargestellt.
+\begin{figure}
 \caption{Ergebniss Diagramm der Primitiven Messung}
 \centering
 \includegraphics[width=0.8\textwidth]{sdl_primitives}
