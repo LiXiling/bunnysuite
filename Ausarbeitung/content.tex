@@ -162,103 +162,103 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 \subsubsection{colorchange}
 \begin{description}
 \item[Beschreibung:] Jedes Objekt, inklusive der texturierten Bunnies, ändert mit jedem Frame seine Färbung. \\
-\item[Begründung:] Mit diesem Testmodifier wird das Framework auf den Umgang mit schnellen Farbwechseln von Objekten, insbesondere Texturen, geprüft. Diese Funktion ist beispielsweise wichtig, um in Spielen einmal entworfene Objekte in verschiedenen Umgebungen wiederverwenden zu können.
+\item[Intention:] Mit diesem Testmodifier wird das Framework auf den Umgang mit schnellen Farbwechseln von Objekten, insbesondere Texturen, geprüft. Diese Funktion ist beispielsweise wichtig, um in Spielen einmal entworfene Objekte in verschiedenen Umgebungen wiederverwenden zu können.
 \end{description} 
 
 \subsubsection{hdtexture}
 \begin{description}
 \item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_hd" zum Texturenpool hinzugefügt. Diese Textur ist sehr hoch aufgelöst und wird daher am Anfang auf die Höhe von 37px runterskaliert. \\
-\item[Begründung:] Mit diesem Testmodifier wird das Framework auf den effizienten Umgang mit sehr hochauflösenden Texturen geprüft. Es müssen große Dateien effizient gespeichert und gelesen werden, zusätzlich muss die GPU die große Menge an Pixelinformationen korrekt auswerten. Auch die optische Veränderung der Textur durch die jeweilige Implementierung der Skalierung im Framework ist zu beachten. Die Tests in Kapitel \ref{ch:results} zeigen nochmal die zusätzliche Belastung in diesem Fall.
+\item[Intention:] Mit diesem Testmodifier wird das Framework auf den effizienten Umgang mit sehr hochauflösenden Texturen geprüft. Es müssen große Dateien effizient gespeichert und gelesen werden, zusätzlich muss die GPU die große Menge an Pixelinformationen korrekt auswerten. Auch die optische Veränderung der Textur durch die jeweilige Implementierung der Skalierung im Framework ist zu beachten. Die Tests in Kapitel \ref{ch:results} zeigen nochmal die zusätzliche Belastung in diesem Fall.
 \end{description} 
  
 \subsubsection{lines}
 \begin{description}
 \item[Beschreibung:] Anstelle von texturierten Bunnies werden Linien mit den Endunkten (0,0) und (26,37) sowie mit zufälliger Farbe gezeichnet. \\
-\item[Begründung:] Mit diesem Modifier soll das Framework auf den korrekten und effizienten Umgang mit Linien geprüft werden. Zu beachten sind hier das Auftreten von Treppeneffekten bei diagonalen Linien (Aliasing). Linien sind für Spiele von besonderer Bedeutung, bspw. Sichtlinien oder das schnelle Zeichnen von Plattformen.
+\item[Intention:] Mit diesem Modifier soll das Framework auf den korrekten und effizienten Umgang mit Linien geprüft werden. Zu beachten sind hier das Auftreten von Treppeneffekten bei diagonalen Linien (Aliasing). Linien sind für Spiele von besonderer Bedeutung, bspw. Sichtlinien oder das schnelle Zeichnen von Plattformen.
 \end{description}
 
 \subsubsection{multitexture}
 \begin{description}
 \item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen werden die Texturen "wabbit\_1" und "wabbit\_2" zum Texturenpool hinzugefügt. \\
-\item[Begründung:] Dieser Modifier erhöht schnell die Anzahl der zur Verfügung stehenden Texturen im Texturenpool. Hierbei soll das Framework in seinem Speichermanagement getestet und der Realfall von Spielen mit einer großen Anzahl von verschiedenartigen Render-Objekten angenähert werden.
+\item[Intention:] Dieser Modifier erhöht schnell die Anzahl der zur Verfügung stehenden Texturen im Texturenpool. Hierbei soll das Framework in seinem Speichermanagement getestet und der Realfall von Spielen mit einer großen Anzahl von verschiedenartigen Render-Objekten angenähert werden.
 \end{description}
 
 \subsubsection{no\_output}
 \begin{description}
 \item[Beschreibung:] Es findet keine Ausgabe an den Bildschirm statt. Sämtliche Zustandsberechnungen aus der Update-Phase werden entsprechend der restlichen Testparameter normal ausgeführt. \\
-\item[Begründung:] Dieser Modifier soll Entwicklern bei der Implementierung von den Tests in neuen Frameworks unterstützen. Damit kann überprüft werden, dass die Tests nicht zu CPU-intensiv in der Update-Phase berechnet werden. Dies ist notwending, da \textit{BunnySuite} zur Überprüfung von Grafik-Frameworks gedacht ist.
+\item[Intention:] Dieser Modifier soll Entwicklern bei der Implementierung von den Tests in neuen Frameworks unterstützen. Damit kann überprüft werden, dass die Tests nicht zu CPU-intensiv in der Update-Phase berechnet werden. Dies ist notwending, da \textit{BunnySuite} zur Überprüfung von Grafik-Frameworks gedacht ist.
 \end{description}
 
 \subsubsection{points}
 \begin{description}
 \item[Beschreibung:] Anstelle von Bunnies werden Punkte in zufälliger Farbe gezeichnet. \\
-\item[Begründung:] Mit diesem Testmodifier soll das Framework auf das gezielte Malen einzelner Pixel geprüft werden. Dies ist beispielsweise für Partikeleffekte wichtig.
+\item[Intention:] Mit diesem Testmodifier soll das Framework auf das gezielte Malen einzelner Pixel geprüft werden. Dies ist beispielsweise für Partikeleffekte wichtig.
 \end{description}
 
 \subsubsection{pulsation}
 \begin{description}
 \item[Beschreibung:] Mit jedem Frame wird die Skalierung der Objekte um ein "Wachstum" verändert (initial 0.1). Immer wenn die Skalierung \textgreater= 5 oder \textless= 0.2 ist, wird das Wachstum mit -1 multipliziert. Somit scheinen die Objekte zwischen den beiden Größenextremen hin und her zu pulsieren. \\
-\item[Begründung:] Mit diesem Testmodifier werden Objekte konstant skaliert, behalten also nicht ihre Größe bei. Dies soll das Grafikframework zusätzlich auslasten, da Objekte in ihren Dimensionen keine konstante Größe behalten und immer wieder neu für die Grafikausgabe berechnet werden müssen.
+\item[Intention:] Mit diesem Testmodifier werden Objekte konstant skaliert, behalten also nicht ihre Größe bei. Dies soll das Grafikframework zusätzlich auslasten, da Objekte in ihren Dimensionen keine konstante Größe behalten und immer wieder neu für die Grafikausgabe berechnet werden müssen.
 \end{description}
 
 \subsubsection{scaled}
 \begin{description}
 \item[Beschreibung:] Die Objekte werden am Anfang mit einem zufälligen Faktor zwischen 0.2 und 5.0 skaliert. Die X- und Y-Achse werden dabei unabhängig voneinander skaliert. \\
-\item[Begründung:] Mit diesem Testmodifier erscheinen Objekte mit stark unterschiedlichen Größen (und sogar Größenverhältnissen). Auch wird das Framework darauf geprüft, wie gut es Objekte nur in einer Dimension skalieren kann.
+\item[Intention:] Mit diesem Testmodifier erscheinen Objekte mit stark unterschiedlichen Größen (und sogar Größenverhältnissen). Auch wird das Framework darauf geprüft, wie gut es Objekte nur in einer Dimension skalieren kann.
 \end{description}
 
 \subsubsection{random} 
 \begin{description}
 \item[Beschreibung:] Die Objekte werden am Anfang an eine zufällige Stelle gesetzt. \\
-\item[Begründung:] Dieser Testmodifier prüft über die Laufzeit des Tests hinweg zwei Merkmale: Am Anfang, wenn in der Regel wenige Objekte gezeichnet werden, findet kaum eine gegenseitige Verdeckung von Objekten statt. Im späteren Verlauf ist der gesamte Bildschirm mit Objekten gefüllt, frühe Objekte werden oft mehrmals übermalt. Auch hier soll eine reale Spielesituation angenähert werden, bei der der gesamte Bildschirm bemalt wird, und die Ausgabe nicht nur in einem sehr kleinem lokalen Bereich stattfindet.
+\item[Intention:] Dieser Testmodifier prüft über die Laufzeit des Tests hinweg zwei Merkmale: Am Anfang, wenn in der Regel wenige Objekte gezeichnet werden, findet kaum eine gegenseitige Verdeckung von Objekten statt. Im späteren Verlauf ist der gesamte Bildschirm mit Objekten gefüllt, frühe Objekte werden oft mehrmals übermalt. Auch hier soll eine reale Spielesituation angenähert werden, bei der der gesamte Bildschirm bemalt wird, und die Ausgabe nicht nur in einem sehr kleinem lokalen Bereich stattfindet.
 \end{description}
 
 \subsubsection{rectangles}
 \begin{description}
 \item[Beschreibung:] Anstelle von texturierten Bunnies werden Rechtecke mit den Eckunkten (0,0) und (26,37) sowie mit zufälliger Farbe gezeichnet. \\
-\item[Begründung:] Mit diesem Testmodifer soll das Framework auf die korrekte und effiziente Darstellung von Rechtecken getestet werden. Diese Primitive können gut für Boxen oder Blöcke verwendet werden.
+\item[Intention:] Mit diesem Testmodifer soll das Framework auf die korrekte und effiziente Darstellung von Rechtecken getestet werden. Diese Primitive können gut für Boxen oder Blöcke verwendet werden.
 \end{description}
 
 \subsubsection{rotation}
 \begin{description}
 \item[Beschreibung:] Jedes Objekt wird pro Frame um 1 Grad im Uhrzeigersinn um seinen Mittelpunkt gedreht. \\
-\item[Begründung:] Mit diesem Testmodifer soll das Framework auf die korrekte und effiziente Berechnung und Darstellung der Rotation überprüft werden. Dies ist eine elementare Transformation, die oft verwendet wird.
+\item[Intention:] Mit diesem Testmodifer soll das Framework auf die korrekte und effiziente Berechnung und Darstellung der Rotation überprüft werden. Dies ist eine elementare Transformation, die oft verwendet wird.
 \end{description}
 
 \subsubsection{teleport}
 \begin{description}
 \item[Beschreibung:] Die Bunnies werden in jedem Frame an neue zufällige Stellen gezeichnet. \\
-\item[Begründung:] Dieser Testmodifier hat eine ähnliche Intention wie der \emph{random} Testmodifier. Zusätzlich ist die Reihenfolge der Darstellung durch die konstante Repositionierung der Objekte nicht eindeutig und muss mit jedem Frame neu berechnet werden.
+\item[Intention:] Dieser Testmodifier hat eine ähnliche Intention wie der \emph{random} Testmodifier. Zusätzlich ist die Reihenfolge der Darstellung durch die konstante Repositionierung der Objekte nicht eindeutig und muss mit jedem Frame neu berechnet werden.
 \end{description}
 
 \subsubsection{texts}
 \begin{description}
 \item[Beschreibung:] Anstelle von texturierten Bunnies wird der Text "Hello World!" gerendert. \\
-\item[Begründung:] Mit diesem Testmodifier auf das korrekte und effiziente Textrendering überprüft. Dies ist wichtig für die Darstellung von Text für den Spieler, bspw. im UI.
+\item[Intention:] Mit diesem Testmodifier auf das korrekte und effiziente Textrendering überprüft. Dies ist wichtig für die Darstellung von Text für den Spieler, bspw. im UI.
 \end{description}
 
 \subsubsection{texturechange}
 \begin{description}
 \item[Beschreibung:] Mit jedem neuem Frame bekommt jeder Bunny eine neue zufällige Textur aus dem Texturenpool zugewiesen. \\
-\item[Begründung:] Mit diesem Testmodifier wird das Speichersystem des Frameworks und die Optimierung der Renderfunktionen auf andauernd wechselnde Texturen überprüft.
+\item[Intention:] Mit diesem Testmodifier wird das Speichersystem des Frameworks und die Optimierung der Renderfunktionen auf andauernd wechselnde Texturen überprüft.
 \end{description}
 
 \subsubsection{thin}
 \begin{description}
 \item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_y" zum Texturenpool hinzugefügt, die nicht einer Rechteck-Annäherung entspricht und damit viel Voll-Transparenz aufweist. \\
-\item[Begründung:] Diese Textur ist nur schlecht durch ein Rechteck angenähert. In einer effizienten Implementierung des Renderings sollten die volltransparenten Bereiche der Textur übersprungen werden. Diese Effizienz wird hierbei überprüft.
+\item[Intention:] Diese Textur ist nur schlecht durch ein Rechteck angenähert. In einer effizienten Implementierung des Renderings sollten die volltransparenten Bereiche der Textur übersprungen werden. Diese Effizienz wird hierbei überprüft.
 \end{description}
 
 \subsubsection{tinted}
 \begin{description}
 \item[Beschreibung:] Jedes Objekt, insbesondere texturierte Bunnies, werden mit zufälliger Färbung erstellt. \\
-\item[Begründung:] Mit diesem Testmodifier wird überprüft, ob das Framework korrekt mit der Einfärbung von Texturen umgehen kann. Auch findet hier eine zusätzliche Rechenbelastung statt, da die Textur selber nicht einfach eingelesen werden kann, sondern eine korrekte neue Farbe effizient berechnet werden muss.
+\item[Intention:] Mit diesem Testmodifier wird überprüft, ob das Framework korrekt mit der Einfärbung von Texturen umgehen kann. Auch findet hier eine zusätzliche Rechenbelastung statt, da die Textur selber nicht einfach eingelesen werden kann, sondern eine korrekte neue Farbe effizient berechnet werden muss.
 \end{description}
 
 \subsubsection{triangles}
 \begin{description}
 \item[Beschreibung:] Anstelle von texturierten Bunnies werden Dreiecke mit den Eckunkten (0,37), (26,37), und (13,0) sowie mit zufälliger Farbe gezeichnet. \\
-\item[Begründung:] Dreiecke sind in der Spielegrafik von besonderer Bedeutung. 3D Objekte und komplizierte 2D-Formen werden durch von Dreiecken beschriebenen Polygonen angenähert. Die Effizienz im Umgang mit Dreiecken wird von diesem Testmodifier geprüft.
+\item[Intention:] Dreiecke sind in der Spielegrafik von besonderer Bedeutung. 3D Objekte und komplizierte 2D-Formen werden durch von Dreiecken beschriebenen Polygonen angenähert. Die Effizienz im Umgang mit Dreiecken wird von diesem Testmodifier geprüft.
 \end{description}
 
 \section{Implementierungsdetails bei den einzelnen Frameworks}
@@ -296,7 +296,7 @@ Tests können auch ohne GUI direkt gestartet werden. Dazu muss man die zu testen
 \chapter{Ergebnisse der Messungen}
 \label{ch:results}
 In diesem Kapitel stellen wir ein paar interessante Ergebnisse von Messungen vor, die wir mit den Frameworks durchgeführt haben.\\
-Dazu referenzieren wir folgende 3 Computersysteme:
+Dazu nutzen wir die 3 Computersysteme in der Tabelle \ref{tab:allspecs}.
 
 \begin{table}
     \begin{tabular}{ | l | c | c | c |}
