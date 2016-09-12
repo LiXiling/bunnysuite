@@ -5,7 +5,7 @@ Im Rahmen des Serious Games Praktikums wurde \textit{BunnySuite} entwickelt, ein
 \chapter{Einleitung}
 Moderne Computerspiele setzen meistens auf eine graphische Darstellung ihrer Spielwelt. Dabei geht, vor allem in den letzten Jahren, der Trend verstärkt in die Richtung fotorealistischer 3D-Renderings und weg von der simpleren 2D-Darstellung.
 Dabei ist schnelles 2D-Rendering immer noch eine nichttriviale Aufgabe für GPUs. Für viele Anwendungen sind die verfügbaren Bibliotheken im Allgemeinen immer noch viel zu langsam. Um das zu verbessern, haben wir mit \textit{BunnySuite} ein Framework entwickelt, mit dem gängige 2D-Grafik-Bibliotheken einem automatisierten Stresstest ausgesetzt werden können.\\
-Mit dem \textit{BunnyMark}\footnote{https://github.com/openfl/openfl-samples/tree/master/demos/BunnyMark} gab es bereits eine Metrik zum Vergleich von Bibliotheken. Jedoch wurde hier nur die Anzahl der gerenderten Objekte (in diesem Fall Häschen, deshalb der Name) gemessen, bei denen noch 60 fps erreicht werden. Diese Zahl war nur schwer zu interpretieren und musste für ein ausführlicheres Ranking durch aussagekräftigere Metriken, bspw. \textit{Renderzeit pro Frame bei X Objekten} ersetzt werden. Auch findet diese Messung bei BunnyMark zu Demozwecken nur interaktiv statt: Häschen werden per Mausklick zur Szene hinzugefügt. Im von uns entwickelten BunnySuite-Framework können solche Messungen automatisiert erfolgen. Die Tests für mehrere Frameworks werden automatisch nacheinander gestartet und das Ergebnis wird in einem Diagramm zusammengefasst. Das Framework ist leicht erweiterbar, so dass man es mit wenig Aufwand an neue Bibliotheken anpassen kann.\\
+Mit dem \textit{BunnyMark}, entwickelt von Iain Lobb\footnote{\url{http://blog.iainlobb.com/2010/11/display-list-vs-blitting-results.html}}, gab es bereits eine Metrik zum Vergleich von Bibliotheken. Jedoch wurde hier nur die Anzahl der gerenderten Objekte (in diesem Fall Häschen, deshalb der Name) gemessen, bei denen noch 60 fps erreicht werden. Diese Zahl war nur schwer zu interpretieren und musste für ein ausführlicheres Ranking durch die aussagekräftigere Metrik  \textit{Renderzeit pro Frame bei X Objekten} ersetzt werden. Auch findet diese Messung bei BunnyMark zu Demozwecken nur interaktiv statt: Häschen werden per Mausklick zur Szene hinzugefügt. Im von uns entwickelten BunnySuite-Framework können solche Messungen automatisiert erfolgen. Die Tests für mehrere Frameworks werden automatisch nacheinander gestartet und das Ergebnis wird in zwei Diagrammen zusammengefasst. Das Framework ist leicht erweiterbar, so dass man es mit wenig Aufwand an neue Bibliotheken anpassen kann.\\
 Das vollautomatisierte Test-Framework soll Entscheidern bei der Spieleentwicklung die Möglichkeit eines Rankings bieten, um die richtige Bibliothek für ihre Anforderungen zu finden. Desweiteren sollen Entwickler von Bibliotheken das Framework nutzen können, um ihre eigene Bibliothek zu testen und zu optimieren. Die Leistungen der Bibliotheken können so transparent verglichen werden, was den Wettbewerb zwischen ihnen stimulieren und Anreize setzen soll, stärker an der Performanz zu arbeiten.\\
 Im folgenden Kapitel wird zunächst kurz der Projektplan aufgeführt (Kapitel \ref{ch:projektplan}) und anschließend werden die Grundlagen von 2D-Grafik-Libraries und Benchmarking beschrieben (Kapitel \ref{ch:basics}). Im Hauptteil der Ausarbeitung werden das grundlegende Konzept (Kapitel \ref{ch:konzept}) und einige Aspekte der praktischen Umsetzung des entwickelten Frameworks (Kapitel \ref{ch:umsetzung}) vorgestellt. Danach gehen wir in Kapitel \ref{ch:results} auf ein paar interessante Testergebnisse ein. Im letzten Kapitel wird die Arbeit zusammengefasst und es werden einige Erweiterungsmöglichkeiten genannt.
 
@@ -78,7 +78,7 @@ Die standardmäßige Renderauflösung beträgt in allen Implementierungen 800 x 
 \chapter{Konzept und Design}
 \label{ch:konzept}
 \section{Allgemeines}
-Bei der Konzeption einer Benchmark gibt es grundsätzlich zwei verschiedene Herangehensweisen: Zum einen kann man eine repräsentative, in der Regel sehr komplexe Test-Szene rendern lassen, in der alle möglichen Schwierigkeiten und Bottlenecks vorkommen, die gemeinhin bei der Grafikprogrammierung auftauchen, und damit die GPU an die Grenze der Belastbarkeit zu bringen. Das ist der übliche Ansatz bei im Internet frei verfügbaren Benchmarks\footnote{Ein Beispiel: \url{https://unigine.com/products/benchmarks/heaven/}}, die dazu dienen, die Fähigkeiten der eigenen Grafikkarte, also Hardware, zu testen. Zum anderen kann man viele einzelne, feingranulare Tests definieren, die auf einzelne Bottlenecks abzielen. Für das BunnySuite-Framework haben wir diese Herangehensweise gewählt, da das Framework explizit für den Vergleich von Grafik-Libraries konzipiert ist. Der Vorteil von feingranularen Tests ist, dass die Ergebnisse für die Entwickler sehr viel aussagekräftiger sind, weil sie ihnen präzise Hinweise geben, an welchen Stellen das eigene Framework hinter die anderen abfällt und wo eine Optimierung am meisten bringen würde. Außerdem vereinfacht dieser Ansatz die Entwicklung und Implementierung der Tests enorm. Ein Nachteil ist, dass die Tests teilweise artifizielle Anforderungen stellen, die in echten 2D-Spielen nicht vorkommen. Dieser Nachteil wird aber dadurch ausgeglichen, dass man die Tests -- soweit sinnvoll -- frei kombinieren kann. Außerdem ist die spätere Erweiterung des Frameworks um komplexere Tests durchaus möglich.
+Bei der Konzeption eines Benchmark gibt es grundsätzlich zwei verschiedene Herangehensweisen: Zum einen kann man eine repräsentative, in der Regel sehr komplexe Test-Szene rendern lassen, in der alle möglichen Schwierigkeiten und Bottlenecks vorkommen, die gemeinhin bei der Grafikprogrammierung auftauchen, und damit die GPU an die Grenze der Belastbarkeit zu bringen. Das ist der übliche Ansatz bei im Internet frei verfügbaren Benchmarks\footnote{Ein Beispiel: \url{https://unigine.com/products/benchmarks/heaven/}}, die dazu dienen, die Fähigkeiten der eigenen Grafikkarte, also Hardware, zu testen. Zum anderen kann man viele einzelne, feingranulare Tests definieren, die auf einzelne Bottlenecks abzielen. Für das BunnySuite-Framework haben wir diese Herangehensweise gewählt, da das Framework explizit für den Vergleich von Grafik-Libraries konzipiert ist. Der Vorteil von feingranularen Tests ist, dass die Ergebnisse für die Entwickler sehr viel aussagekräftiger sind, weil sie ihnen präzise Hinweise geben, an welchen Stellen das eigene Framework hinter den anderen abfällt und wo eine Optimierung am meisten bringen würde. Außerdem vereinfacht dieser Ansatz die Entwicklung und Implementierung der Tests enorm. Ein Nachteil ist, dass die Tests teilweise artifizielle Anforderungen stellen, die in echten 2D-Spielen nicht vorkommen. Dieser Nachteil wird aber dadurch ausgeglichen, dass man die Tests -- soweit sinnvoll -- frei kombinieren kann. Außerdem ist die spätere Erweiterung des Frameworks um komplexere Tests durchaus möglich.
 
 \section{Identifizierte Bottlenecks}
 \label{sec:bottlenecks}
@@ -178,7 +178,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \subsubsection{multitexture}
 \begin{description}
-\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen werden die Texturen "wabbit\_1" und "wabbit\_2" zum Texturenpool hinzugefügt. \\
+\item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen werden die Texturen "wabbit\_0", "wabbit\_1" und "wabbit\_2" zum Texturenpool hinzugefügt. \\
 \item[Intention:] Dieser Modifier erhöht schnell die Anzahl der zur Verfügung stehenden Texturen im Texturenpool. Hierbei soll das Framework in seinem Speichermanagement getestet und der Realfall von Spielen mit einer großen Anzahl von verschiedenartigen Render-Objekten angenähert werden.
 \end{description}
 
@@ -282,10 +282,10 @@ Um das Starten von Benchmarks und die Auswahl der Testmodifier möglichst einfac
 \item Ein Liniendiagramm mit den Renderzeiten aller Bibliotheken in Abhängigkeit von der Anzahl der Objekte.
 \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}
 \caption{Screenshot der BunnySuite-GUI}
 \centering
-\includegraphics[width=0.5\textwidth]{gui}
+\includegraphics[width=0.7\textwidth]{gui}
 \label{dia:gui}
 \end{figure}
 
@@ -323,7 +323,7 @@ Diese Messung fand auf System 2 mit folgenden Parametern statt:
 \end{description}
 Es wurden somit alle 10 Frames 1000 neue Bunnies mit Standardtextur an eine zufällige Position gezeichnet. Zusätzlich wurden alle Bunnies mit jedem Frame neu skaliert.\\ 
 \begin{figure}
-\caption{Ergebnis Diagramm der XNA Forced VSync Messung}
+\caption{Ergebnis der XNA Forced VSync Messung}
 \centering
 \includegraphics[width=0.8\textwidth]{xna_forced}
 \label{dia:xna_forced}
