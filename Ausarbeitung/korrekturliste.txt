@@ -1,19 +1,6 @@
-s.5: 4 mögliche orientierungen des objekts? welche sind das?
-Endgegn-ers falsch getrennt
-s.6: bezug zu html5 passt nicht in abschnitt objektivität
 reliabilität: hier sollten wir auch nochmal messreihen machen und mehrmals wiederholen, aber nicht mehr heute abend
 s.7: 
 abschnitt bottlenecks sollte näher zu den testdefinitionen
-s.9: parameter um einen beispielaufruf ergänzen, damit klar wird, dass wir keine keyword arguments unterstützen?
-animation zu ungenau, exakte formel (range der zufallswerte, der "schub" fehlt, ..)
-s.10: hochau-flösend falsch getrennt
-gezeichnete linien spielen keine rolle für sichtlinienberechnung
-s.11: pulsation: caching ansprechen?
-s.12: was hat teleport für einen einfluss auf die reihenfolge der darstellung?
-texturechange: mit jedem neuem -> neuen
-texturechange: erwähnen, dass animationen genau so funktionieren?
-s.14: textverweis auf diagramme -> direkt beispielabbildung einbinden. report file erwähnen
-presets-funktion erläutern
 s.16: zu sagen, dass man etwas nicht erklären kann, macht sich nicht so gut in einer ausarbeitung :P
 
 allgemein: oft hat ein punkt (5) keinen text, sondern es folgt direkt ein unterpunkt (5.1) - das soll man eigentlich nicht machen.
