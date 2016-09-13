@@ -18,7 +18,7 @@ Das Team hat sich darauf geeinigt, dass jeder Entwickler sich auf eine Bibliothe
 \chapter{Grundlagen}
 \label{ch:basics}
 \section{2D-Frameworks}
-Game-Frameworks sollen die Entwickler beim Implementieren der Game-Loop unterstützen. Diese Game-Loop besteht hauptsächlich aus 2 Phasen:
+Game-Frameworks sollen die Entwickler beim Implementieren der Game-Loop\footnote{\url{https://www.ssugames.org/old/pluginfile.php/1026/mod\_resource/content/1/2005_sbgames.pdf}} unterstützen. Diese Game-Loop besteht hauptsächlich aus 2 Phasen:
 
 \begin{description}
 \item[Update()] Der interne Zustand der Spielwelt und ihrer Objekte wird aktualisiert, beispielsweise die Position der Spielfigur gemäß der Benutzereingaben angepasst oder das nächste Frame in einer Animation wird ausgewählt oder die Punktzahl erhöht. Zeitgleich finden hier auch komplexere Berechnungen statt, wie die Kollisionsbestimmung, die wieder zu neuen Berechnungen führen kann (Positionen werden angepasst, damit Objekte sich nicht überlagern; "Gesundheitswerte" werden bei Treffern verringert).\\
@@ -57,7 +57,7 @@ Beim Speedrunning versucht der Spieler, so schnell wie möglich die Zielbedingun
 Jeglicher Performance-Einbruch des Spieles erschwert die Jagd auf den nächsten Weltrekord. Die einfachste Lösung dieses Problems ist es, das Spiel auf immer stärkeren Rechnern zu starten. Fehlende Optimierung des Spiels wird durch mehr Rechenleistung ausgeglichen.
 Dies ist aber nicht immer möglich, vor allem bei Spielen, die nur auf Konsolen laufen. Hier muss der Speedrunner die fehlende Optimierung selber ausgleichen. Zum Beispiel:
 \begin{itemize}
-\item Betrachten des leeren Himmels: Es werden keine Objekte auf dem Bildschirm dargestellt - \emph{Daggerfall, PC Speedrun}
+\item Betrachten des leeren Himmels: Es werden keine Objekte auf dem Bildschirm dargestellt - \emph{Daggerfall, PC }
 \item Das gezielte zerstören von bestimmten Gegnern: Es werden weniger Objekte auf dem Bildschirm dargestellt - \emph{Mega Man 3, NES }
 \end{itemize}
 Dies sind auch erste Ansätze für die Sektion \nameref{sec:bottlenecks}.
@@ -65,7 +65,8 @@ Dies sind auch erste Ansätze für die Sektion \nameref{sec:bottlenecks}.
 \section{Benchmarking}
 Um eine möglichst einfache Bedienung zu gewährleisten, soll der Benchmark vollautomatisiert erfolgen. Wichtigste Eigenschaft des Benchmarks ist die Vergleichbarkeit der Ergebnisse. Dazu wurde die \textit{Renderzeit pro Frame bei X Objekten} als Kennzahl eingeführt. Wie bei allen empirischen Untersuchungen muss diese den folgenden drei Kriterien genügen\footnote{Siehe: \url{http://www.uni-leipzig.de/~emkf/Referate/G\%C3\%BCtekriterien\%20PPT.pdf}}:\\
 \begin{description}
-\item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, nicht jedoch bei technischen Entwicklern, unserer Zielgruppe. Ein arbiträres Punktesystem würde die Messwerte nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
+\item[Validität] Dass sich die Kennzahl mit empirischen Messergebnissen deckt, ist garantiert, da sie empirisch zustande kommt. Es wurde die in Entwicklerkreisen übliche Größe {\em Renderzeit pro Frame in Sekunden} gewählt. Die Inverse dieser Größe, {\em Frames per Second}, ist zwar bei Nutzern und Marketing sehr beliebt, nicht jedoch bei technischen Entwicklern, unserer Zielgruppe, da die FPS-Zahl den Maßstab von Performance-Verlusten verschleiern. Fällt die FPS Zahl von 60 auf 50 und von 20 auf 10, so sind das jeweils 10 FPS Unterschied. In Renderzeit pro Frame lässt sich die tatsächliche Auswirkung leichter erkennen:Im ersten Fall erhöht sich die Renderzeit um 0,0033s, im zweiten Fall um 0,05s, also mehr als das 15-fache.\\
+ Ein arbiträres Punktesystem würde die Messwerte ebenso nur unnötig verschleiern und den Eigenschaften eines guten Benchmarks widersprechen.\\
 
 \item[Objektivität] ist durch die Wohldefiniertheit der einzelnen Testverfahren gegeben (siehe \ref{sec:tests}). Die Implementierung in den einzelnen Frameworks soll möglichst gleich sein. Somit sind die verschiedenen Messwerte auf dem selben Computer nur auf die Effizienz der verwendeten Bibliothek zurückzuführen und nicht auf die Implementierung der Tests durch den verantwortlichen Entwickler.\\
 Die BunnySuite soll speziell die Grafikleistung der verschiedenen Frameworks bewerten. Daher muss gewährleistet sein, dass das Testergebnis nicht maßgeblich von Berechnungen auf der CPU beeinflusst wird. Um die korrekte Implementierung der Tests zu überprüfen, kann eine Testreihe ohne graphische Ausgabe, also nur mit den CPU-Berechnungen der Update()-Phase ausgeführt werden.
@@ -135,18 +136,18 @@ App.exe animation,hd 0 10000 500 800 600 20
 
 In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und ihre Auswahl für diesen Benchmark begründet:
 
-\subsubsection{animation}
-\begin{description}
-\item[Beschreibung:] Die Objekte werden mit zufälliger Geschwindigkeit in X- und Y-Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. Die exakte Berechnungsformel kann dem Wiki im Bunnysuite-Github entnommen werden.\footnote{\url{https://github.com/LiXiling/bunnysuite/wiki/Hasensprung-Routine}}\\
-\item[Begründung:] Dies ist der Testfall des ursprüngliches \textit{BunnyMark}. Dieser Testmodifier simuliert die konstante Bewegung eines Objektes über den Bildschirm und stellt damit typische Situationen in Spielen nach.
-\end{description}
-
 
 \subsubsection{alpha}
 \begin{description}
 \item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_ghost" zum Texturenpool hinzugefügt. Diese Textur zeichnet sich durch ihre Halbtransparenz aus. \\                                      
 \item[Begründung:] Dieser Testmodifier zielt auf den korrekten und effizienten Umgang der Renderfunktionen des Frameworks mit Halbtransparenz ab. Hierfür müssen neue, korrekte Farbwerte aus der Textur und aller davon verdeckten Objekte berechnet werden.
 \end{description} 
+
+\subsubsection{animation}
+\begin{description}
+\item[Beschreibung:] Die Objekte werden mit zufälliger Geschwindigkeit in X- und Y-Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. Die exakte Berechnungsformel kann dem Wiki im Bunnysuite-Github entnommen werden.\footnote{\url{https://github.com/LiXiling/bunnysuite/wiki/Hasensprung-Routine}}\\
+\item[Begründung:] Dies ist der Testfall des ursprüngliches \textit{BunnyMark}. Dieser Testmodifier simuliert die konstante Bewegung eines Objektes über den Bildschirm und stellt damit typische Situationen in Spielen nach.
+\end{description}
 
 \subsubsection{bunnies}
 \begin{description}
@@ -169,7 +170,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 \subsubsection{hdtexture}
 \begin{description}
 \item[Beschreibung:] Zusätzlich zu den vorhandenen Texturen wird die Textur "wabbit\_hd" zum Texturenpool hinzugefügt. Diese Textur ist sehr hoch aufgelöst und wird daher am Anfang auf die Höhe von 37px runterskaliert. \\
-\item[Intention:] Mit diesem Testmodifier wird das Framework auf den effizienten Umgang mit sehr \mbox{hochauflösenden} Texturen geprüft. Es müssen große Dateien effizient gespeichert und gelesen werden, zusätzlich muss die GPU die große Menge an Pixelinformationen korrekt auswerten. Auch die optische Veränderung der Textur durch die jeweilige Implementierung der Skalierung im Framework ist zu beachten. Die Tests in Kapitel \ref{ch:results} zeigen nochmal die zusätzliche Belastung in diesem Fall.
+\item[Intention:] Mit diesem Testmodifier wird das Framework auf den effizienten Umgang mit sehr \mbox{hochauflösenden} Texturen geprüft. Es müssen große Dateien effizient gespeichert und gelesen werden, zusätzlich muss die GPU die große Menge an Pixelinformationen korrekt auswerten. Auch die optische Veränderung der Textur durch die jeweilige Implementierung der Skalierung im Framework ist zu beachten. Dies ist auch insofern in der Praxis relevant, als dass Texturen oft sehr viel höher aufgelöst vorliegen, als sie letztendlich dargestellt werden. Damit wird zum Beispiel Qualitätsverlust bei Skalierung vermieden. Die Tests in Kapitel \ref{ch:results} zeigen nochmal die zusätzliche Belastung in diesem Fall.
 \end{description} 
  
 \subsubsection{lines}
@@ -264,17 +265,18 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \section{Implementierungsdetails bei den einzelnen Frameworks}
 \subsection{Kha}
-Kha ist ein open-source Framework, entwickelt von Robert Konrad. Es basiert auf Haxe und lässt sich auf eine Vielzahl von Plattformen und Engines portieren. Für den BunnySuite wurden die Tests in der eigenen IDE \textit{Kode} entwickelt und anschließend für die Zielplattform Windows in Visual Studio kompiliert. Mit Kha wurden unter anderem \emph{Spiral Ride} oder \emph{Dungeons Deep} realisiert.
+Kha ist ein open-source Framework, entwickelt von Robert Konrad. Es basiert auf Haxe und lässt sich auf eine Vielzahl von Plattformen und Engines portieren. Für den BunnySuite wurden die Tests in der eigenen IDE \textit{Kode} entwickelt und anschließend für die Zielplattform Windows in Visual Studio kompiliert. Mit Kha wurden unter anderem \emph{Spiral Ride} oder \emph{Dungeons Deep} realisiert.  Für die Darstellung der Bunnies wird die vom Framework bereitgestellte Klasse \emph{kha.Image} verwendet.
+Für das Rendern von Text wird vom Framework aus einem bereitgestellten TrueType-Font ein Bitmap-Font generiert.
 
 \subsection{SDL}
 SDL (Single DirectMedia Layer) ist eine multi-plattform Bibliothek, die low-level Zugriff auf die Hardware (Audio, Grafik, Eingabegeräte) über OpenGL und Direct3D anbietet. SDL ist in C geschrieben und von Haus aus mit C++ kompatibel. Es stehen aber auch Portierungen für C\# oder Python zur Verfügung. Für das BunnySuite-Projekt wurde SDL 2 mit C++ verwendet. Beispiele für Spiele, die SDL einsetzen, sind \emph{Angry Birds}, \emph{Dont't Starve} und auf der Open Source Seite \emph{The Battle for Wesnoth}. Die offiziell unterstützten Plattformen sind Android, Linux, Mac OS und Microsoft Windows.\\
-SDL ist im Vergleich zu den anderen Bibliotheken sehr low-level und stellt nur sehr grundlegende Funktionalitäten bereit. Um die Primitiven zu implementieren, wurde zusätzlich die Bibliothek \textit{SDL2\_gfx}\footnote{\url{http://www.ferzkopp.net/Software/SDL2\_gfx/Docs/html/index.html}} von Andreas Schiffler verwendet.
+SDL ist im Vergleich zu den anderen Bibliotheken sehr low-level und stellt nur sehr grundlegende Funktionalitäten bereit. Um die Primitiven zu implementieren, wurde zusätzlich die Bibliothek \textit{SDL2\_gfx}\footnote{\url{http://www.ferzkopp.net/Software/SDL2\_gfx/Docs/html/index.html}} von Andreas Schiffler verwendet. Für die Darstellung der Bunnies wird die vom Framework bereitgestellte Klasse \emph{SDL\_Texture} verwendet. Für das Rendern von Text wird die Methode \emph{sdl2\_gfx.stringRGBA()} genutzt.
 
 \subsection{XNA/Monogame}
-XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und läuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame läuft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele für Spiele, die auf Monogame basieren, sind \emph{Fez} oder \emph{Transistor}.
+XNA (XNA's Not Acronymed) ist ein von Microsoft entwickeltes Set von Tools zur Game Entwicklung. XNA basiert auf dem .NET Framework und läuft nativ auf Windows, Windows Phone und XBox360. Es war gedacht als einfache Alternative zu DirectX. XNA wird von Microsoft selber nicht mehr weiterentwickelt. Es exisitiert aber eine OpenSource Portierung namens Monogame, welche weiterhin aktiv gepflegt wird. Monogame läuft auch auf den Plattformen iOS, Mac OS, Android, Linux, Playstation 4 und PSVita. Beispiele für Spiele, die auf Monogame basieren, sind \emph{Fez} oder \emph{Transistor}. Um die Primitiven zu implementieren, wurde zusätzlich die Bibliothek \textit{Lilypath}\footnote{\url{https://github.com/jaquadro/LilyPath}} von Justin Aquadro verwendet. Für die Darstellung der Bunnies wird die vom Framework bereitgestellte Klasse \emph{Texture2D} verwendet.
 
 \subsection{LibGDX}
-LibGDX ist ein auf Java basierendes quelloffenes Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Änderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele für Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}.
+LibGDX ist ein auf Java basierendes quelloffenes Framework. Es wurde entwickelt, da der Hauptentwickler beim programmieren von Android-Spielen schnell auf dem Desktop geschriebene Code-Änderungen testen wollte. Einer der Vorteile von LibGDX ist die Abstraktion der Unterschiede von Desktop-Plattformen wie Linux/Windows und Mobile-Plattformen wie Android/iOS. Beispiele für Spiele, die LibGDX einsetzen sind \emph{Animal Memory for children} oder \emph{Kid on Crack}. Für die Darstellung der Bunnies wird die vom Framework bereitgestellte Klasse \emph{gdx.graphics.Texture} verwendet.
 
 \section{User Interface}
 \subsection{GUI}
