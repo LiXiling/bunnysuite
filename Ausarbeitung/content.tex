@@ -137,7 +137,7 @@ In der folgenden Liste werden alle angebotenen Testmodifer genau definiert und i
 
 \subsubsection{animation}
 \begin{description}
-\item[Beschreibung:] Die Objekte werden mit zufälliger Geschwindigkeit in X- und Y-Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. Die exakte Berechnungsformel kann dem Wiki im Bunnysuite-Github entnommen werden.\footnote{\urlhttps://github.com/LiXiling/bunnysuite/wiki/Hasensprung-Routine}}\\
+\item[Beschreibung:] Die Objekte werden mit zufälliger Geschwindigkeit in X- und Y-Richtung initialisiert. Mit jedem Frame wird die Position jedes Objektes mit seiner Geschwindigkeit neu berechnet. Die Y Geschwindigkeit wird zusätzlich durch "Schwerkraft" in jedem Frame beeinflusst. Wenn die Ränder des Frames erreicht werden, wird die Richtung umgekehrt. Dies führt zum Eindruck einer Hüpf-Animation für die Objekte. Die exakte Berechnungsformel kann dem Wiki im Bunnysuite-Github entnommen werden.\footnote{\url{https://github.com/LiXiling/bunnysuite/wiki/Hasensprung-Routine}}\\
 \item[Begründung:] Dies ist der Testfall des ursprüngliches \textit{BunnyMark}. Dieser Testmodifier simuliert die konstante Bewegung eines Objektes über den Bildschirm und stellt damit typische Situationen in Spielen nach.
 \end{description}
 
@@ -280,15 +280,15 @@ LibGDX ist ein auf Java basierendes quelloffenes Framework. Es wurde entwickelt,
 \subsection{GUI}
 Um das Starten von Benchmarks und die Auswahl der Testmodifier möglichst einfach zu gestalten, wurde ein Graphical User Interface entwickelt. Abbildung \ref{dia:gui} zeigt einen Screenshot. Man kann die zu testenden Bibliotheken und die Testmodifier auswählen. Anschließend legt man für die Anzahl der zu zeichnenden Objekte den Startwert, den Endwert, die Schrittweite und die Anzahl der Wiederholungen pro Schritt fest. Außerdem kann die zu verwendende Bildschirmauflösung eingestellt werden. Über die Funktion "Presets" können Konfigurationen zur späteren Wiederverwendung gespeichert werden, dazu einfach einen Namen eingeben und auf "Save" klicken. Nach einem Klick auf "Run" werden die Tests gestartet und durchgeführt. Wenn die Tests abgeschlossen sind, werden zwei Diagramme angezeigt und zur weiteren Verwendung im Unterordner "results" gespeichert: 
 \begin{enumerate}
-\item Ein Balkendiagramm, dass für jede Bibliothek angibt, ab welcher Anzahl von Objekten die Framerate spürbar unter 60 fps absinkt. (Abbildung \ref{dia:bar})
-\item Ein Liniendiagramm mit den Renderzeiten aller Bibliotheken in Abhängigkeit von der Anzahl der Objekte. (Abbildung \ref{dia:line})
+\item Ein Balkendiagramm, dass für jede Bibliothek angibt, ab welcher Anzahl von Objekten die Framerate spürbar unter 60 fps absinkt (Abbildung \ref{dia:bar}).
+\item Ein Liniendiagramm mit den Renderzeiten aller Bibliotheken in Abhängigkeit von der Anzahl der Objekte (Abbildung \ref{dia:line}).
 \end{enumerate}
 Außerdem wird automatisch ein Report generiert, der die Messwerte für alle Frameworks tabellarisch aufführt und zudem die Testparameter angibt.
 
 \begin{figure}
 \caption{Screenshot der BunnySuite-GUI}
 \centering
-\includegraphics[width=0.7\textwidth]{gui}
+\includegraphics[width=0.5\textwidth]{gui}
 \label{dia:gui}
 \end{figure}
 
