@@ -116,7 +116,7 @@ Der Ablauf eines Tests im \textit{BunnySuite}-Frameworks ist in Abbildung \ref{d
 \includegraphics[width=0.8\textwidth]{Architecture}
 \label{dia:architecture}
 \end{figure}
-~\\
+~\newpage
 Der auszuführende Test wird durch folgende Parameter spezifiziert:\\
 \begin{description}
 \item[test\_name] Ein String aus den Einzusetzenden Testmodifiern (siehe \ref{sec:tests}). Die Namen der Modifier sind per Komma getrennt.
@@ -347,8 +347,7 @@ Das abnormale Verhalten von XNA ist hier von besonderem Interesse. Mit diesem Te
 \includegraphics[width=0.8\textwidth]{xna_normal}
 \label{dia:xna_normal}
 \end{figure}
-Da die Renderzeiten hier genau auf die übliche Bildwiederholungsrate von 60Hz passt, liegt die Vermutung nahe, dass es sich hier um aktiviertes VSync handelt, um Tearing zu verhindern. Dies tritt auf, wenn eine Ausgabe auf den Bildschirm erfolgen soll, die genau mit der Refresh-Phase VBlank des Monitors zusammenfällt. Um dies zu verhindern, wird die Ausgabe mit diesen Phasen synchronisiert. Diese Option ist aber bei der Implementierung der Tests im Framework explizit deaktiviert worden. Ebenso spricht das normale Verhalten in anderen Tests gegen diese These. \\
-Eine abschließende Erklärung konnte nicht gefunden werden. 
+Da die Renderzeiten hier genau auf die übliche Bildwiederholungsrate von 60Hz passt, liegt die Vermutung nahe, dass es sich hier um aktiviertes VSync handelt, um Tearing zu verhindern. Dies tritt auf, wenn eine Ausgabe auf den Bildschirm erfolgen soll, die genau mit der Refresh-Phase VBlank des Monitors zusammenfällt. Um dies zu verhindern, wird die Ausgabe mit diesen Phasen synchronisiert. Diese Option ist aber bei der Implementierung der Tests im Framework explizit deaktiviert worden. Ebenso spricht das normale Verhalten in anderen Tests gegen diese These.
 
 \section{SDL Primitive}
 Diese Messung fand auf System 2 mit folgenden Parametern statt:
@@ -368,7 +367,31 @@ Es wurden somit alle 10 Frames 1000 zufällige Objekte der Primitive Dreieck, Re
 \includegraphics[width=0.8\textwidth]{sdl_primitives}
 \label{dia:sdl_primitives}
 \end{figure}
-Bei der Darstellung und Skalierung von Primitiven hat SDL massive Probleme. Während die anderen Frameworks weit unter 1s Renderzeit bleiben, erreicht SDL bei 26000 Objekten eine Renderzeit von 1s, und erreicht gegen Ende 1,8s Renderzeit. Das ist 9 mal so lange wie das nächstlangsame Framework. SDL erreicht nie den Idealwert von 0,016s = 60fps Renderzeit und schon bei 2000 Objekten wird eine Renderzeit von 0,1s = 10fps erreicht. Die Ergebnisse zeigen, dass \textit{SDL2\_gfx}, das für das Rendering von Primitiven eingesetzt wurde, noch nicht besonders gut optimiert ist.\\
+Bei der Darstellung und Skalierung von Primitiven hat SDL massive Probleme. Während die anderen Frameworks weit unter 1s Renderzeit bleiben, erreicht SDL bei 26000 Objekten eine Renderzeit von 1s, und erreicht gegen Ende 1,8s Renderzeit. Das ist 9 mal so lange wie das nächstlangsame Framework. SDL erreicht nie den Idealwert von 0,016s = 60fps Renderzeit und schon bei 2000 Objekten wird eine Renderzeit von 0,1s = 10fps erreicht. Die Ergebnisse zeigen, dass \textit{SDL2\_gfx}, das für das Rendering von Primitiven eingesetzt wurde, noch nicht besonders gut optimiert ist.
+\\
+\\
+\\
+
+\section{Die Parameter Repetitions und Schrittweite}
+Diese Messung fand auf System 1 mit folgenden Parametern statt:
+\begin{description}
+\item[modifiers:] bunnies, random
+\item[frameworks:] sdl
+\item[minBunnies:] 2000
+\item[maxBunnies:] 6000
+\item[stepSize:] 1 bzw. 50
+\item[repetitions:] 1 bzw. 50
+\item[resolution:] 800x600
+\end{description}
+\begin{figure}[!tbp]
+  \centering
+  \subfloat[Schrittweite und Repetitions jeweils 1]{\includegraphics[width=0.5\textwidth]{fewrep.png}\label{dia:fewrep}}
+  \hfill
+  \subfloat[Schrittweite und Repetitions jeweils 50]{\includegraphics[width=0.5\textwidth]{manyrep.png}\label{dia:manyrep}}
+  \caption{Vergleich von zwei Messungen derselben Dauer, aber mit unterschiedlichen Parametern}
+\end{figure}
+Die Renderzeit für eine bestimmte Framerate wird mehrmals gemessen und anschließend wird der Durchschnitt berechnet. Wie oft die Messung pro Framerate wiederholt wird, wird vom Parameter \textit{Repetitions} festgelegt. Je höher \textit{Repetitions} gesetzt wird, desto länger dauert die Messung. Der andere Parameter, der die Dauer der Messung maßgeblich beeinflusst, ist die Schrittweite \textit{stepSize}, die festlegt, wie weit die Messpunkte auseinander sind. Erhöht man die Schrittweite um denselben Faktor wie \textit{Repetitions}, dann dauert die Messung ungefähr gleich lang. An diese Feststellung schließt sich die Frage an, ob es sinnvoller ist, mit kleiner Schrittweite und wenigen Repetitions zu messen oder mit großer Schrittweite und vielen Repetitions.\\
+Die Diagramme \ref{dia:fewrep} und \ref{dia:manyrep} zeigen den Unterschied. Links sieht man, dass bei zu wenigen Repetitions die Varianz der Messwerte sehr groß wird. Da die Messwerte wegen der geringen Schrittweite auch nahe aneinander liegen, ist das Diagramm kaum noch lesbar. Rechts hingegen erkennt man gut den linearen Anstieg der Framerate ab ungefähr 4500 Bunnies. Der Vergleich zeigt, dass es für aussagekräftige Diagramme sinnvoller ist, mit vielen Repetitions zu testen, als mit einer sehr feinen Schrittweite. Letzteres ist hingegen sinnvoll, wenn man einen möglichst genauen Treshold-Wert für die Anzahl der Objekte ermitteln will, bei dem die Framerate einen bestimmten Wert unterschreitet. Aber auch hierbei sollte die Anzahl der Repetitions nicht zu klein gewählt werden, sonst wird der ermittelte Wert zu hoch (aufgrund von Ausreißern nach unten bei der Renderzeit).
 
 \chapter{Zusammenfassung und Ausblick}
 Im Rahmen des Serious Games Praktikums wurde \textit{BunnySuite} entwickelt, ein Benchmark-Framework für 2D-Grafik-Libraries. Im Vergleich zu BunnyMark sind die Messungen von BunnySuite vollautomatisch und ohne Benutzerinteraktion durchführbar, außerdem sind die Testergebnisse detaillierter und werden dem Benutzer systematischer präsentiert. Es wurde eine Vielzahl von Testfällen (Rotation, Skalierung, Primitive, etc.) identifiziert, welche im Framework als Test-Modifier frei kombinierbar sind. Für die vier Bibliotheken Kha, LibGDX, SDL und XNA/Monogame wurden Implementierungen entwickelt. Bei der Entwicklung wurde vor allem auf eine hohe Vergleichbarkeit geachtet. Deshalb wurde der Effekt von allen Test-Modifiern genau definiert.\\
